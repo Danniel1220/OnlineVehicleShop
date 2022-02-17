@@ -1,8 +1,10 @@
 package com.crystal.ovs.dao;
 
 import lombok.AllArgsConstructor;
+import lombok.EqualsAndHashCode;
 
 @AllArgsConstructor
+@EqualsAndHashCode
 public class FuelEngine {
     private final Integer id;
     private final FuelType fuelType;
