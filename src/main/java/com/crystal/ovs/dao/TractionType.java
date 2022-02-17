@@ -1,4 +1,4 @@
-package com.crystal.dao;
+package com.crystal.ovs.dao;
 
 public enum TractionType {
     AWD,
