@@ -3,7 +3,6 @@
 -- Host: localhost    Database: onlinevehicleshop
 -- ------------------------------------------------------
 -- Server version	8.0.27
-
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
 /*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
@@ -14,6 +13,13 @@
 /*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
 /*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
+
+--
+-- Create database
+--
+DROP DATABASE IF EXISTS onlinevehicleshop;
+CREATE DATABASE onlinevehicleshop;
+USE onlinevehicleshop;
 
 --
 -- Table structure for table `car`
@@ -220,4 +226,10 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
+insert into `fuelengine` values(1, 'GASOLINE', 10.1, 8, 521.2, 'INLINE', true, true, 'TWO_STROKE', 1.4);
+insert into `fuelengine` values(2, 'DIESEL', 10.1, 10, 521.2, 'V', true, false, 'FOUR_STROKE', 1.5);
+insert into `fuelengine` values(3, 'LPG', 10.1, 12, 521.2, 'VR', true, true, 'TWO_STROKE', 1.6);
+insert into `fuelengine` values(4, 'METHANOL', 10.1, 14, 521.2, 'ROTARY', true, true, 'TWO_STROKE', 1.7);
+insert into `fuelengine` values(5, 'ETHANOL', 10.1, 16, 521.2, 'BOXER', true, true, 'TWO_STROKE', 1.8);
 -- Dump completed on 2022-02-17 20:00:19
+

@@ -66,16 +66,17 @@ public class DatabaseConnector {
         return null;
     }
 
-    public void execute(String query)
+    public int execute(String query)
     {
         try
         {
-            databaseStatement.executeUpdate(query);
+            return databaseStatement.executeUpdate(query);
         }
         catch (SQLException e)
         {
             e.printStackTrace();
             System.out.println("Exception occurred while executing a query on the database...");
+            return -1;
         }
     }
 
