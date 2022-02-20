@@ -1,6 +1,5 @@
-package com.crystal.ovs.database.crud;
+package com.crystal.ovs.crud;
 
-import com.crystal.ovs.crud.CrudTransmission;
 import org.junit.Assert;
 import org.junit.Test;
 
