@@ -1,5 +1,6 @@
 package com.crystal.ovs.crud;
 
+import com.crystal.ovs.dao.ElectricEngine;
 import com.crystal.ovs.database.DatabaseConnector;
 import java.sql.*;
 
@@ -40,12 +41,12 @@ public class CrudElectricEngine {
         return null;
     }
 
-    public static void insertAll(String type, int batteryCapacity, int range) {
+    public static void insertEngine(ElectricEngine electricEngine) {
         String query = "INSERT INTO " + ELECTRIC_ENGINE_TABLE_NAME +
                 "(" + ELECTRIC_ENGINE_TYPE_COLUMN + ", "
                 + ELECTRIC_ENGINE_BATTERY_CAPACITY_COLUMN + ", "
                 + ELECTRIC_ENGINE_RANGE_COLUMN + ") " +
-                "VALUES ('" + type + "', " + batteryCapacity + ", " + range + ");";
+                "VALUES ('" + electricEngine.getType() + "', " + electricEngine.getBatteryCapacity() + ", " + electricEngine.getRange() + ");";
         try {
             databaseConnector = DatabaseConnector.getInstance();
             databaseConnector.execute(query);
@@ -66,12 +67,12 @@ public class CrudElectricEngine {
         }
     }
 
-    public static void updateAllById(int id, String engineType, int batteryCapacity, int range) {
+    public static void updateAllById(ElectricEngine electricEngine) {
         String query = "UPDATE " + ELECTRIC_ENGINE_TABLE_NAME + " SET " +
-                ELECTRIC_ENGINE_TYPE_COLUMN + " = '" + engineType + "', " +
-                ELECTRIC_ENGINE_BATTERY_CAPACITY_COLUMN + " = " + batteryCapacity + ", " +
-                ELECTRIC_ENGINE_RANGE_COLUMN + " = " + range +
-                " WHERE id = " + id + ";";
+                ELECTRIC_ENGINE_TYPE_COLUMN + " = '" + electricEngine.getType() + "', " +
+                ELECTRIC_ENGINE_BATTERY_CAPACITY_COLUMN + " = " + electricEngine.getBatteryCapacity() + ", " +
+                ELECTRIC_ENGINE_RANGE_COLUMN + " = " + electricEngine.getRange() +
+                " WHERE id = " + electricEngine.getId() + ";";
         try {
             databaseConnector = DatabaseConnector.getInstance();
             databaseConnector.execute(query);
