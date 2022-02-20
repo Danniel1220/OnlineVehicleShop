@@ -44,7 +44,7 @@ public class CrudElectricEngineTests {
     }
 
     @Test
-    public void deleteFromElectricEngineWhereTest() {
+    public void deleteFromElectricEngineByIdTest() {
         int initialRowNumber = CrudElectricEngine.getNumberOfRows();
         int id = 4;
         CrudElectricEngine.deleteById(id);
