@@ -1,5 +1,6 @@
 package com.crystal.ovs.crud;
 
+import com.crystal.ovs.dao.Transmission;
 import com.crystal.ovs.database.DatabaseConnector;
 
 import java.sql.ResultSet;
@@ -35,8 +36,10 @@ public class CrudTransmission {
         return null;
     }
 
-    public static void insertTransmissionTable(String type, int gears){
-        String sqlQuery = "insert into " + TRANSMISSION_TABLE_NAME + " (" + TRANSMISSION_COLUMN_NAME_TYPE + ", " + TRANSMISSION_COLUMN_NAME_GEARS + ") values ('" + type + "', " + gears + ");";
+    public static void insertTransmissionTable(Transmission transmission){
+        String sqlQuery = "insert into " + TRANSMISSION_TABLE_NAME + " (" + TRANSMISSION_COLUMN_NAME_TYPE
+                + ", " + TRANSMISSION_COLUMN_NAME_GEARS
+                + ") values ('" + transmission.getType() + "', " + transmission.getNumberOfGears() + ");";
         try{
             databaseConnector = DatabaseConnector.getInstance();
             databaseConnector.execute(sqlQuery);
@@ -65,8 +68,10 @@ public class CrudTransmission {
         }
     }*/
 
-    public static void updateTransmissionTableInt(String column, int id, int value){
-        String sqlQuery = "update " + TRANSMISSION_TABLE_NAME + " SET " + column + " = " + value + " where id=" + id;
+    public static void updateTransmissionTableInt(Transmission transmission){
+        String sqlQuery = "update " + TRANSMISSION_TABLE_NAME + " SET " + TRANSMISSION_COLUMN_NAME_GEARS + " = "
+                + transmission.getNumberOfGears() + " where id="
+                + transmission.getId();
         try{
             databaseConnector = DatabaseConnector.getInstance();
             databaseConnector.execute(sqlQuery);
@@ -76,8 +81,9 @@ public class CrudTransmission {
 
     }
 
-    public static void updateTransmissionTableString(String column, int id, String value){
-        String sqlQuery = "update " + TRANSMISSION_TABLE_NAME + " SET " + column + " = '" + value + "' where id=" + id;
+    public static void updateTransmissionTableString(Transmission transmission){
+        String sqlQuery = "update " + TRANSMISSION_TABLE_NAME + " SET " + TRANSMISSION_COLUMN_NAME_TYPE
+                + " = '" + transmission.getType() + "' where id=" + transmission.getId();
         try{
             databaseConnector = DatabaseConnector.getInstance();
             databaseConnector.execute(sqlQuery);
@@ -86,9 +92,11 @@ public class CrudTransmission {
         }
     }
 
-    public static void updateAllById(int id, String type, int numberOfGears){
+    public static void updateAllById(Transmission transmission){
         String sqlQuery = "update " + TRANSMISSION_TABLE_NAME + " SET " + TRANSMISSION_COLUMN_NAME_TYPE + " = '"
-                + type + "', " + TRANSMISSION_COLUMN_NAME_GEARS + " = " + numberOfGears + " where id=" +id +";";
+                + transmission.getType() + "', " + TRANSMISSION_COLUMN_NAME_GEARS + " = "
+                + transmission.getNumberOfGears() + " where id="
+                + transmission.getId() +";";
         try{
             databaseConnector = DatabaseConnector.getInstance();
             databaseConnector.execute(sqlQuery);

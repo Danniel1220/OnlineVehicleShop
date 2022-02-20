@@ -1,5 +1,7 @@
 package com.crystal.ovs.crud;
 
+import com.crystal.ovs.dao.Transmission;
+import com.crystal.ovs.dao.TransmissionType;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -32,14 +34,15 @@ public class CrudTransmissionTests {
     @Test
     public void insertTransmissionTableTest() throws SQLException {
         int initialRowNumber = CrudTransmission.getNumberOfRows();
-        CrudTransmission.insertTransmissionTable("MANUAL",5);
+        Transmission transmission = new Transmission(1, TransmissionType.AUTOMATIC,5);
+        CrudTransmission.insertTransmissionTable(transmission);
         Assert.assertEquals(initialRowNumber + 1, CrudTransmission.getNumberOfRows());
     }
 
     @Test
     public void deleteTransmissionTableTest() throws SQLException {
         int initialRowNumber = CrudTransmission.getNumberOfRows();
-        CrudTransmission.deleteTransmissionTable(2);
+        CrudTransmission.deleteTransmissionTable(4);
         Assert.assertEquals(initialRowNumber - 1,CrudTransmission.getNumberOfRows());
     }
 
@@ -52,7 +55,8 @@ public class CrudTransmissionTests {
     @Test
     public void updateIntColumnByIdTest() throws SQLException {
         int id = 1;
-        CrudTransmission.updateTransmissionTableInt("numberOfGears",id,5);
+        Transmission transmission = new Transmission(5, TransmissionType.DUALCLUTCH,10);
+        CrudTransmission.updateTransmissionTableInt(transmission);
         ResultSet resultSet = CrudTransmission.selectAllFromTransmissionTable();
         ResultSetMetaData rsmd = resultSet.getMetaData();
         int columnsNumber = rsmd.getColumnCount();
@@ -63,14 +67,15 @@ public class CrudTransmissionTests {
                 result.append(columnValue).append(" ");
             }
         }
-        String expectedResult = "1 AUTOMATA 5 ";
+        String expectedResult = "5 AUTOMATIC 10 ";
         Assert.assertEquals(expectedResult, result.toString());
     }
 
     @Test
     public void updateStringColumnByIdTest() throws SQLException {
         int id = 1;
-        CrudTransmission.updateTransmissionTableString("transmissionType",id,"MANUAL");
+        Transmission transmission = new Transmission(5, TransmissionType.MANUAL,5);
+        CrudTransmission.updateTransmissionTableString(transmission);
         ResultSet resultSet = CrudTransmission.selectAllFromTransmissionTable();
         ResultSetMetaData rsmd = resultSet.getMetaData();
         int columnsNumber = rsmd.getColumnCount();
@@ -81,14 +86,15 @@ public class CrudTransmissionTests {
                 result.append(columnValue).append(" ");
             }
         }
-        String expectedResult = "1 MANUAL 5 ";
+        String expectedResult = "5 MANUAL 10 ";
         Assert.assertEquals(expectedResult, result.toString());
     }
 
     @Test
     public void updateAllById() throws SQLException {
         int id = 1;
-        CrudTransmission.updateAllById(id,"AUTOMATA",10);
+        Transmission transmission = new Transmission(5, TransmissionType.DUALCLUTCH,15);
+        CrudTransmission.updateAllById(transmission);
         ResultSet resultSet = CrudTransmission.selectAllFromTransmissionTable();
         ResultSetMetaData rsmd = resultSet.getMetaData();
         int columnsNumber = rsmd.getColumnCount();
@@ -99,7 +105,7 @@ public class CrudTransmissionTests {
                 result.append(columnValue).append(" ");
             }
         }
-        String expectedResult = "1 AUTOMATA 10 ";
+        String expectedResult = "5 DUALCLUTCH 15 ";
         Assert.assertEquals(expectedResult, result.toString());
     }
 }
