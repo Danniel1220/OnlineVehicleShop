@@ -1,6 +1,6 @@
 package com.crystal.ovs.dao;
 
 public enum StrokeType {
-    twoStroke,
-    fourStroke
+    TWO_STROKE,
+    FOUR_STROKE
 }

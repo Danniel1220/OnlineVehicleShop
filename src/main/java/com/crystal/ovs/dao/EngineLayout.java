@@ -1,12 +1,12 @@
 package com.crystal.ovs.dao;
 
 public enum EngineLayout {
-    inline,
+    INLINE,
     V,
     VR,
     W,
     H,
     U,
-    rotary,
-    boxer
+    ROTARY,
+    BOXER
 }
