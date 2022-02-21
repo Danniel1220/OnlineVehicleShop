@@ -59,11 +59,11 @@ public class CrudCarTests {
         Assert.assertNotNull(result);
     }
 
-    @Test // gives a foreign key constraint fail on engine id TODO fix insert for car
-    public void insertIntoCarTest(){
+    @Test
+    public void insertIntoCarTest() { // works
         int initialRowNumber = CrudCar.getNumberOfRows();
-        Car car = new Car(2,"Ford", "Mustang", "5sd5a6f58ds9f7s8", 2019, CarType.SPORTS,1,
-                6, TractionType.RWD, 2, Color.CYAN);
+        Car car = new Car(1,"Ford", "Mustang", "5sd5a6f58ds9f7s8", 2022, CarType.SPORTS,12,
+                2, TractionType.RWD, 2, Color.CYAN);
         CrudCar.insertIntoCar(car);
         Assert.assertEquals(initialRowNumber + 1, CrudCar.getNumberOfRows());
     }

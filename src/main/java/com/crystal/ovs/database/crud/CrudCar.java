@@ -51,7 +51,7 @@ public class CrudCar {
         }
     }
     public static ResultSet selectAllFromCar(){
-        String query = "select * from " + CAR_TABLE_NAME + ";";
+        String query = "SELECT * FROM " + CAR_TABLE_NAME + ";";
         try {
             databaseConnector = DatabaseConnector.getInstance();
             return databaseConnector.select(query);
@@ -70,7 +70,7 @@ public class CrudCar {
         if (commaseparatedlist.length() > 0) {
             commaseparatedlist = commaseparatedlist.substring(0, commaseparatedlist.length() - 1);
         }
-        String query = "select " + commaseparatedlist + " from " + CAR_TABLE_NAME + ";";
+        String query = "SELECT " + commaseparatedlist + " FROM " + CAR_TABLE_NAME + ";";
         System.out.println(query);
         try {
             databaseConnector = DatabaseConnector.getInstance();
@@ -82,25 +82,19 @@ public class CrudCar {
     }
 
     public static void insertIntoCar(Car car){
-        String query = "insert into " + CAR_TABLE_NAME + "(" +
+        String querySet = "SET FOREIGN_KEY_CHECKS=0;\n";
+        String query = "INSERT INTO " + CAR_TABLE_NAME + "(" +
                 CAR_BRAND_COLUMN + ", " + CAR_MODEL_COLUMN + ", " +
-                CAR_VIN_COLUMN + ", " + CAR_MANUFACTURING_YEAR_COLUMN + "," +
+                CAR_VIN_COLUMN + ", " + CAR_MANUFACTURING_YEAR_COLUMN + ", " +
                 CAR_TYPE_COLUMN + ", " + CAR_ENGINE_ID_COLUMN + ", " +
                 CAR_TRANSMISSION_ID_COLUMN + ", " + CAR_TRACTION_TYPE_COLUMN + ", " +
-                CAR_NUMBER_OF_DOORS_COLUMN + ", " + CAR_COLOR_COLUMN + ") VALUES('" + car.getBrand() + "', '" +
+                CAR_NUMBER_OF_DOORS_COLUMN + ", " + CAR_COLOR_COLUMN + ") VALUES ('" + car.getBrand() + "', '" +
                 car.getModel() + "', '" + car.getVIN() + "', " + car.getManufacturingYear() + ", '" +
                 car.getCarType() + "', " + car.getEngineId() + ", " + car.getTransmissionId() + ", '" +
                 car.getTractionType() + "', " + car.getNumberOfDoors() + ", '" + car.getColor().toString() + "');";
-        try {
-            executeVoidQuery(query);
-        } catch(Exception e) {
-            try {
-                String querySet = "set foreign_key_checks=0;\n" + query;
-                executeVoidQuery(querySet);
-            } catch (Exception b) {
-                e.printStackTrace();
-            }
-        }
+
+        executeVoidQuery(querySet);
+        executeVoidQuery(query);
     }
 
     public static void deleteById(int id) {
@@ -114,12 +108,12 @@ public class CrudCar {
                 CAR_MODEL_COLUMN + " = '" + car.getModel() + "', " +
                 CAR_VIN_COLUMN + " = '" + car.getVIN() + "', " +
                 CAR_MANUFACTURING_YEAR_COLUMN + " = " + car.getManufacturingYear() + ", " +
-                CAR_TYPE_COLUMN + " = '" + car.getCarType().toString() + "', " +
+                CAR_TYPE_COLUMN + " = '" + car.getCarType() + "', " +
                 CAR_ENGINE_ID_COLUMN + " = " + car.getEngineId() + ", " +
                 CAR_TRANSMISSION_ID_COLUMN + " = " + car.getTransmissionId() + ", " +
-                CAR_TRACTION_TYPE_COLUMN + " = '" + car.getTractionType().toString() + "', " +
+                CAR_TRACTION_TYPE_COLUMN + " = '" + car.getTractionType() + "', " +
                 CAR_NUMBER_OF_DOORS_COLUMN + " = " + car.getNumberOfDoors() + ", " +
-                CAR_COLOR_COLUMN + " = '" + car.getColor().toString() + "'" +
+                CAR_COLOR_COLUMN + " = '" + car.getColor() + "'" +
                 " WHERE id = " + car.getId() + ";";
         executeVoidQuery(query);
     }
@@ -189,7 +183,7 @@ public class CrudCar {
 
     public static void updateCarColorById(int id, Color color) {
         String query = "UPDATE " + CAR_TABLE_NAME + " SET " +
-                CAR_COLOR_COLUMN + " = '" + color.toString() +
+                CAR_COLOR_COLUMN + " = '" + color +
                 "' WHERE id = " + id + ";";
         executeVoidQuery(query);
     }
