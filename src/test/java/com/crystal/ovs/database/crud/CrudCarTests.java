@@ -1,7 +1,12 @@
 package com.crystal.ovs.database.crud;
 
+import com.crystal.ovs.dao.Car;
+import com.crystal.ovs.dao.CarType;
+import com.crystal.ovs.dao.TractionType;
 import org.junit.Assert;
 import org.junit.Test;
+
+import java.awt.*;
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
@@ -38,15 +43,8 @@ public class CrudCarTests {
     @Test
     public void selectAllFromCarTest() throws Exception {
         ResultSet resultSet = CrudCar.selectAllFromCar();
-        ResultSetMetaData rsmd = resultSet.getMetaData();
-        int columnsNumber = rsmd.getColumnCount();
-        StringBuilder result = new StringBuilder();
-        while (resultSet.next()) {
-            for (int i = 1; i <= columnsNumber; i++) {
-                String columnValue = resultSet.getString(i);
-                result.append(columnValue).append(" ");
-            }
-        }
+        List<String> result = getLinesOfResultSet(resultSet);
+        System.out.println(result);
         Assert.assertNotNull(result);
     }
 
@@ -57,16 +55,18 @@ public class CrudCarTests {
         columnlist.add("model");
         columnlist.add("carType");
         ResultSet resultSet = CrudCar.selectListOfColumnsFromCar(columnlist);
-        ResultSetMetaData rsmd = resultSet.getMetaData();
-        int columnsNumber = rsmd.getColumnCount();
-        StringBuilder result = new StringBuilder();
-        while (resultSet.next()) {
-            for (int i = 1; i <= columnsNumber; i++) {
-                String columnValue = resultSet.getString(i);
-                result.append(columnValue).append(" ");
-            }
-        }
+        List<String> result = getLinesOfResultSet(resultSet);
+        System.out.println(result);
         Assert.assertNotNull(result);
+    }
+
+    @Test // gives a foreign key constraint fail on engine id TODO fix insert for car
+    public void insertIntoCarTest(){
+        int initialRowNumber = CrudCar.getNumberOfRows();
+        Car car = new Car(2,"Ford", "Mustang", "5sd5a6f58ds9f7s8", 2019, CarType.SPORTS,1,
+                6, TractionType.RWD, 2, Color.CYAN);
+        CrudCar.insertIntoCar(car);
+        Assert.assertEquals(initialRowNumber + 1, CrudCar.getNumberOfRows());
     }
 
     @Test

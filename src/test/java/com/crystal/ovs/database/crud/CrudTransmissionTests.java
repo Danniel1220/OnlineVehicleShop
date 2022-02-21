@@ -9,8 +9,30 @@ import org.junit.Test;
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class CrudTransmissionTests {
+
+    private List<String> getLinesOfResultSet(ResultSet resultSet) throws SQLException {
+        // this method gets all rows selected from the database and converts them into strings where column values are separated by: ','
+        // adds every converted row one by one into a list
+        // finally returns the list
+        ResultSetMetaData rsMetaData = resultSet.getMetaData();
+        List<String> selectedObjects = new ArrayList<>();
+        int numberOfColumns = rsMetaData.getColumnCount();
+        while (resultSet.next()) {
+            StringBuilder result = new StringBuilder();
+            for (int i = 1; i <= numberOfColumns; i++) {
+                String columnValue = resultSet.getString(i);
+                result.append(columnValue).append(",");
+            }
+            result.deleteCharAt(result.length() - 1);
+            selectedObjects.add(result.toString());
+        }
+        return selectedObjects;
+    }
+
     @Test
     public void getNumberOfRowsTest() {
         int numberOfRows = CrudTransmission.getNumberOfRows();
@@ -20,15 +42,8 @@ public class CrudTransmissionTests {
     @Test
     public void selectAllFromTransmissionTest() throws Exception {
         ResultSet resultSet = CrudTransmission.selectAllFromTransmissionTable();
-        ResultSetMetaData rsmd = resultSet.getMetaData();
-        int columnsNumber = rsmd.getColumnCount();
-        StringBuilder result = new StringBuilder();
-        while (resultSet.next()) {
-            for (int i = 1; i <= columnsNumber; i++) {
-                String columnValue = resultSet.getString(i);
-                result.append(columnValue).append(" ");
-            }
-        }
+        List<String> result = getLinesOfResultSet(resultSet);
+        System.out.println(result);
         Assert.assertNotNull(result);
     }
 
@@ -59,17 +74,11 @@ public class CrudTransmissionTests {
         Transmission transmission = new Transmission(5, TransmissionType.DUALCLUTCH,10);
         CrudTransmission.updateTransmissionTableInt(transmission);
         ResultSet resultSet = CrudTransmission.selectAllFromTransmissionTable();
-        ResultSetMetaData rsmd = resultSet.getMetaData();
-        int columnsNumber = rsmd.getColumnCount();
-        StringBuilder result = new StringBuilder();
-        if (resultSet.next()) {
-            for (int i = 1; i <= columnsNumber; i++) {
-                String columnValue = resultSet.getString(i);
-                result.append(columnValue).append(" ");
-            }
-        }
-        String expectedResult = "5 AUTOMATIC 10 ";
-        Assert.assertEquals(expectedResult, result.toString());
+        List<String> result = getLinesOfResultSet(resultSet);
+        System.out.println(result);
+        Assert.assertNotNull(result);
+        String expectedResult = "5,DUALCLUTCH,10";
+        Assert.assertEquals(expectedResult, result.get(0));
     }
 
     @Test
@@ -78,17 +87,11 @@ public class CrudTransmissionTests {
         Transmission transmission = new Transmission(5, TransmissionType.MANUAL,5);
         CrudTransmission.updateTransmissionTableString(transmission);
         ResultSet resultSet = CrudTransmission.selectAllFromTransmissionTable();
-        ResultSetMetaData rsmd = resultSet.getMetaData();
-        int columnsNumber = rsmd.getColumnCount();
-        StringBuilder result = new StringBuilder();
-        if (resultSet.next()) {
-            for (int i = 1; i <= columnsNumber; i++) {
-                String columnValue = resultSet.getString(i);
-                result.append(columnValue).append(" ");
-            }
-        }
-        String expectedResult = "5 MANUAL 10 ";
-        Assert.assertEquals(expectedResult, result.toString());
+        List<String> result = getLinesOfResultSet(resultSet);
+        System.out.println(result);
+        Assert.assertNotNull(result);
+        String expectedResult = "5,MANUAL,10";
+        Assert.assertEquals(expectedResult, result.get(0));
     }
 
     @Test
@@ -97,16 +100,10 @@ public class CrudTransmissionTests {
         Transmission transmission = new Transmission(5, TransmissionType.DUALCLUTCH,15);
         CrudTransmission.updateAllById(transmission);
         ResultSet resultSet = CrudTransmission.selectAllFromTransmissionTable();
-        ResultSetMetaData rsmd = resultSet.getMetaData();
-        int columnsNumber = rsmd.getColumnCount();
-        StringBuilder result = new StringBuilder();
-        if (resultSet.next()) {
-            for (int i = 1; i <= columnsNumber; i++) {
-                String columnValue = resultSet.getString(i);
-                result.append(columnValue).append(" ");
-            }
-        }
-        String expectedResult = "5 DUALCLUTCH 15 ";
-        Assert.assertEquals(expectedResult, result.toString());
+        List<String> result = getLinesOfResultSet(resultSet);
+        System.out.println(result);
+        Assert.assertNotNull(result);
+        String expectedResult = "5,DUALCLUTCH,15";
+        Assert.assertEquals(expectedResult, result.get(0));
     }
 }
