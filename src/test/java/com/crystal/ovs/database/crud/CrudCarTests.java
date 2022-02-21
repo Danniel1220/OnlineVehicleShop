@@ -1,24 +1,31 @@
 package com.crystal.ovs.database.crud;
 
-import com.crystal.ovs.database.crud.CrudCar;
 import org.junit.Assert;
 import org.junit.Test;
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class CrudCarTests {
-    private String getFirstLineOfResultSet(ResultSet resultSet) throws SQLException {
-        ResultSetMetaData rsmd = resultSet.getMetaData();
-        int columnsNumber = rsmd.getColumnCount();
-        StringBuilder result = new StringBuilder();
-        if (resultSet.next()) {
-            for (int i = 1; i <= columnsNumber; i++) {
+    private List<String> getLinesOfResultSet(ResultSet resultSet) throws SQLException {
+        // this method gets all rows selected from the database and converts them into strings where column values are separated by: ','
+        // adds every converted row one by one into a list
+        // finally returns the list
+        ResultSetMetaData rsMetaData = resultSet.getMetaData();
+        List<String> selectedObjects = new ArrayList<>();
+        int numberOfColumns = rsMetaData.getColumnCount();
+        while (resultSet.next()) {
+            StringBuilder result = new StringBuilder();
+            for (int i = 1; i <= numberOfColumns; i++) {
                 String columnValue = resultSet.getString(i);
-                result.append(columnValue).append(" ");
+                result.append(columnValue).append(",");
             }
+            result.deleteCharAt(result.length() - 1);
+            selectedObjects.add(result.toString());
         }
-        return result.toString();
+        return selectedObjects;
     }
 
     @Test
