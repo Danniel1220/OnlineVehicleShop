@@ -1,7 +1,10 @@
 package com.crystal.ovs.crud;
 
 import com.crystal.ovs.dao.Car;
+import com.crystal.ovs.dao.CarType;
+import com.crystal.ovs.dao.TractionType;
 import com.crystal.ovs.database.DatabaseConnector;
+import java.awt.*;
 import java.sql.ResultSet;
 
 /**
@@ -17,7 +20,7 @@ public class CrudCar {
     private static final String CAR_MANUFACTURING_YEAR_COLUMN = "manufacturingYear";
     private static final String CAR_TYPE_COLUMN = "carType";
     private static final String CAR_ENGINE_ID_COLUMN = "engineId";
-    private static final String CAR_TRANSMISSION_COLUMN = "transmissionId";
+    private static final String CAR_TRANSMISSION_ID_COLUMN = "transmissionId";
     private static final String CAR_TRACTION_TYPE_COLUMN = "tractionType";
     private static final String CAR_NUMBER_OF_DOORS_COLUMN = "numberOfDoors";
     private static final String CAR_COLOR_COLUMN = "Color";
@@ -37,15 +40,19 @@ public class CrudCar {
         return -1;
     }
 
-    public static void deleteById(int id) {
-        String query = "DELETE FROM " + CAR_TABLE_NAME + " WHERE " + CAR_ID_COLUMN + " = " + id + ";";
+    private static void executeVoidQuery(String query) {
         try {
             databaseConnector = DatabaseConnector.getInstance();
             databaseConnector.execute(query);
         } catch (Exception e) {
-            System.out.println("ERROR: deletion failed!");
+            System.out.println("ERROR: database CRUD operation failed!");
             e.printStackTrace();
         }
+    }
+
+    public static void deleteById(int id) {
+        String query = "DELETE FROM " + CAR_TABLE_NAME + " WHERE " + CAR_ID_COLUMN + " = " + id + ";";
+        executeVoidQuery(query);
     }
 
     public static void updateAllById(Car car) {
@@ -56,17 +63,81 @@ public class CrudCar {
                 CAR_MANUFACTURING_YEAR_COLUMN + " = " + car.getManufacturingYear() + ", " +
                 CAR_TYPE_COLUMN + " = '" + car.getCarType() + "', " +
                 CAR_ENGINE_ID_COLUMN + " = " + car.getEngineId() + ", " +
-                CAR_TRANSMISSION_COLUMN + " = '" + car.getTransmissionId() + "', " +
+                CAR_TRANSMISSION_ID_COLUMN + " = '" + car.getTransmissionId() + "', " +
                 CAR_TRACTION_TYPE_COLUMN + " = '" + car.getTractionType() + "', " +
                 CAR_NUMBER_OF_DOORS_COLUMN + " = " + car.getNumberOfDoors() + ", " +
-                CAR_COLOR_COLUMN + " = '" + car.getColor() + "'" +
+                CAR_COLOR_COLUMN + " = '" + car.getColor().toString() + "'" +
                 " WHERE id = " + car.getId() + ";";
-        try {
-            databaseConnector = DatabaseConnector.getInstance();
-            databaseConnector.execute(query);
-        } catch (Exception e) {
-            System.out.println("ERROR: update failed!");
-            e.printStackTrace();
-        }
+        executeVoidQuery(query);
+    }
+
+    public static void updateCarBrandById(int id, String brand) {
+        String query = "UPDATE " + CAR_TABLE_NAME + " SET " +
+                CAR_BRAND_COLUMN + " = '" + brand +
+                "' WHERE id = " + id + ";";
+        executeVoidQuery(query);
+    }
+
+    public static void updateCarModelById(int id, String model) {
+        String query = "UPDATE " + CAR_TABLE_NAME + " SET " +
+                CAR_MODEL_COLUMN + " = '" + model +
+                "' WHERE id = " + id + ";";
+        executeVoidQuery(query);
+    }
+
+    public static void updateCarVINById(int id, String VIN) {
+        String query = "UPDATE " + CAR_TABLE_NAME + " SET " +
+                CAR_VIN_COLUMN + " = '" + VIN +
+                "' WHERE id = " + id + ";";
+        executeVoidQuery(query);
+    }
+
+    public static void updateCarManufacturingYearById(int id, int manufacturingYear) {
+        String query = "UPDATE " + CAR_TABLE_NAME + " SET " +
+                CAR_MANUFACTURING_YEAR_COLUMN + " = " + manufacturingYear +
+                " WHERE id = " + id + ";";
+        executeVoidQuery(query);
+    }
+
+    public static void updateCarTypeById(int id, CarType carType) {
+        String query = "UPDATE " + CAR_TABLE_NAME + " SET " +
+                CAR_TYPE_COLUMN + " = '" + carType +
+                "' WHERE id = " + id + ";";
+        executeVoidQuery(query);
+    }
+
+    public static void updateCarEngineIdById(int id, int engineId) {
+        String query = "UPDATE " + CAR_TABLE_NAME + " SET " +
+                CAR_ENGINE_ID_COLUMN + " = " + engineId +
+                " WHERE id = " + id + ";";
+        executeVoidQuery(query);
+    }
+
+    public static void updateCarTransmissionIdById(int id, int transmissionId) {
+        String query = "UPDATE " + CAR_TABLE_NAME + " SET " +
+                CAR_TRANSMISSION_ID_COLUMN + " = " + transmissionId +
+                " WHERE id = " + id + ";";
+        executeVoidQuery(query);
+    }
+
+    public static void updateCarTractionTypeById(int id, TractionType tractionType) {
+        String query = "UPDATE " + CAR_TABLE_NAME + " SET " +
+                CAR_TRACTION_TYPE_COLUMN + " = '" + tractionType +
+                "' WHERE id = " + id + ";";
+        executeVoidQuery(query);
+    }
+
+    public static void updateCarNumberOfDoorsById(int id, int numberOfDoors) {
+        String query = "UPDATE " + CAR_TABLE_NAME + " SET " +
+                CAR_NUMBER_OF_DOORS_COLUMN + " = " + numberOfDoors +
+                " WHERE id = " + id + ";";
+        executeVoidQuery(query);
+    }
+
+    public static void updateCarColorById(int id, Color color) {
+        String query = "UPDATE " + CAR_TABLE_NAME + " SET " +
+                CAR_COLOR_COLUMN + " = '" + color.toString() +
+                "' WHERE id = " + id + ";";
+        executeVoidQuery(query);
     }
 }

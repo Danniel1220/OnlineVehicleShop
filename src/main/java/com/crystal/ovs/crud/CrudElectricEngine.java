@@ -30,6 +30,16 @@ public class CrudElectricEngine {
         return -1;
     }
 
+    private static void executeVoidQuery(String query) {
+        try {
+            databaseConnector = DatabaseConnector.getInstance();
+            databaseConnector.execute(query);
+        } catch (Exception e) {
+            System.out.println("ERROR: database CRUD operation failed!");
+            e.printStackTrace();
+        }
+    }
+
     public static ResultSet selectAll() {
         String query = "SELECT * FROM " + ELECTRIC_ENGINE_TABLE_NAME + ";";
         try {
@@ -47,24 +57,12 @@ public class CrudElectricEngine {
                 + ELECTRIC_ENGINE_BATTERY_CAPACITY_COLUMN + ", "
                 + ELECTRIC_ENGINE_RANGE_COLUMN + ") " +
                 "VALUES ('" + electricEngine.getType() + "', " + electricEngine.getBatteryCapacity() + ", " + electricEngine.getRange() + ");";
-        try {
-            databaseConnector = DatabaseConnector.getInstance();
-            databaseConnector.execute(query);
-        } catch (Exception e) {
-            System.out.println("ERROR: insertion failed!");
-            e.printStackTrace();
-        }
+        executeVoidQuery(query);
     }
 
     public static void deleteById(int id) {
         String query = "DELETE FROM " + ELECTRIC_ENGINE_TABLE_NAME + " WHERE " + ELECTRIC_ENGINE_ID_COLUMN + " = " + id + ";";
-        try {
-            databaseConnector = DatabaseConnector.getInstance();
-            databaseConnector.execute(query);
-        } catch (Exception e) {
-            System.out.println("ERROR: deletion failed!");
-            e.printStackTrace();
-        }
+        executeVoidQuery(query);
     }
 
     public static void updateAllById(ElectricEngine electricEngine) {
@@ -73,51 +71,27 @@ public class CrudElectricEngine {
                 ELECTRIC_ENGINE_BATTERY_CAPACITY_COLUMN + " = " + electricEngine.getBatteryCapacity() + ", " +
                 ELECTRIC_ENGINE_RANGE_COLUMN + " = " + electricEngine.getRange() +
                 " WHERE id = " + electricEngine.getId() + ";";
-        try {
-            databaseConnector = DatabaseConnector.getInstance();
-            databaseConnector.execute(query);
-        } catch (Exception e) {
-            System.out.println("ERROR: update failed!");
-            e.printStackTrace();
-        }
+        executeVoidQuery(query);
     }
 
     public static void updateEngineTypeById(int id, String engineType) {
         String query = "UPDATE " + ELECTRIC_ENGINE_TABLE_NAME + " SET " +
                 ELECTRIC_ENGINE_TYPE_COLUMN + " = '" + engineType + "'" +
                 " WHERE id = " + id + ";";
-        try {
-            databaseConnector = DatabaseConnector.getInstance();
-            databaseConnector.execute(query);
-        } catch (Exception e) {
-            System.out.println("ERROR: update failed!");
-            e.printStackTrace();
-        }
+        executeVoidQuery(query);
     }
 
     public static void updateBatteryCapacityById(int id, int batteryCapacity) {
         String query = "UPDATE " + ELECTRIC_ENGINE_TABLE_NAME + " SET " +
                 ELECTRIC_ENGINE_BATTERY_CAPACITY_COLUMN + " = " + batteryCapacity +
                 " WHERE id = " + id + ";";
-        try {
-            databaseConnector = DatabaseConnector.getInstance();
-            databaseConnector.execute(query);
-        } catch (Exception e) {
-            System.out.println("ERROR: update failed!");
-            e.printStackTrace();
-        }
+        executeVoidQuery(query);
     }
 
     public static void updateEngineRangeById(int id, int range) {
         String query = "UPDATE " + ELECTRIC_ENGINE_TABLE_NAME + " SET " +
                 ELECTRIC_ENGINE_RANGE_COLUMN + " = " + range +
                 " WHERE id = " + id + ";";
-        try {
-            databaseConnector = DatabaseConnector.getInstance();
-            databaseConnector.execute(query);
-        } catch (Exception e) {
-            System.out.println("ERROR: update failed!");
-            e.printStackTrace();
-        }
+        executeVoidQuery(query);
     }
 }

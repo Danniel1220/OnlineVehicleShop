@@ -8,7 +8,7 @@ import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 
 public class CrudElectricEngineTests {
-    private String getFirstLineOfResultSet(ResultSet resultSet) throws SQLException {
+    private String getFirstLineOfResultSet(ResultSet resultSet) throws SQLException { // works
         ResultSetMetaData rsmd = resultSet.getMetaData();
         int columnsNumber = rsmd.getColumnCount();
         StringBuilder result = new StringBuilder();
@@ -22,21 +22,21 @@ public class CrudElectricEngineTests {
     }
 
     @Test
-    public void getNumberOfRowsTest() {
+    public void getNumberOfRowsTest() { // works
         int expectedNumberOfRows = 3;
         int numberOfRows = CrudElectricEngine.getNumberOfRows();
         Assert.assertEquals(expectedNumberOfRows, numberOfRows);
     }
 
     @Test
-    public void selectAllElectricEngineTest() throws SQLException {
+    public void selectAllElectricEngineTest() throws SQLException { // works
         ResultSet resultSet = CrudElectricEngine.selectAll();
         String result = getFirstLineOfResultSet(resultSet);
         Assert.assertNotNull(result);
     }
 
     @Test
-    public void insertAllElectricEngineTest() {
+    public void insertAllElectricEngineTest() { // works
         int initialRowNumber = CrudElectricEngine.getNumberOfRows();
         ElectricEngine electricEngine = new ElectricEngine(CrudElectricEngine.getNumberOfRows() + 1, "otherType", 100, 250);
         CrudElectricEngine.insertEngine(electricEngine);
@@ -44,7 +44,7 @@ public class CrudElectricEngineTests {
     }
 
     @Test
-    public void deleteFromElectricEngineByIdTest() {
+    public void deleteFromElectricEngineByIdTest() { // works
         int initialRowNumber = CrudElectricEngine.getNumberOfRows();
         int id = 4;
         CrudElectricEngine.deleteById(id);
@@ -52,7 +52,7 @@ public class CrudElectricEngineTests {
     }
 
     @Test
-    public void updateAllByIdTest() throws SQLException {
+    public void updateAllByIdTest() throws SQLException { // works
         int id = 1;
         ElectricEngine electricEngine = new ElectricEngine(id, "tipUpdate", 2, 3);
         CrudElectricEngine.updateAllById(electricEngine);
@@ -64,7 +64,7 @@ public class CrudElectricEngineTests {
     }
 
     @Test
-    public void updateEngineTypeByIdTest() throws SQLException {
+    public void updateEngineTypeByIdTest() throws SQLException { // works
         int id = 1;
         CrudElectricEngine.updateEngineTypeById(id, "altType");
 
@@ -77,7 +77,7 @@ public class CrudElectricEngineTests {
 
 
     @Test
-    public void updateBatteryCapacityByIdTest() throws SQLException {
+    public void updateBatteryCapacityByIdTest() throws SQLException { // works
         int id = 1;
         CrudElectricEngine.updateBatteryCapacityById(id, 2000);
 
@@ -90,7 +90,7 @@ public class CrudElectricEngineTests {
 
 
     @Test
-    public void updateEngineRangeByIdTest() throws SQLException {
+    public void updateEngineRangeByIdTest() throws SQLException { // works
         int id = 1;
         CrudElectricEngine.updateEngineRangeById(id, 1234);
 

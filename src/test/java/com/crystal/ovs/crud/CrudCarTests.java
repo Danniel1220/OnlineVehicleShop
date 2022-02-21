@@ -1,11 +1,7 @@
 package com.crystal.ovs.crud;
 
-import com.crystal.ovs.dao.Car;
-import com.crystal.ovs.dao.CarType;
-import com.crystal.ovs.dao.TractionType;
 import org.junit.Assert;
 import org.junit.Test;
-import java.awt.*;
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
@@ -25,29 +21,72 @@ public class CrudCarTests {
     }
 
     @Test
-    public void getNumberOfRowsTest() {
+    public void getNumberOfRowsTest() { // works
         int expectedNumberOfRows = 0;
         int numberOfRows = CrudCar.getNumberOfRows();
         Assert.assertEquals(expectedNumberOfRows, numberOfRows);
     }
 
     @Test
-    public void deleteFromCarByIdTest() {
+    public void deleteFromCarByIdTest() { // works
         int initialRowNumber = CrudCar.getNumberOfRows();
-        int id = 2;
+        int id = 3;
         CrudCar.deleteById(id);
         Assert.assertEquals(initialRowNumber - 1, CrudCar.getNumberOfRows());
     }
 
     @Test
-    public void updateAllByIdTest() throws SQLException {
-        int id = 3;
-        Car car = new Car(id, "BMW", "X5", "123TDF", 2019, CarType.SUV, 1, 2, TractionType.AWD, 4, Color.BLUE);
-        CrudCar.updateAllById(car);
-        // ResultSet resultSet = CrudCar.select;
-       //  String result = getFirstLineOfResultSet(resultSet);
+    public void updateAllByIdTest() {
+        // NEED SELECT METHOD IN ORDER TO TEST
+    }
 
-        String expectedResult = "3 BMW X5 123TDF 2019 SUV 1 2 AWD 4 BLUE ";
-      //  Assert.assertEquals(expectedResult, result);
+    @Test
+    public void updateCarBrandByIdTest() {
+        // NEED SELECT METHOD IN ORDER TO TEST
+    }
+
+    @Test
+    public void updateCarModelByIdTest() {
+        // NEED SELECT METHOD IN ORDER TO TEST
+    }
+
+    @Test
+    public void updateCarVINByIdTest() {
+        // NEED SELECT METHOD IN ORDER TO TEST
+    }
+
+    @Test
+    public void updateCarManufacturingYearByIdTest() {
+        // NEED SELECT METHOD IN ORDER TO TEST
+    }
+
+    @Test
+    public void updateCarTypeByIdTest() {
+        // NEED SELECT METHOD IN ORDER TO TEST
+    }
+
+    @Test
+    public void updateCarEngineIdByIdTest() {
+        // NEED SELECT METHOD IN ORDER TO TEST
+    }
+
+    @Test
+    public void updateCarTransmissionIdByIdTest() {
+        // NEED SELECT METHOD IN ORDER TO TEST
+    }
+
+    @Test
+    public void updateCarTractionTypeByIdTest() {
+        // NEED SELECT METHOD IN ORDER TO TEST
+    }
+
+    @Test
+    public void updateCarNumberOfDoorsByIdTest() {
+        // NEED SELECT METHOD IN ORDER TO TEST
+    }
+
+    @Test
+    public void updateCarColorByIdTest() {
+        // NEED SELECT METHOD IN ORDER TO TEST
     }
 }
