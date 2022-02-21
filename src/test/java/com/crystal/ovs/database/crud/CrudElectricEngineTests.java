@@ -1,6 +1,7 @@
-package com.crystal.ovs.crud;
+package com.crystal.ovs.database.crud;
 
 import com.crystal.ovs.dao.ElectricEngine;
+import com.crystal.ovs.database.crud.CrudElectricEngine;
 import org.junit.Assert;
 import org.junit.Test;
 import java.sql.ResultSet;

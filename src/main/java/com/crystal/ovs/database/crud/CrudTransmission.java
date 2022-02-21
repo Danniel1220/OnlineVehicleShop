@@ -1,4 +1,4 @@
-package com.crystal.ovs.crud;
+package com.crystal.ovs.database.crud;
 
 import com.crystal.ovs.dao.Transmission;
 import com.crystal.ovs.database.DatabaseConnector;
