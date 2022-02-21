@@ -5,6 +5,7 @@ import com.crystal.ovs.dao.FuelEngine;
 import com.crystal.ovs.dao.FuelType;
 import com.crystal.ovs.dao.StrokeType;
 import com.crystal.ovs.database.DatabaseConnector;
+import com.crystal.ovs.exceptions.ValidationException;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -24,7 +25,7 @@ public class FuelEngineController {
         String query = "select * from fuelengine;";
         ResultSet resultSet = connector.select(query);
         while(resultSet.next()){
-            fuelEngineList.add(selectFuelEngineFromResultSet(resultSet));
+            fuelEngineList.add(getFuelEngineFromResultSet(resultSet));
         }
 
         return fuelEngineList;
@@ -36,12 +37,16 @@ public class FuelEngineController {
         String query = String.format("select * from fuelengine where id=%d", id);
         ResultSet resultSet = connector.select(query);
         while( resultSet.next()) {
-            fuelEngine = selectFuelEngineFromResultSet(resultSet);
+            fuelEngine = getFuelEngineFromResultSet(resultSet);
         }
         return fuelEngine;
     }
 
-    public static int insertFuelEngine(FuelEngine fuelEngine){
+    public static int insertFuelEngine(FuelEngine fuelEngine) throws ValidationException {
+        List<String> validationErrors = validateFuelEngine(fuelEngine);
+        if(validationErrors.size() > 0){
+            throw new ValidationException(validationErrors);
+        }
         String query = String.format(
                 "insert into `fuelengine` (fuelType, fuelConsumption, numberOfCylinders, CO2Emissions, engineLayout, hasTurbine, hasSuperCharger, strokeType, displacement) " +
                 "values('%s', %f, %d, %f, '%s', %b, %b, '%s',%f);",
@@ -52,7 +57,11 @@ public class FuelEngineController {
         return connector.execute(query);
     }
 
-    public static int updateFuelEngine(FuelEngine newFuelEngine){
+    public static int updateFuelEngine(FuelEngine newFuelEngine) throws ValidationException {
+        List<String> validationErrors = validateFuelEngine(newFuelEngine);
+        if(validationErrors.size() > 0) {
+            throw new ValidationException(validationErrors);
+        }
         String query = String.format("update `fuelengine` set " +
                 "fuelType = '%s', " +
                 "fuelConsumption = %f, " +
@@ -78,7 +87,7 @@ public class FuelEngineController {
         return connector.execute(query);
     }
 
-    public static FuelEngine selectFuelEngineFromResultSet(ResultSet resultSet) throws SQLException {
+    public static FuelEngine getFuelEngineFromResultSet(ResultSet resultSet) throws SQLException {
         return new FuelEngine(
                 resultSet.getInt("id"),
                 FuelType.valueOf(resultSet.getString("fuelType")),
@@ -92,5 +101,38 @@ public class FuelEngineController {
                 resultSet.getFloat("displacement"));
     }
 
+    public static List<String> validateFuelEngine(FuelEngine fuelEngine){
+        List<String> validationErrors = new ArrayList<>();
+
+        if(fuelEngine.getFuelConsumption() <= 0){
+            validationErrors.add("Fuel consumption can't be lower than zero");
+        }
+        if(fuelEngine.getFuelConsumption() > 40){
+            validationErrors.add("Fuel consumption must be below 40");
+        }
+
+        if(fuelEngine.getNumberOfCylinders() <= 0){
+            validationErrors.add("Number of cylinders can't be lower than zero");
+        }
+        if(fuelEngine.getNumberOfCylinders() > 16){
+            validationErrors.add("Number of cylinders must be 16 or less");
+        }
+
+        if(fuelEngine.getCO2Emissions() <= 0){
+            validationErrors.add("CO2 emissions can't be lower than zero");
+        }
+        if(fuelEngine.getCO2Emissions() > 250){
+            validationErrors.add("CO2 emissions can't be grater than 250");
+        }
+
+        if(fuelEngine.getDisplacement() <= 0){
+            validationErrors.add("Displacement can't be lower than zero");
+        }
+        if(fuelEngine.getDisplacement() > 9){
+            validationErrors.add("Displacement must be lower than 9.0");
+        }
+
+        return validationErrors;
+    }
 
 }
