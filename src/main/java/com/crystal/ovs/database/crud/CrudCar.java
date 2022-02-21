@@ -6,6 +6,7 @@ import com.crystal.ovs.dao.TractionType;
 import com.crystal.ovs.database.DatabaseConnector;
 import java.awt.*;
 import java.sql.ResultSet;
+import java.util.ArrayList;
 
 /**
  *  This class contains all CRUD operations for Car table
@@ -48,6 +49,41 @@ public class CrudCar {
             System.out.println("ERROR: database CRUD operation failed!");
             e.printStackTrace();
         }
+    }
+    public static ResultSet selectAllFromCar(){
+        String query = "select * from " + CAR_TABLE_NAME + ";";
+        try {
+            databaseConnector = DatabaseConnector.getInstance();
+            return databaseConnector.select(query);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public static ResultSet selectListOfColumnsFromCar(ArrayList<String> columnlist){
+        StringBuilder halfquery = new StringBuilder("");
+        // Traversing the ArrayList
+        for (String eachstring : columnlist) {
+            // Each element in ArrayList is appended
+            // followed by comma
+            halfquery.append(eachstring).append(",");
+        }
+        // StringBuffer to String conversion
+        String commaseparatedlist = halfquery.toString();
+        // Condition check to remove the last comma
+        if (commaseparatedlist.length() > 0) {
+            commaseparatedlist = commaseparatedlist.substring(0, commaseparatedlist.length() - 1);
+        }
+        String query = "select " + commaseparatedlist + " from " + CAR_TABLE_NAME + ";";
+        System.out.println(query);
+        try {
+            databaseConnector = DatabaseConnector.getInstance();
+            return databaseConnector.select(query);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
     public static void deleteById(int id) {

@@ -36,6 +36,40 @@ public class CrudCarTests {
     }
 
     @Test
+    public void selectAllFromCarTest() throws Exception {
+        ResultSet resultSet = CrudCar.selectAllFromCar();
+        ResultSetMetaData rsmd = resultSet.getMetaData();
+        int columnsNumber = rsmd.getColumnCount();
+        StringBuilder result = new StringBuilder();
+        while (resultSet.next()) {
+            for (int i = 1; i <= columnsNumber; i++) {
+                String columnValue = resultSet.getString(i);
+                result.append(columnValue).append(" ");
+            }
+        }
+        Assert.assertNotNull(result);
+    }
+
+    @Test
+    public void selectListOfColumnsFRomCarTest() throws Exception {
+        ArrayList<String> columnlist = new ArrayList<String>();
+        columnlist.add("brand");
+        columnlist.add("model");
+        columnlist.add("carType");
+        ResultSet resultSet = CrudCar.selectListOfColumnsFromCar(columnlist);
+        ResultSetMetaData rsmd = resultSet.getMetaData();
+        int columnsNumber = rsmd.getColumnCount();
+        StringBuilder result = new StringBuilder();
+        while (resultSet.next()) {
+            for (int i = 1; i <= columnsNumber; i++) {
+                String columnValue = resultSet.getString(i);
+                result.append(columnValue).append(" ");
+            }
+        }
+        Assert.assertNotNull(result);
+    }
+
+    @Test
     public void deleteFromCarByIdTest() { // works
         int initialRowNumber = CrudCar.getNumberOfRows();
         int id = 3;
