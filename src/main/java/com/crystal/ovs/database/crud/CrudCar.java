@@ -62,16 +62,11 @@ public class CrudCar {
     }
 
     public static ResultSet selectListOfColumnsFromCar(ArrayList<String> columnlist){
-        StringBuilder halfquery = new StringBuilder("");
-        // Traversing the ArrayList
+        StringBuilder stringBuilder = new StringBuilder("");
         for (String eachstring : columnlist) {
-            // Each element in ArrayList is appended
-            // followed by comma
-            halfquery.append(eachstring).append(",");
+            stringBuilder.append(eachstring).append(",");
         }
-        // StringBuffer to String conversion
-        String commaseparatedlist = halfquery.toString();
-        // Condition check to remove the last comma
+        String commaseparatedlist = stringBuilder.toString();
         if (commaseparatedlist.length() > 0) {
             commaseparatedlist = commaseparatedlist.substring(0, commaseparatedlist.length() - 1);
         }
