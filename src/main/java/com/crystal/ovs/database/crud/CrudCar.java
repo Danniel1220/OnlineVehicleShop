@@ -61,10 +61,10 @@ public class CrudCar {
         return null;
     }
 
-    public static ResultSet selectListOfColumnsFromCar(ArrayList<String> columnlist){
-        StringBuilder stringBuilder = new StringBuilder("");
-        for (String eachstring : columnlist) {
-            stringBuilder.append(eachstring).append(",");
+    public static ResultSet selectListOfColumnsFromCar(ArrayList<String> columnList){
+        StringBuilder stringBuilder = new StringBuilder();
+        for (String eachString : columnList) {
+            stringBuilder.append(eachString).append(",");
         }
         String commaseparatedlist = stringBuilder.toString();
         if (commaseparatedlist.length() > 0) {
@@ -93,11 +93,11 @@ public class CrudCar {
                 car.getTractionType() + "', " + car.getNumberOfDoors() + ", '" + car.getColor().toString() + "');";
         try {
             executeVoidQuery(query);
-        }catch(Exception e) {
-            try{
+        } catch(Exception e) {
+            try {
                 String querySet = "set foreign_key_checks=0;\n" + query;
                 executeVoidQuery(querySet);
-            }catch (Exception b) {
+            } catch (Exception b) {
                 e.printStackTrace();
             }
         }
@@ -114,10 +114,10 @@ public class CrudCar {
                 CAR_MODEL_COLUMN + " = '" + car.getModel() + "', " +
                 CAR_VIN_COLUMN + " = '" + car.getVIN() + "', " +
                 CAR_MANUFACTURING_YEAR_COLUMN + " = " + car.getManufacturingYear() + ", " +
-                CAR_TYPE_COLUMN + " = '" + car.getCarType() + "', " +
+                CAR_TYPE_COLUMN + " = '" + car.getCarType().toString() + "', " +
                 CAR_ENGINE_ID_COLUMN + " = " + car.getEngineId() + ", " +
                 CAR_TRANSMISSION_ID_COLUMN + " = " + car.getTransmissionId() + ", " +
-                CAR_TRACTION_TYPE_COLUMN + " = '" + car.getTractionType() + "', " +
+                CAR_TRACTION_TYPE_COLUMN + " = '" + car.getTractionType().toString() + "', " +
                 CAR_NUMBER_OF_DOORS_COLUMN + " = " + car.getNumberOfDoors() + ", " +
                 CAR_COLOR_COLUMN + " = '" + car.getColor().toString() + "'" +
                 " WHERE id = " + car.getId() + ";";

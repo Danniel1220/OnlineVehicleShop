@@ -5,7 +5,6 @@ import com.crystal.ovs.dao.CarType;
 import com.crystal.ovs.dao.TractionType;
 import org.junit.Assert;
 import org.junit.Test;
-
 import java.awt.*;
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
@@ -41,7 +40,7 @@ public class CrudCarTests {
     }
 
     @Test
-    public void selectAllFromCarTest() throws Exception {
+    public void selectAllFromCarTest() throws Exception { // works
         ResultSet resultSet = CrudCar.selectAllFromCar();
         List<String> result = getLinesOfResultSet(resultSet);
         System.out.println(result);
@@ -49,8 +48,8 @@ public class CrudCarTests {
     }
 
     @Test
-    public void selectListOfColumnsFRomCarTest() throws Exception {
-        ArrayList<String> columnlist = new ArrayList<String>();
+    public void selectListOfColumnsFromCarTest() throws Exception { // works
+        ArrayList<String> columnlist = new ArrayList<>();
         columnlist.add("brand");
         columnlist.add("model");
         columnlist.add("carType");
@@ -78,57 +77,91 @@ public class CrudCarTests {
     }
 
     @Test
-    public void updateAllByIdTest() {
-        // NEED SELECT METHOD IN ORDER TO TEST
+    public void updateAllByIdTest() throws SQLException { // works
+        Car car = new Car(5, "BMW", "X5", "123TDF", 2019, CarType.SPORTS, 1, 2, TractionType.AWD, 4, Color.BLUE);
+        CrudCar.updateAllById(car);
+        List<String> result = getLinesOfResultSet(CrudCar.selectAllFromCar());
+        String expectedResult = "5,BMW,X5,123TDF,2019,SPORTS,1,2,AWD,4,java.awt.Color[r=0,g=0,b=255]";
+        Assert.assertEquals(expectedResult, result.get(0));
     }
 
     @Test
-    public void updateCarBrandByIdTest() {
-        // NEED SELECT METHOD IN ORDER TO TEST
+    public void updateCarBrandByIdTest() throws SQLException { // works
+        CrudCar.updateCarBrandById(5, "Renault");
+        List<String> result = getLinesOfResultSet(CrudCar.selectAllFromCar());
+        String expectedResult = "5,Renault,X5,123TDF,2019,SPORTS,1,2,AWD,4,java.awt.Color[r=0,g=0,b=255]";
+        Assert.assertEquals(expectedResult, result.get(0));
     }
 
     @Test
-    public void updateCarModelByIdTest() {
-        // NEED SELECT METHOD IN ORDER TO TEST
+    public void updateCarModelByIdTest() throws SQLException { // works
+        CrudCar.updateCarModelById(5, "Symbol");
+        List<String> result = getLinesOfResultSet(CrudCar.selectAllFromCar());
+        String expectedResult = "5,Renault,Symbol,123TDF,2019,SPORTS,1,2,AWD,4,java.awt.Color[r=0,g=0,b=255]";
+        Assert.assertEquals(expectedResult, result.get(0));
     }
 
     @Test
-    public void updateCarVINByIdTest() {
-        // NEED SELECT METHOD IN ORDER TO TEST
+    public void updateCarVINByIdTest() throws SQLException { // works
+        CrudCar.updateCarVINById(5, "VIN123");
+        List<String> result = getLinesOfResultSet(CrudCar.selectAllFromCar());
+        String expectedResult = "5,Renault,Symbol,VIN123,2019,SPORTS,1,2,AWD,4,java.awt.Color[r=0,g=0,b=255]";
+        Assert.assertEquals(expectedResult, result.get(0));
     }
 
     @Test
-    public void updateCarManufacturingYearByIdTest() {
-        // NEED SELECT METHOD IN ORDER TO TEST
+    public void updateCarManufacturingYearByIdTest() throws SQLException { // works
+        CrudCar.updateCarManufacturingYearById(5, 2021);
+        List<String> result = getLinesOfResultSet(CrudCar.selectAllFromCar());
+        String expectedResult = "5,Renault,Symbol,VIN123,2021,SPORTS,1,2,AWD,4,java.awt.Color[r=0,g=0,b=255]";
+        Assert.assertEquals(expectedResult, result.get(0));
     }
 
     @Test
-    public void updateCarTypeByIdTest() {
-        // NEED SELECT METHOD IN ORDER TO TEST
+    public void updateCarTypeByIdTest() throws SQLException { // works
+        CrudCar.updateCarTypeById(5, CarType.SUV);
+        List<String> result = getLinesOfResultSet(CrudCar.selectAllFromCar());
+        String expectedResult = "5,Renault,Symbol,VIN123,2021,SUV,1,2,AWD,4,java.awt.Color[r=0,g=0,b=255]";
+        Assert.assertEquals(expectedResult, result.get(0));
     }
 
     @Test
-    public void updateCarEngineIdByIdTest() {
-        // NEED SELECT METHOD IN ORDER TO TEST
+    public void updateCarEngineIdByIdTest() throws SQLException { // works
+        CrudCar.updateCarEngineIdById(5, 12);
+        List<String> result = getLinesOfResultSet(CrudCar.selectAllFromCar());
+        String expectedResult = "5,Renault,Symbol,VIN123,2021,SUV,12,2,AWD,4,java.awt.Color[r=0,g=0,b=255]";
+        Assert.assertEquals(expectedResult, result.get(0));
     }
 
     @Test
-    public void updateCarTransmissionIdByIdTest() {
-        // NEED SELECT METHOD IN ORDER TO TEST
+    public void updateCarTransmissionIdByIdTest() throws SQLException { // works
+        CrudCar.updateCarTransmissionIdById(5, 1);
+        List<String> result = getLinesOfResultSet(CrudCar.selectAllFromCar());
+        String expectedResult = "5,Renault,Symbol,VIN123,2021,SUV,12,1,AWD,4,java.awt.Color[r=0,g=0,b=255]";
+        Assert.assertEquals(expectedResult, result.get(0));
     }
 
     @Test
-    public void updateCarTractionTypeByIdTest() {
-        // NEED SELECT METHOD IN ORDER TO TEST
+    public void updateCarTractionTypeByIdTest() throws SQLException { // works
+        CrudCar.updateCarTractionTypeById(5, TractionType.RWD);
+        List<String> result = getLinesOfResultSet(CrudCar.selectAllFromCar());
+        String expectedResult = "5,Renault,Symbol,VIN123,2021,SUV,12,1,RWD,4,java.awt.Color[r=0,g=0,b=255]";
+        Assert.assertEquals(expectedResult, result.get(0));
     }
 
     @Test
-    public void updateCarNumberOfDoorsByIdTest() {
-        // NEED SELECT METHOD IN ORDER TO TEST
+    public void updateCarNumberOfDoorsByIdTest() throws SQLException { // works
+        CrudCar.updateCarNumberOfDoorsById(5, 2);
+        List<String> result = getLinesOfResultSet(CrudCar.selectAllFromCar());
+        String expectedResult = "5,Renault,Symbol,VIN123,2021,SUV,12,1,RWD,2,java.awt.Color[r=0,g=0,b=255]";
+        Assert.assertEquals(expectedResult, result.get(0));
     }
 
     @Test
-    public void updateCarColorByIdTest() {
-        // NEED SELECT METHOD IN ORDER TO TEST
+    public void updateCarColorByIdTest() throws SQLException { // works
+        CrudCar.updateCarColorById(5, Color.CYAN);
+        List<String> result = getLinesOfResultSet(CrudCar.selectAllFromCar());
+        String expectedResult = "5,Renault,Symbol,VIN123,2021,SUV,12,1,RWD,2,java.awt.Color[r=0,g=255,b=255]";
+        Assert.assertEquals(expectedResult, result.get(0));
     }
 }
