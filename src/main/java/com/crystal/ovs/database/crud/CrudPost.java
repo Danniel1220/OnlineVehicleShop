@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-public class PostCRUD {
+public class CrudPost {
     private final static DatabaseConnector connector;
 
     static {
@@ -43,8 +43,10 @@ public class PostCRUD {
         }
 
         String query = String.format(
-                "insert into `post` (id, title, description, price, available, carId) values(%d, %s, %s, %f, %d, %b);",
-                post.getId(), post.getTitle(), post.getDescription(), post.getPrice(), post.getAvailable(), post.getCar());
+                "insert into post (title, description, price, available, carId) values('%s', '%s', %f, %d, %d);",
+                post.getTitle(), post.getDescription(), post.getPrice(), post.getAvailable(), post.getCar().getId());
+
+        connector.execute("SET FOREIGN_KEY_CHECKS = 0;");
 
         return connector.execute(query);
     }
@@ -56,15 +58,17 @@ public class PostCRUD {
         }
 
         String query = String.format("update `post` set " +
-                        "title = %s, " +
-                        "description = %s, " +
+                        "title = '%s', " +
+                        "description = '%s', " +
                         "price = %f, " +
                         "available = %d, " +
-                        "carId = '%b', " +
+                        "carId = '%d' " +
                         "where id = %d;",
                 post.getTitle(), post.getDescription(),
                 post.getPrice(), post.getAvailable(),
                 post.getCar().getId(), post.getId());
+
+        System.out.println(query);
 
         return connector.execute(query);
     }
