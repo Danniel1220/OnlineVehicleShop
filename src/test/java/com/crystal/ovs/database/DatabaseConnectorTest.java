@@ -4,7 +4,6 @@ import com.crystal.ovs.dao.User;
 import com.crystal.ovs.dao.UserRole;
 import org.junit.After;
 import org.junit.Assert;
-import org.junit.Before;
 import org.junit.Test;
 
 import java.sql.ResultSet;
@@ -43,7 +42,7 @@ public class DatabaseConnectorTest {
                 1,
                 "John Doe",
                 "123456",
-                UserRole.client
+                UserRole.CLIENT
         );
 
         Assert.assertEquals(resultUser, expectedUser);

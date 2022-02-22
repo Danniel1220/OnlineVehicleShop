@@ -1,14 +1,14 @@
 package com.crystal.ovs.dao;
 
 public enum CarType {
-    sedan,
-    coupe,
-    sportsCar,
-    wagon,
-    hatchBack,
-    convertible,
+    SEDAN,
+    COUPE,
+    SPORTS,
+    WAGON,
+    HATCHBACK,
+    CONVERTIBLE,
     SUV,
-    miniVan,
-    van,
-    pickupTruck
+    MINIVAN,
+    VAN,
+    PICKUPTRUCK
 }
