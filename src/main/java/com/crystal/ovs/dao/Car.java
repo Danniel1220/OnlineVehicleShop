@@ -2,11 +2,13 @@ package com.crystal.ovs.dao;
 
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
+import lombok.Getter;
 
 import java.awt.*;
 
 @AllArgsConstructor
 @EqualsAndHashCode
+@Getter
 public class Car {
     private final Integer id;
     private final String brand;
