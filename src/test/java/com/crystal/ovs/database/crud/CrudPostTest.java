@@ -1,6 +1,5 @@
 package com.crystal.ovs.database.crud;
 
-import com.crystal.ovs.controllers.FuelEngineController;
 import com.crystal.ovs.dao.*;
 import com.crystal.ovs.database.DatabaseConnector;
 import com.crystal.ovs.exceptions.ValidationException;
