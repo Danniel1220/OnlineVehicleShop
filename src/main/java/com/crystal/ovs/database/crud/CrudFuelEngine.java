@@ -1,4 +1,4 @@
-package com.crystal.ovs.controllers;
+package com.crystal.ovs.database.crud;
 
 import com.crystal.ovs.dao.EngineLayout;
 import com.crystal.ovs.dao.FuelEngine;
@@ -12,7 +12,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class FuelEngineController {
+public class CrudFuelEngine {
     private static DatabaseConnector connector;
 
     static {
