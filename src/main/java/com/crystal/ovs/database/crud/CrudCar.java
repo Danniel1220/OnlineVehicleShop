@@ -2,11 +2,14 @@ package com.crystal.ovs.database.crud;
 
 import com.crystal.ovs.dao.Car;
 import com.crystal.ovs.dao.CarType;
+import com.crystal.ovs.dao.ElectricEngine;
 import com.crystal.ovs.dao.TractionType;
 import com.crystal.ovs.database.DatabaseConnector;
 import java.awt.*;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  *  This class contains all CRUD operations for Car table
@@ -50,7 +53,7 @@ public class CrudCar {
             e.printStackTrace();
         }
     }
-    public static ResultSet selectAllFromCar(){
+    public static ResultSet selectAll(){
         String query = "SELECT * FROM " + CAR_TABLE_NAME + ";";
         try {
             databaseConnector = DatabaseConnector.getInstance();
@@ -186,5 +189,31 @@ public class CrudCar {
                 CAR_COLOR_COLUMN + " = '" + color +
                 "' WHERE id = " + id + ";";
         executeVoidQuery(query);
+    }
+
+    public static Car getCarFromResultSet(ResultSet resultSet) throws SQLException {
+        return new Car (
+                resultSet.getInt(CAR_ID_COLUMN),
+                resultSet.getString(CAR_BRAND_COLUMN),
+                resultSet.getString(CAR_MODEL_COLUMN),
+                resultSet.getString(CAR_VIN_COLUMN),
+                resultSet.getInt(CAR_MANUFACTURING_YEAR_COLUMN),
+                CarType.valueOf(resultSet.getString(CAR_TYPE_COLUMN)),
+                resultSet.getInt(CAR_ENGINE_ID_COLUMN),
+                resultSet.getInt(CAR_TRANSMISSION_ID_COLUMN),
+                TractionType.valueOf(resultSet.getString(CAR_TRACTION_TYPE_COLUMN)),
+                resultSet.getInt(CAR_NUMBER_OF_DOORS_COLUMN),
+                Color.getColor(CAR_COLOR_COLUMN)
+        );
+    }
+
+    public static List<Car> getAllCars() throws SQLException {
+        List<Car> carsList = new ArrayList<>();
+
+        ResultSet resultSet = selectAll();
+        while(resultSet.next()) {
+           carsList.add(getCarFromResultSet(resultSet));
+        }
+        return carsList;
     }
 }

@@ -3,7 +3,6 @@ package com.crystal.ovs.database.crud;
 import com.crystal.ovs.dao.ElectricEngine;
 import com.crystal.ovs.database.DatabaseConnector;
 import com.crystal.ovs.exceptions.ValidationException;
-
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -83,7 +82,6 @@ public class CrudElectricEngine {
         while(resultSet.next()) {
             electricEnginesList.add(getElectricEngineFromResultSet(resultSet));
         }
-        for(ElectricEngine electricEngine : electricEnginesList) System.out.println(electricEngine.toString());
         return electricEnginesList;
     }
 
