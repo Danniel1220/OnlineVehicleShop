@@ -2,7 +2,6 @@ package com.crystal.ovs.database.crud;
 
 import com.crystal.ovs.dao.Car;
 import com.crystal.ovs.dao.CarType;
-import com.crystal.ovs.dao.ElectricEngine;
 import com.crystal.ovs.dao.TractionType;
 import org.junit.Assert;
 import org.junit.Test;
