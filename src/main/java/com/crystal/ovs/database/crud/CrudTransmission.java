@@ -10,6 +10,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class CrudTransmission {
     private final static String TRANSMISSION_TABLE_NAME = "transmission";
@@ -111,5 +112,17 @@ public class CrudTransmission {
                 + transmission.getNumberOfGears() + " where id="
                 + transmission.getId() +";";
         executeVoidQuery(sqlQuery);
+    }
+
+    public static List<String> validateTransmission(Transmission transmission){
+        List<String> validationErrors = new ArrayList<>();
+
+        if(transmission.getId() <= 0) {
+            validationErrors.add("Id cannot be less than or equal to 0");
+        }
+        if(transmission.getNumberOfGears() < 3 || transmission.getNumberOfGears() > 15){
+            validationErrors.add("A transmission can't have more than 15 gears and less than 3");
+        }
+        return validationErrors;
     }
 }
