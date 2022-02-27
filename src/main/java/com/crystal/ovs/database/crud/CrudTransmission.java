@@ -1,12 +1,19 @@
 package com.crystal.ovs.database.crud;
 
+import com.crystal.ovs.dao.Car;
+import com.crystal.ovs.dao.Post;
 import com.crystal.ovs.dao.Transmission;
+import com.crystal.ovs.dao.TransmissionType;
 import com.crystal.ovs.database.DatabaseConnector;
 
 import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class CrudTransmission {
     private final static String TRANSMISSION_TABLE_NAME = "transmission";
+    private final static String TRANSMISSION_COLUMN_NAME_ID = "id";
     private final static String TRANSMISSION_COLUMN_NAME_TYPE = "transmissionType";
     private final static String TRANSMISSION_COLUMN_NAME_GEARS = "numberOfGears";
     private static DatabaseConnector databaseConnector;
@@ -34,15 +41,37 @@ public class CrudTransmission {
         }
     }
 
-    public static ResultSet selectAllFromTransmissionTable(){
+    public static List<Transmission> selectAllFromTransmissionTable(){
+        List<Transmission> transmissionList = new ArrayList<>();
         String sql = "select * from " + TRANSMISSION_TABLE_NAME + ";";
         try {
             databaseConnector = DatabaseConnector.getInstance();
-            return databaseConnector.select(sql);
+            ResultSet resultSet = databaseConnector.select(sql);
+            while(resultSet.next()){
+                transmissionList.add(getTransmissionFromResultSet(resultSet));
+            }
+
+            return transmissionList;
         }catch (Exception e){
             e.printStackTrace();
         }
         return null;
+    }
+
+    public static Transmission selectAllByTransmissionId(int id) throws SQLException {
+        String query = String.format("select * from " + TRANSMISSION_TABLE_NAME + " where " + TRANSMISSION_COLUMN_NAME_ID + " = " +  id);
+        databaseConnector = DatabaseConnector.getInstance();
+        ResultSet resultSet = databaseConnector.select(query);
+        resultSet.next();
+        return getTransmissionFromResultSet(resultSet);
+    }
+
+    public static Transmission getTransmissionFromResultSet(ResultSet resultSet) throws SQLException {
+            return new Transmission(
+                    resultSet.getInt(TRANSMISSION_COLUMN_NAME_ID),
+                    TransmissionType.valueOf(resultSet.getString(TRANSMISSION_COLUMN_NAME_TYPE)),
+                    resultSet.getInt(TRANSMISSION_COLUMN_NAME_GEARS)
+            );
     }
 
     public static void insertTransmissionTable(Transmission transmission){
@@ -62,7 +91,7 @@ public class CrudTransmission {
         executeVoidQuery(sqlQuery);
     }*/
 
-    public static void updateTransmissionTableInt(Transmission transmission){
+    public static void updateTransmissionTableNrOfGears(Transmission transmission){
         String sqlQuery = "update " + TRANSMISSION_TABLE_NAME + " SET " + TRANSMISSION_COLUMN_NAME_GEARS + " = "
                 + transmission.getNumberOfGears() + " where id="
                 + transmission.getId();
@@ -70,7 +99,7 @@ public class CrudTransmission {
 
     }
 
-    public static void updateTransmissionTableString(Transmission transmission){
+    public static void updateTransmissionTableTransmissionType(Transmission transmission){
         String sqlQuery = "update " + TRANSMISSION_TABLE_NAME + " SET " + TRANSMISSION_COLUMN_NAME_TYPE
                 + " = '" + transmission.getType() + "' where id=" + transmission.getId();
         executeVoidQuery(sqlQuery);

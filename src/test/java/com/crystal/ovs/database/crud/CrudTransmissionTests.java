@@ -1,8 +1,9 @@
 package com.crystal.ovs.database.crud;
 
+import com.crystal.ovs.dao.Post;
 import com.crystal.ovs.dao.Transmission;
 import com.crystal.ovs.dao.TransmissionType;
-import com.crystal.ovs.database.crud.CrudTransmission;
+import com.crystal.ovs.database.DatabaseConnector;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -36,15 +37,33 @@ public class CrudTransmissionTests {
     @Test
     public void getNumberOfRowsTest() {
         int numberOfRows = CrudTransmission.getNumberOfRows();
-        Assert.assertEquals(1, numberOfRows);
+        Assert.assertEquals(5, numberOfRows);
     }
 
     @Test
     public void selectAllFromTransmissionTest() throws Exception {
-        ResultSet resultSet = CrudTransmission.selectAllFromTransmissionTable();
-        List<String> result = getLinesOfResultSet(resultSet);
-        System.out.println(result);
-        Assert.assertNotNull(result);
+        List<Transmission> transmissionList;
+        transmissionList = CrudTransmission.selectAllFromTransmissionTable();
+        int nrOfRows = CrudTransmission.getNumberOfRows();
+        Assert.assertEquals(nrOfRows, transmissionList.size());
+    }
+
+    @Test
+    public void selectTransmissionByIDTest() throws Exception {
+        DatabaseConnector databaseConnector;
+        databaseConnector = DatabaseConnector.getInstance();
+        ResultSet resultSet = databaseConnector.select(String.format("select * from transmission where id = %d", 5));
+
+        try {
+            Assert.assertTrue(resultSet.next());
+
+            Transmission expectedTransmission = CrudTransmission.getTransmissionFromResultSet(resultSet);
+            Transmission transmission = CrudTransmission.selectAllByTransmissionId(5);
+
+            Assert.assertEquals(expectedTransmission, transmission);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
     @Test
@@ -69,41 +88,36 @@ public class CrudTransmissionTests {
     }*/
 
     @Test
-    public void updateIntColumnByIdTest() throws SQLException {
+    public void updateNrOfGearsColumnByIdTest() throws SQLException {
         int id = 1;
         Transmission transmission = new Transmission(5, TransmissionType.DUALCLUTCH,10);
-        CrudTransmission.updateTransmissionTableInt(transmission);
-        ResultSet resultSet = CrudTransmission.selectAllFromTransmissionTable();
-        List<String> result = getLinesOfResultSet(resultSet);
-        System.out.println(result);
-        Assert.assertNotNull(result);
-        String expectedResult = "5,DUALCLUTCH,10";
-        Assert.assertEquals(expectedResult, result.get(0));
+        CrudTransmission.updateTransmissionTableNrOfGears(transmission);
+        Transmission actualTransmission;
+        actualTransmission = CrudTransmission.selectAllByTransmissionId(5);
+
+        Assert.assertEquals(transmission, actualTransmission);
     }
 
     @Test
-    public void updateStringColumnByIdTest() throws SQLException {
+    public void updateTransmissionTypeColumnByIdTest() throws SQLException {
         int id = 1;
-        Transmission transmission = new Transmission(5, TransmissionType.MANUAL,5);
-        CrudTransmission.updateTransmissionTableString(transmission);
-        ResultSet resultSet = CrudTransmission.selectAllFromTransmissionTable();
-        List<String> result = getLinesOfResultSet(resultSet);
-        System.out.println(result);
-        Assert.assertNotNull(result);
-        String expectedResult = "5,MANUAL,10";
-        Assert.assertEquals(expectedResult, result.get(0));
+        Transmission transmission = new Transmission(5, TransmissionType.MANUAL,10);
+        CrudTransmission.updateTransmissionTableTransmissionType(transmission);
+        Transmission actualTransmission;
+        actualTransmission = CrudTransmission.selectAllByTransmissionId(5);
+
+        Assert.assertEquals(transmission, actualTransmission);
     }
 
     @Test
-    public void updateAllById() throws SQLException {
+    public void updateAllByIdTest() throws SQLException {
         int id = 1;
         Transmission transmission = new Transmission(5, TransmissionType.DUALCLUTCH,15);
         CrudTransmission.updateAllById(transmission);
-        ResultSet resultSet = CrudTransmission.selectAllFromTransmissionTable();
-        List<String> result = getLinesOfResultSet(resultSet);
-        System.out.println(result);
-        Assert.assertNotNull(result);
-        String expectedResult = "5,DUALCLUTCH,15";
-        Assert.assertEquals(expectedResult, result.get(0));
+        CrudTransmission.updateTransmissionTableTransmissionType(transmission);
+        Transmission actualTransmission;
+        actualTransmission = CrudTransmission.selectAllByTransmissionId(5);
+
+        Assert.assertEquals(transmission, actualTransmission);
     }
 }
