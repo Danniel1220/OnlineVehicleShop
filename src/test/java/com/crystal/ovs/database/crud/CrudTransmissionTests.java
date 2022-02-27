@@ -120,4 +120,12 @@ public class CrudTransmissionTests {
 
         Assert.assertEquals(transmission, actualTransmission);
     }
+
+    @Test
+    public void transmissionValidationsTest(){
+        Transmission transmission = new Transmission(5, TransmissionType.DUALCLUTCH,15);
+        java.util.List<String> validateTransmission = CrudTransmission.validateTransmission(transmission);
+
+        Assert.assertTrue(validateTransmission.isEmpty());
+    }
 }

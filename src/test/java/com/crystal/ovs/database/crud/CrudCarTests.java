@@ -170,4 +170,12 @@ public class CrudCarTests {
         List<Car> actual = CrudCar.getAllCars();
         Assert.assertEquals(CrudCar.getNumberOfRows(), actual.size());
     }
+    
+    @Test
+    public void validateCarTest(){
+        Car car = new Car(5, "BMW", "X5", "123TDF", 2019, CarType.SPORTS, 1, 2, TractionType.AWD, 4, Color.BLUE);
+        java.util.List<String> validateCar = CrudCar.validateCar(car);
+
+        Assert.assertTrue(validateCar.isEmpty());
+    }
 }

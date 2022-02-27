@@ -4,6 +4,7 @@ import com.crystal.ovs.dao.Car;
 import com.crystal.ovs.dao.CarType;
 import com.crystal.ovs.dao.ElectricEngine;
 import com.crystal.ovs.dao.TractionType;
+import com.crystal.ovs.dao.Transmission;
 import com.crystal.ovs.database.DatabaseConnector;
 import java.awt.*;
 import java.sql.ResultSet;
@@ -53,7 +54,8 @@ public class CrudCar {
             e.printStackTrace();
         }
     }
-    public static ResultSet selectAll(){
+
+    public static ResultSet selectAll() {
         String query = "SELECT * FROM " + CAR_TABLE_NAME + ";";
         try {
             databaseConnector = DatabaseConnector.getInstance();
@@ -64,7 +66,7 @@ public class CrudCar {
         return null;
     }
 
-    public static ResultSet selectListOfColumnsFromCar(ArrayList<String> columnList){
+    public static ResultSet selectListOfColumnsFromCar(ArrayList<String> columnList) {
         StringBuilder stringBuilder = new StringBuilder();
         for (String eachString : columnList) {
             stringBuilder.append(eachString).append(",");
@@ -84,7 +86,7 @@ public class CrudCar {
         return null;
     }
 
-    public static void insertIntoCar(Car car){
+    public static void insertIntoCar(Car car) {
         String querySet = "SET FOREIGN_KEY_CHECKS=0;\n";
         String query = "INSERT INTO " + CAR_TABLE_NAME + "(" +
                 CAR_BRAND_COLUMN + ", " + CAR_MODEL_COLUMN + ", " +
@@ -191,8 +193,9 @@ public class CrudCar {
         executeVoidQuery(query);
     }
 
+
     public static Car getCarFromResultSet(ResultSet resultSet) throws SQLException {
-        return new Car (
+        return new Car(
                 resultSet.getInt(CAR_ID_COLUMN),
                 resultSet.getString(CAR_BRAND_COLUMN),
                 resultSet.getString(CAR_MODEL_COLUMN),
@@ -211,9 +214,64 @@ public class CrudCar {
         List<Car> carsList = new ArrayList<>();
 
         ResultSet resultSet = selectAll();
-        while(resultSet.next()) {
-           carsList.add(getCarFromResultSet(resultSet));
+        while (resultSet.next()) {
+            carsList.add(getCarFromResultSet(resultSet));
         }
         return carsList;
     }
+
+        public static java.util.List<String> validateCar (Car car){
+            List<String> validationErrors = new ArrayList<>();
+
+            if (car.getId() <= 0) {
+                validationErrors.add("Id cannot be less than or equal to 0");
+            }
+            if (car.getBrand().isEmpty()) {
+                validationErrors.add("Brand can't be empty");
+            }
+            if (car.getModel().isEmpty()) {
+                validationErrors.add("Model can't be empty");
+            }
+            if (car.getVIN().isEmpty()) {
+                validationErrors.add("VIN number can't be empty");
+            }
+            if (car.getManufacturingYear() < 2019) {
+                validationErrors.add("This model of car is already out of manufacturing time");
+            }
+            if (car.getManufacturingYear() > 2023) {
+                validationErrors.add("This model of car is not out yet");
+            }
+            if (car.getEngineId() <= 0) {
+                validationErrors.add("EngineId can't be less than or equal to 0");
+            }
+            if (car.getTransmissionId() <= 0) {
+                validationErrors.add("TransmissionId can't be less than or equal to 0");
+            }
+            if (car.getNumberOfDoors() < 1 || car.getNumberOfDoors() > 6) {
+                validationErrors.add("A car can have a min number of doors of 1 and a maximum of 6");
+            }
+        /*if(!colorCodeValidation(car.getColor().toString())){
+            validationErrors.add("The color introduced is not valid");
+        }*/
+            return validationErrors;
+        }
+        public static boolean colorCodeValidation (String s1){
+            boolean b = false, b1 = false;
+            String s2 = s1.substring(1, s1.length());
+            if (s1.length() == 7)
+                if (s1.charAt(0) == '#')
+                    b1 = true;
+            if (b1 == true)
+                for (int i = 0; i < s2.length(); i++) {
+                    char c = s2.charAt(i);
+                    if (c != '#') {
+                        if (s2.matches("[A-Fa-f0-9]{6}|[A-Fa-f0-9]{3}"))
+                            return true;
+                        else {
+                            return false;
+                        }
+                    }
+                }
+            return false;
+        }
 }
