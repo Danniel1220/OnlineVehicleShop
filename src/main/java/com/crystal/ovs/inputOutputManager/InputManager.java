@@ -16,6 +16,18 @@ public class InputManager {
         }
     }
 
+    public static float readFloatField() {
+        if(scanner.hasNextFloat()){
+            float value = scanner.nextFloat();
+            scanner.nextLine();
+            return value;
+        }
+        else{
+            scanner.next();
+            return -1;
+        }
+    }
+
     public static String readStringField() {
         return scanner.nextLine();
     }

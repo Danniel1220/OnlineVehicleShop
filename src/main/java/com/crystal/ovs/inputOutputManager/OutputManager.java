@@ -1,5 +1,10 @@
 package com.crystal.ovs.inputOutputManager;
 
+import com.crystal.ovs.dao.EngineLayout;
+import com.crystal.ovs.dao.FuelEngine;
+import com.crystal.ovs.dao.FuelType;
+import com.crystal.ovs.dao.StrokeType;
+
 public class OutputManager {
     public static void printAppMenu() {
         System.out.print("Menu\n");
@@ -56,7 +61,7 @@ public class OutputManager {
     }
 
     public static void printFuelEngineControllerMenu() {
-        System.out.print("Car menu\n");
+        System.out.print("Fuel engine menu\n");
         System.out.print("1. Get all fuel engines\n");
         System.out.print("2. Get fuel engine by id\n");
         System.out.print("3. Create fuel engine\n");
@@ -97,5 +102,39 @@ public class OutputManager {
         System.out.print("5. Delete post\n");
         System.out.print("6. Back");
         System.out.print("\nChose a command (enter the command number): ");
+    }
+
+    public static void printTableHead() {
+        System.out.printf("%-3s |%-15s |%-15s |%-15s |%-15s |%-15s |%-15s |%-15s |%-15s |%-15s\n",
+                "Id", "Fuel type", "Consumption", "NO. Cylinders",
+                "CO2 emissions", "Layout", "Turbine", "Supercharge",
+                "Stroke type", "Displacement");
+    }
+
+    public static void printFuelEngine(FuelEngine fuelEngine) {
+        System.out.printf("%-3d |%-15s |%-15.2f |%-15d |%-15.2f |%-15s |%-15b |%-15b |%-15s |%-15.2f\n",
+                fuelEngine.getId(), fuelEngine.getFuelType(), fuelEngine.getFuelConsumption(),
+                fuelEngine.getNumberOfCylinders(), fuelEngine.getCO2Emissions(),
+                fuelEngine.getEngineLayout(), fuelEngine.isHasTurbine(), fuelEngine.isHasSuperCharger(),
+                fuelEngine.getStrokeType(), fuelEngine.getDisplacement())
+        ;
+    }
+
+    public static void printFuelTypes() {
+        for(int i = 0; i < FuelType.values().length; i++){
+            System.out.printf("%d. %s\n", (i + 1), FuelType.values()[i]);
+        }
+    }
+
+    public static void printEngineLayout() {
+        for(int i = 0; i < EngineLayout.values().length; i++){
+            System.out.printf("%d. %s\n", (i + 1), EngineLayout.values()[i]);
+        }
+    }
+
+    public static void printStrokeType() {
+        for(int i = 0; i < StrokeType.values().length; i++){
+            System.out.printf("%d. %s\n", (i + 1), StrokeType.values()[i]);
+        }
     }
 }
