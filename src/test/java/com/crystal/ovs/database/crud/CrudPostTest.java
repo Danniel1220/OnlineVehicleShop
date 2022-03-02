@@ -1,6 +1,5 @@
 package com.crystal.ovs.database.crud;
 
-import com.crystal.ovs.controllers.FuelEngineController;
 import com.crystal.ovs.dao.*;
 import com.crystal.ovs.database.DatabaseConnector;
 import com.crystal.ovs.exceptions.ValidationException;
@@ -14,7 +13,7 @@ import java.util.List;
 public class CrudPostTest {
     static DatabaseConnector connector = DatabaseConnector.getInstance();
 
-    final int EXISTING_ID = 20;
+    final int EXISTING_ID = 21;
 
     @Test
     public void shouldSelectAllPosts(){

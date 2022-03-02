@@ -6,8 +6,8 @@ import com.crystal.ovs.inputOutputManager.OutputManager;
 public class PostController {
     private static boolean isInPostController = true;
 
-    public static void openPostController(){
-        while(isInPostController){
+    public static void openPostController() {
+        while (isInPostController) {
             OutputManager.printPostControllerMenu();
             int command = InputManager.readIntegerField();
 

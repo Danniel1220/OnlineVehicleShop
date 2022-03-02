@@ -19,10 +19,23 @@ public class CrudFuelEngine {
         connector = DatabaseConnector.getInstance();
     }
 
+    private static final String FUEL_ENGINE_TABLE_NAME = "fuelengine";
+
+    private static final String FUEL_ENGINE_ID_COLUMN = "id";
+    private static final String FUEL_ENGINE_FUEL_TYPE_COLUMN = "fuelType";
+    private static final String FUEL_ENGINE_FUEL_CONSUMPTION_COLUMN = "fuelConsumption";
+    private static final String FUEL_ENGINE_NUMBER_OF_CYLINDERS_COLUMN = "numberOfCylinders";
+    private static final String FUEL_ENGINE_CO2_EMISSIONS_COLUMN = "CO2Emissions";
+    private static final String FUEL_ENGINE_LAYOUT_COLUMN = "engineLayout";
+    private static final String FUEL_ENGINE_HAS_TURBINE_COLUMN = "hasTurbine";
+    private static final String FUEL_ENGINE_HAS_SUPERCHARGE_COLUMN = "hasSuperCharger";
+    private static final String FUEL_ENGINE_STROKE_TYPE_COLUMN = "strokeType";
+    private static final String FUEL_ENGINE_DISPLACEMENT_COLUMN = "displacement";
+
     public static List<FuelEngine> selectAllFuelEngines() throws SQLException {
         List<FuelEngine> fuelEngineList = new ArrayList<>();
 
-        String query = "select * from fuelengine;";
+        String query = String.format("SELECT * FROM %s;", FUEL_ENGINE_TABLE_NAME);
         ResultSet resultSet = connector.select(query);
         while(resultSet.next()){
             fuelEngineList.add(getFuelEngineFromResultSet(resultSet));
@@ -34,7 +47,8 @@ public class CrudFuelEngine {
     public static FuelEngine selectFuelEngineById(int id) throws SQLException {
         FuelEngine fuelEngine = null;
 
-        String query = String.format("select * from fuelengine where id=%d", id);
+        String query = String.format("SELECT * FROM %s WHERE %s=%d",
+            FUEL_ENGINE_TABLE_NAME, FUEL_ENGINE_ID_COLUMN, id);
         ResultSet resultSet = connector.select(query);
         while( resultSet.next()) {
             fuelEngine = getFuelEngineFromResultSet(resultSet);
@@ -48,10 +62,17 @@ public class CrudFuelEngine {
             throw new ValidationException(validationErrors);
         }
         String query = String.format(
-                "insert into `fuelengine` (fuelType, fuelConsumption, numberOfCylinders, CO2Emissions, engineLayout, hasTurbine, hasSuperCharger, strokeType, displacement) " +
+                "INSERT INTO `%s` (%s, %s, %s, %s, %s, %s, %s, %s, %s) " +
                 "values('%s', %f, %d, %f, '%s', %b, %b, '%s',%f);",
-                fuelEngine.getFuelType(), fuelEngine.getFuelConsumption(), fuelEngine.getNumberOfCylinders(), fuelEngine.getCO2Emissions(),
-                fuelEngine.getEngineLayout(), fuelEngine.isHasTurbine(), fuelEngine.isHasSuperCharger(), fuelEngine.getStrokeType(),
+                FUEL_ENGINE_TABLE_NAME, FUEL_ENGINE_FUEL_TYPE_COLUMN,
+                FUEL_ENGINE_FUEL_CONSUMPTION_COLUMN, FUEL_ENGINE_NUMBER_OF_CYLINDERS_COLUMN,
+                FUEL_ENGINE_CO2_EMISSIONS_COLUMN, FUEL_ENGINE_LAYOUT_COLUMN,
+                FUEL_ENGINE_HAS_TURBINE_COLUMN, FUEL_ENGINE_HAS_SUPERCHARGE_COLUMN,
+                FUEL_ENGINE_STROKE_TYPE_COLUMN,FUEL_ENGINE_DISPLACEMENT_COLUMN,
+                fuelEngine.getFuelType(), fuelEngine.getFuelConsumption(),
+                fuelEngine.getNumberOfCylinders(), fuelEngine.getCO2Emissions(),
+                fuelEngine.getEngineLayout(), fuelEngine.isHasTurbine(),
+                fuelEngine.isHasSuperCharger(), fuelEngine.getStrokeType(),
                 fuelEngine.getDisplacement());
 
         return connector.execute(query);
@@ -62,43 +83,44 @@ public class CrudFuelEngine {
         if(validationErrors.size() > 0) {
             throw new ValidationException(validationErrors);
         }
-        String query = String.format("update `fuelengine` set " +
-                "fuelType = '%s', " +
-                "fuelConsumption = %f, " +
-                "numberOfCylinders = %d, " +
-                "CO2Emissions = %f, " +
-                "engineLayout = '%s', " +
-                "hasTurbine = %b, " +
-                "hasSuperCharger = %b, " +
-                "strokeType = '%s', " +
-                "displacement = %f" +
-                "where id = %d;",
-                newFuelEngine.getFuelType(), newFuelEngine.getFuelConsumption(),
-                newFuelEngine.getNumberOfCylinders(), newFuelEngine.getCO2Emissions(),
-                newFuelEngine.getEngineLayout(), newFuelEngine.isHasTurbine(),
-                newFuelEngine.isHasSuperCharger(), newFuelEngine.getStrokeType(),
-                newFuelEngine.getDisplacement(), newFuelEngine.getId());
+        String query = String.format("UPDATE `%s` SET " +
+                "%s = '%s', %s = %f, %s = %d, " +
+                "%s = %f, %s = '%s', %s = %b, " +
+                "%s = %b, %s = '%s', %s = %f" +
+                "WHERE %s = %d;",
+                FUEL_ENGINE_TABLE_NAME,
+                FUEL_ENGINE_FUEL_TYPE_COLUMN, newFuelEngine.getFuelType(),
+                FUEL_ENGINE_FUEL_CONSUMPTION_COLUMN, newFuelEngine.getFuelConsumption(),
+                FUEL_ENGINE_NUMBER_OF_CYLINDERS_COLUMN, newFuelEngine.getNumberOfCylinders(),
+                FUEL_ENGINE_CO2_EMISSIONS_COLUMN, newFuelEngine.getCO2Emissions(),
+                FUEL_ENGINE_LAYOUT_COLUMN, newFuelEngine.getEngineLayout(),
+                FUEL_ENGINE_HAS_TURBINE_COLUMN, newFuelEngine.isHasTurbine(),
+                FUEL_ENGINE_HAS_SUPERCHARGE_COLUMN, newFuelEngine.isHasSuperCharger(),
+                FUEL_ENGINE_STROKE_TYPE_COLUMN, newFuelEngine.getStrokeType(),
+                FUEL_ENGINE_DISPLACEMENT_COLUMN, newFuelEngine.getDisplacement(),
+                FUEL_ENGINE_ID_COLUMN, newFuelEngine.getId());
 
         return connector.execute(query);
     }
 
     public static int deleteFuelEngine(int id){
-        String query = String.format("delete from fuelengine where id=%d", id);
+        String query = String.format("DELETE FROM %s WHERE %s=%d",
+                FUEL_ENGINE_TABLE_NAME, FUEL_ENGINE_ID_COLUMN, id);
         return connector.execute(query);
     }
 
     public static FuelEngine getFuelEngineFromResultSet(ResultSet resultSet) throws SQLException {
         return new FuelEngine(
-                resultSet.getInt("id"),
-                FuelType.valueOf(resultSet.getString("fuelType")),
-                resultSet.getFloat("fuelConsumption"),
-                resultSet.getInt("numberOfCylinders"),
-                resultSet.getFloat("CO2Emissions"),
-                EngineLayout.valueOf(resultSet.getString("engineLayout")),
-                resultSet.getBoolean("hasTurbine"),
-                resultSet.getBoolean("hasSuperCharger"),
-                StrokeType.valueOf(resultSet.getString("strokeType")),
-                resultSet.getFloat("displacement"));
+                resultSet.getInt(FUEL_ENGINE_ID_COLUMN),
+                FuelType.valueOf(resultSet.getString(FUEL_ENGINE_FUEL_TYPE_COLUMN)),
+                resultSet.getFloat(FUEL_ENGINE_FUEL_CONSUMPTION_COLUMN),
+                resultSet.getInt(FUEL_ENGINE_NUMBER_OF_CYLINDERS_COLUMN),
+                resultSet.getFloat(FUEL_ENGINE_CO2_EMISSIONS_COLUMN),
+                EngineLayout.valueOf(resultSet.getString(FUEL_ENGINE_LAYOUT_COLUMN)),
+                resultSet.getBoolean(FUEL_ENGINE_HAS_TURBINE_COLUMN),
+                resultSet.getBoolean(FUEL_ENGINE_HAS_SUPERCHARGE_COLUMN),
+                StrokeType.valueOf(resultSet.getString(FUEL_ENGINE_STROKE_TYPE_COLUMN)),
+                resultSet.getFloat(FUEL_ENGINE_DISPLACEMENT_COLUMN));
     }
 
     public static List<String> validateFuelEngine(FuelEngine fuelEngine){

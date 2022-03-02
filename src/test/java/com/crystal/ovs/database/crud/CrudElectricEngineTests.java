@@ -1,6 +1,7 @@
 package com.crystal.ovs.database.crud;
 
 import com.crystal.ovs.dao.ElectricEngine;
+import com.crystal.ovs.exceptions.ValidationException;
 import org.junit.Assert;
 import org.junit.Test;
 import java.sql.ResultSet;
@@ -46,7 +47,7 @@ public class CrudElectricEngineTests {
     }
 
     @Test
-    public void insertAllElectricEngineTest() { // works
+    public void insertAllElectricEngineTest() throws ValidationException { // works
         int initialRowNumber = CrudElectricEngine.getNumberOfRows();
         ElectricEngine electricEngine = new ElectricEngine(1, "someType", 6000, 450);
         CrudElectricEngine.insertEngine(electricEngine);
@@ -62,7 +63,7 @@ public class CrudElectricEngineTests {
     }
 
     @Test
-    public void updateAllByIdTest() throws SQLException { // works
+    public void updateAllByIdTest() throws SQLException, ValidationException { // works
         int id = 1;
         ElectricEngine electricEngine = new ElectricEngine(id, "tipUpdate", 2000, 1234);
         CrudElectricEngine.updateAllById(electricEngine);
@@ -108,5 +109,11 @@ public class CrudElectricEngineTests {
 
         String expectedResult = "1,altType,3000,4000";
         Assert.assertEquals(expectedResult, result.get(0));
+    }
+
+    @Test
+    public void selectAllElectricEnginesAndReturnList() throws SQLException {
+        List<ElectricEngine> actual = CrudElectricEngine.getAllElectricEngines();
+        Assert.assertEquals(CrudElectricEngine.getNumberOfRows(), actual.size());
     }
 }

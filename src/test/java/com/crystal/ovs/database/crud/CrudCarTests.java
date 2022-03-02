@@ -41,7 +41,7 @@ public class CrudCarTests {
 
     @Test
     public void selectAllFromCarTest() throws Exception { // works
-        ResultSet resultSet = CrudCar.selectAllFromCar();
+        ResultSet resultSet = CrudCar.selectAll();
         List<String> result = getLinesOfResultSet(resultSet);
         System.out.println(result);
         Assert.assertNotNull(result);
@@ -80,7 +80,7 @@ public class CrudCarTests {
     public void updateAllByIdTest() throws SQLException { // works
         Car car = new Car(5, "BMW", "X5", "123TDF", 2019, CarType.SPORTS, 1, 2, TractionType.AWD, 4, Color.BLUE);
         CrudCar.updateAllById(car);
-        List<String> result = getLinesOfResultSet(CrudCar.selectAllFromCar());
+        List<String> result = getLinesOfResultSet(CrudCar.selectAll());
         String expectedResult = "5,BMW,X5,123TDF,2019,SPORTS,1,2,AWD,4,java.awt.Color[r=0,g=0,b=255]";
         Assert.assertEquals(expectedResult, result.get(0));
     }
@@ -88,7 +88,7 @@ public class CrudCarTests {
     @Test
     public void updateCarBrandByIdTest() throws SQLException { // works
         CrudCar.updateCarBrandById(5, "Renault");
-        List<String> result = getLinesOfResultSet(CrudCar.selectAllFromCar());
+        List<String> result = getLinesOfResultSet(CrudCar.selectAll());
         String expectedResult = "5,Renault,X5,123TDF,2019,SPORTS,1,2,AWD,4,java.awt.Color[r=0,g=0,b=255]";
         Assert.assertEquals(expectedResult, result.get(0));
     }
@@ -96,7 +96,7 @@ public class CrudCarTests {
     @Test
     public void updateCarModelByIdTest() throws SQLException { // works
         CrudCar.updateCarModelById(5, "Symbol");
-        List<String> result = getLinesOfResultSet(CrudCar.selectAllFromCar());
+        List<String> result = getLinesOfResultSet(CrudCar.selectAll());
         String expectedResult = "5,Renault,Symbol,123TDF,2019,SPORTS,1,2,AWD,4,java.awt.Color[r=0,g=0,b=255]";
         Assert.assertEquals(expectedResult, result.get(0));
     }
@@ -104,7 +104,7 @@ public class CrudCarTests {
     @Test
     public void updateCarVINByIdTest() throws SQLException { // works
         CrudCar.updateCarVINById(5, "VIN123");
-        List<String> result = getLinesOfResultSet(CrudCar.selectAllFromCar());
+        List<String> result = getLinesOfResultSet(CrudCar.selectAll());
         String expectedResult = "5,Renault,Symbol,VIN123,2019,SPORTS,1,2,AWD,4,java.awt.Color[r=0,g=0,b=255]";
         Assert.assertEquals(expectedResult, result.get(0));
     }
@@ -112,7 +112,7 @@ public class CrudCarTests {
     @Test
     public void updateCarManufacturingYearByIdTest() throws SQLException { // works
         CrudCar.updateCarManufacturingYearById(5, 2021);
-        List<String> result = getLinesOfResultSet(CrudCar.selectAllFromCar());
+        List<String> result = getLinesOfResultSet(CrudCar.selectAll());
         String expectedResult = "5,Renault,Symbol,VIN123,2021,SPORTS,1,2,AWD,4,java.awt.Color[r=0,g=0,b=255]";
         Assert.assertEquals(expectedResult, result.get(0));
     }
@@ -120,7 +120,7 @@ public class CrudCarTests {
     @Test
     public void updateCarTypeByIdTest() throws SQLException { // works
         CrudCar.updateCarTypeById(5, CarType.SUV);
-        List<String> result = getLinesOfResultSet(CrudCar.selectAllFromCar());
+        List<String> result = getLinesOfResultSet(CrudCar.selectAll());
         String expectedResult = "5,Renault,Symbol,VIN123,2021,SUV,1,2,AWD,4,java.awt.Color[r=0,g=0,b=255]";
         Assert.assertEquals(expectedResult, result.get(0));
     }
@@ -128,7 +128,7 @@ public class CrudCarTests {
     @Test
     public void updateCarEngineIdByIdTest() throws SQLException { // works
         CrudCar.updateCarEngineIdById(5, 12);
-        List<String> result = getLinesOfResultSet(CrudCar.selectAllFromCar());
+        List<String> result = getLinesOfResultSet(CrudCar.selectAll());
         String expectedResult = "5,Renault,Symbol,VIN123,2021,SUV,12,2,AWD,4,java.awt.Color[r=0,g=0,b=255]";
         Assert.assertEquals(expectedResult, result.get(0));
     }
@@ -136,7 +136,7 @@ public class CrudCarTests {
     @Test
     public void updateCarTransmissionIdByIdTest() throws SQLException { // works
         CrudCar.updateCarTransmissionIdById(5, 1);
-        List<String> result = getLinesOfResultSet(CrudCar.selectAllFromCar());
+        List<String> result = getLinesOfResultSet(CrudCar.selectAll());
         String expectedResult = "5,Renault,Symbol,VIN123,2021,SUV,12,1,AWD,4,java.awt.Color[r=0,g=0,b=255]";
         Assert.assertEquals(expectedResult, result.get(0));
     }
@@ -144,7 +144,7 @@ public class CrudCarTests {
     @Test
     public void updateCarTractionTypeByIdTest() throws SQLException { // works
         CrudCar.updateCarTractionTypeById(5, TractionType.RWD);
-        List<String> result = getLinesOfResultSet(CrudCar.selectAllFromCar());
+        List<String> result = getLinesOfResultSet(CrudCar.selectAll());
         String expectedResult = "5,Renault,Symbol,VIN123,2021,SUV,12,1,RWD,4,java.awt.Color[r=0,g=0,b=255]";
         Assert.assertEquals(expectedResult, result.get(0));
     }
@@ -152,7 +152,7 @@ public class CrudCarTests {
     @Test
     public void updateCarNumberOfDoorsByIdTest() throws SQLException { // works
         CrudCar.updateCarNumberOfDoorsById(5, 2);
-        List<String> result = getLinesOfResultSet(CrudCar.selectAllFromCar());
+        List<String> result = getLinesOfResultSet(CrudCar.selectAll());
         String expectedResult = "5,Renault,Symbol,VIN123,2021,SUV,12,1,RWD,2,java.awt.Color[r=0,g=0,b=255]";
         Assert.assertEquals(expectedResult, result.get(0));
     }
@@ -160,8 +160,22 @@ public class CrudCarTests {
     @Test
     public void updateCarColorByIdTest() throws SQLException { // works
         CrudCar.updateCarColorById(5, Color.CYAN);
-        List<String> result = getLinesOfResultSet(CrudCar.selectAllFromCar());
+        List<String> result = getLinesOfResultSet(CrudCar.selectAll());
         String expectedResult = "5,Renault,Symbol,VIN123,2021,SUV,12,1,RWD,2,java.awt.Color[r=0,g=255,b=255]";
         Assert.assertEquals(expectedResult, result.get(0));
+    }
+
+    @Test
+    public void getCarsFromResultSet() throws SQLException { // works
+        List<Car> actual = CrudCar.getAllCars();
+        Assert.assertEquals(CrudCar.getNumberOfRows(), actual.size());
+    }
+    
+    @Test
+    public void validateCarTest(){
+        Car car = new Car(5, "BMW", "X5", "123TDF", 2019, CarType.SPORTS, 1, 2, TractionType.AWD, 4, Color.BLUE);
+        java.util.List<String> validateCar = CrudCar.validateCar(car);
+
+        Assert.assertTrue(validateCar.isEmpty());
     }
 }

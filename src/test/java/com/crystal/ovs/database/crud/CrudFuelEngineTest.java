@@ -1,5 +1,6 @@
-package com.crystal.ovs.database;
+package com.crystal.ovs.database.crud;
 
+import com.crystal.ovs.database.DatabaseConnector;
 import com.crystal.ovs.database.crud.CrudFuelEngine;
 import com.crystal.ovs.dao.EngineLayout;
 import com.crystal.ovs.dao.FuelEngine;
@@ -15,7 +16,7 @@ import java.sql.SQLException;
 import java.util.List;
 
 public class CrudFuelEngineTest {
-    static DatabaseConnector  connector;
+    static DatabaseConnector connector;
 
     final static int EXISTING_ID = -1;
     final static int NONEXISTENT_ID = -2;
