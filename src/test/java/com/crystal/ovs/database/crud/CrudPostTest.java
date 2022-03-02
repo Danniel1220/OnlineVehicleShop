@@ -13,7 +13,7 @@ import java.util.List;
 public class CrudPostTest {
     static DatabaseConnector connector = DatabaseConnector.getInstance();
 
-    final int EXISTING_ID = 20;
+    final int EXISTING_ID = 21;
 
     @Test
     public void shouldSelectAllPosts(){
