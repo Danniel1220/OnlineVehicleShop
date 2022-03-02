@@ -1,17 +1,14 @@
 package com.crystal.ovs.dao;
 
-import lombok.AllArgsConstructor;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.ToString;
+import lombok.*;
 
 @AllArgsConstructor
 @EqualsAndHashCode
 @ToString
 @Getter
-
+@Setter
 public class FuelEngine {
-    private final Integer id;
+    private Integer id;
     private final FuelType fuelType;
     private final Float fuelConsumption;
     private final Integer numberOfCylinders;

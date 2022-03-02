@@ -12,7 +12,7 @@ public class InputManager {
         }
         else{
             scanner.next();
-            return -1;
+            return Integer.MIN_VALUE;
         }
     }
 
@@ -24,7 +24,7 @@ public class InputManager {
         }
         else{
             scanner.next();
-            return -1;
+            return Float.MIN_VALUE;
         }
     }
 

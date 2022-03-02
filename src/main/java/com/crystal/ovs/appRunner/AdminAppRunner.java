@@ -14,18 +14,25 @@ public class AdminAppRunner {
             switch (command){
                 case 1:
                     CarController.openCarController();
+                    break;
                 case 2:
                     EngineController.openEngineController();
+                    break;
                 case 3:
                     FuelEngineController.openFuelEngineController();
+                    break;
                 case 4:
                     ElectricEngineController.openElectricEngineController();
+                    break;
                 case 5:
                     TransmissionController.openTransmissionController();
+                    break;
                 case 6:
                     PostController.openPostController();
+                    break;
                 case 7:
                     isRunning = false;
+                    break;
             }
 
         }

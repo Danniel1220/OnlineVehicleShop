@@ -5,6 +5,8 @@ import com.crystal.ovs.dao.FuelEngine;
 import com.crystal.ovs.dao.FuelType;
 import com.crystal.ovs.dao.StrokeType;
 
+import java.util.List;
+
 public class OutputManager {
     public static void printAppMenu() {
         System.out.print("Menu\n");
@@ -135,6 +137,12 @@ public class OutputManager {
     public static void printStrokeType() {
         for(int i = 0; i < StrokeType.values().length; i++){
             System.out.printf("%d. %s\n", (i + 1), StrokeType.values()[i]);
+        }
+    }
+
+    public static void printValidationErrors(List<String> validationErrors) {
+        for (String error : validationErrors) {
+            System.out.printf("    %s\n",error);
         }
     }
 }
