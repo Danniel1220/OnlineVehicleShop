@@ -1,9 +1,6 @@
 package com.crystal.ovs.dao;
 
-import lombok.AllArgsConstructor;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.ToString;
+import lombok.*;
 
 import java.awt.*;
 
@@ -11,11 +8,12 @@ import java.awt.*;
 @EqualsAndHashCode
 @ToString
 @Getter
+@Setter
 public class Post {
-    private final Integer id;
+    private Integer id;
     private final String title;
     private final String description;
-    private final Double price;
+    private final Float price;
     private final Integer available;
     private final Car car;
 }

@@ -53,7 +53,7 @@ public class CrudPostTest {
                     1,
                     "Post Title",
                     "Post Description",
-                    120d,
+                    120f,
                     12,
                     car
             ));
@@ -71,7 +71,7 @@ public class CrudPostTest {
                 EXISTING_ID,
                 "Updated Post Title",
                 "Updated Post Desc",
-                120d,
+                120f,
                 12,
                 car
         );
