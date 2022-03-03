@@ -106,7 +106,7 @@ public class OutputManager {
         System.out.print("\nChose a command (enter the command number): ");
     }
 
-    public static void printTableHead() {
+    public static void printFuelEngineTableHead() {
         System.out.printf("%-3s |%-15s |%-15s |%-15s |%-15s |%-15s |%-15s |%-15s |%-15s |%-15s\n",
                 "Id", "Fuel type", "Consumption", "NO. Cylinders",
                 "CO2 emissions", "Layout", "Turbine", "Supercharge",
