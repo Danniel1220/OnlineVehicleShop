@@ -2,15 +2,14 @@ package com.crystal.ovs.database.crud;
 
 import com.crystal.ovs.dao.Car;
 import com.crystal.ovs.dao.CarType;
-import com.crystal.ovs.dao.ElectricEngine;
 import com.crystal.ovs.dao.TractionType;
-import com.crystal.ovs.dao.Transmission;
 import com.crystal.ovs.database.DatabaseConnector;
 import java.awt.*;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 /**
  *  This class contains all CRUD operations for Car table
@@ -55,12 +54,32 @@ public class CrudCar {
         }
     }
 
-    public static ResultSet selectAll() {
-        String query = "SELECT * FROM " + CAR_TABLE_NAME + ";";
+    private static ResultSet executeResultSetQuery(String query) {
         try {
             databaseConnector = DatabaseConnector.getInstance();
             return databaseConnector.select(query);
         } catch (Exception e) {
+            System.out.println("ERROR: database CRUD operation failed!");
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public static List<Car> selectAllCars() {
+        String query = "SELECT * FROM " + CAR_TABLE_NAME + ";";
+        try {
+            return getAllCars(Objects.requireNonNull(executeResultSetQuery(query)));
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public static Car selectCarById(int id) {
+        String query = "SELECT * FROM " + CAR_TABLE_NAME + " WHERE " + CAR_ID_COLUMN + " = " + id + ";";
+        try {
+            return getCarFromResultSet(Objects.requireNonNull(executeResultSetQuery(query)));
+        } catch (SQLException e) {
             e.printStackTrace();
         }
         return null;
@@ -86,7 +105,7 @@ public class CrudCar {
         return null;
     }
 
-    public static void insertIntoCar(Car car) {
+    public static void insertCar(Car car) {
         String querySet = "SET FOREIGN_KEY_CHECKS=0;\n";
         String query = "INSERT INTO " + CAR_TABLE_NAME + "(" +
                 CAR_BRAND_COLUMN + ", " + CAR_MODEL_COLUMN + ", " +
@@ -102,12 +121,12 @@ public class CrudCar {
         executeVoidQuery(query);
     }
 
-    public static void deleteById(int id) {
+    public static void deleteCar(int id) {
         String query = "DELETE FROM " + CAR_TABLE_NAME + " WHERE " + CAR_ID_COLUMN + " = " + id + ";";
         executeVoidQuery(query);
     }
 
-    public static void updateAllById(Car car) {
+    public static void updateCar(Car car) {
         String query = "UPDATE " + CAR_TABLE_NAME + " SET " +
                 CAR_BRAND_COLUMN + " = '" + car.getBrand() + "', " +
                 CAR_MODEL_COLUMN + " = '" + car.getModel() + "', " +
@@ -210,68 +229,67 @@ public class CrudCar {
         );
     }
 
-    public static List<Car> getAllCars() throws SQLException {
+    private static List<Car> getAllCars(ResultSet resultSet) throws SQLException {
         List<Car> carsList = new ArrayList<>();
-
-        ResultSet resultSet = selectAll();
         while (resultSet.next()) {
             carsList.add(getCarFromResultSet(resultSet));
         }
         return carsList;
     }
 
-        public static java.util.List<String> validateCar (Car car){
-            List<String> validationErrors = new ArrayList<>();
+    public static java.util.List<String> validateCar (Car car) {
+        List<String> validationErrors = new ArrayList<>();
 
-            if (car.getId() <= 0) {
-                validationErrors.add("Id cannot be less than or equal to 0");
-            }
-            if (car.getBrand().isEmpty()) {
-                validationErrors.add("Brand can't be empty");
-            }
-            if (car.getModel().isEmpty()) {
-                validationErrors.add("Model can't be empty");
-            }
-            if (car.getVIN().isEmpty()) {
-                validationErrors.add("VIN number can't be empty");
-            }
-            if (car.getManufacturingYear() < 2019) {
-                validationErrors.add("This model of car is already out of manufacturing time");
-            }
-            if (car.getManufacturingYear() > 2023) {
-                validationErrors.add("This model of car is not out yet");
-            }
-            if (car.getEngineId() <= 0) {
-                validationErrors.add("EngineId can't be less than or equal to 0");
-            }
-            if (car.getTransmissionId() <= 0) {
-                validationErrors.add("TransmissionId can't be less than or equal to 0");
-            }
-            if (car.getNumberOfDoors() < 1 || car.getNumberOfDoors() > 6) {
-                validationErrors.add("A car can have a min number of doors of 1 and a maximum of 6");
-            }
+        if (car.getId() <= 0) {
+            validationErrors.add("Id cannot be less than or equal to 0");
+        }
+        if (car.getBrand().isEmpty()) {
+            validationErrors.add("Brand can't be empty");
+        }
+        if (car.getModel().isEmpty()) {
+            validationErrors.add("Model can't be empty");
+        }
+        if (car.getVIN().isEmpty()) {
+            validationErrors.add("VIN number can't be empty");
+        }
+        if (car.getManufacturingYear() < 2019) {
+            validationErrors.add("This model of car is already out of manufacturing time");
+        }
+        if (car.getManufacturingYear() > 2023) {
+            validationErrors.add("This model of car is not out yet");
+        }
+        if (car.getEngineId() <= 0) {
+            validationErrors.add("EngineId can't be less than or equal to 0");
+        }
+        if (car.getTransmissionId() <= 0) {
+            validationErrors.add("TransmissionId can't be less than or equal to 0");
+        }
+        if (car.getNumberOfDoors() < 1 || car.getNumberOfDoors() > 6) {
+            validationErrors.add("A car can have a min number of doors of 1 and a maximum of 6");
+        }
         /*if(!colorCodeValidation(car.getColor().toString())){
             validationErrors.add("The color introduced is not valid");
         }*/
-            return validationErrors;
-        }
-        public static boolean colorCodeValidation (String s1){
-            boolean b = false, b1 = false;
-            String s2 = s1.substring(1, s1.length());
-            if (s1.length() == 7)
-                if (s1.charAt(0) == '#')
-                    b1 = true;
-            if (b1 == true)
-                for (int i = 0; i < s2.length(); i++) {
-                    char c = s2.charAt(i);
-                    if (c != '#') {
-                        if (s2.matches("[A-Fa-f0-9]{6}|[A-Fa-f0-9]{3}"))
-                            return true;
-                        else {
-                            return false;
-                        }
+        return validationErrors;
+    }
+
+    public static boolean colorCodeValidation (String s1){
+        boolean b = false, b1 = false;
+        String s2 = s1.substring(1, s1.length());
+        if (s1.length() == 7)
+            if (s1.charAt(0) == '#')
+                b1 = true;
+        if (b1 == true)
+            for (int i = 0; i < s2.length(); i++) {
+                char c = s2.charAt(i);
+                if (c != '#') {
+                    if (s2.matches("[A-Fa-f0-9]{6}|[A-Fa-f0-9]{3}"))
+                        return true;
+                    else {
+                        return false;
                     }
                 }
-            return false;
-        }
+            }
+        return false;
+    }
 }
