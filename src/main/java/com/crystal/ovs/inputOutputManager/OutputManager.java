@@ -1,9 +1,6 @@
 package com.crystal.ovs.inputOutputManager;
 
-import com.crystal.ovs.dao.EngineLayout;
-import com.crystal.ovs.dao.FuelEngine;
-import com.crystal.ovs.dao.FuelType;
-import com.crystal.ovs.dao.StrokeType;
+import com.crystal.ovs.dao.*;
 
 import java.util.List;
 
@@ -118,8 +115,7 @@ public class OutputManager {
                 fuelEngine.getId(), fuelEngine.getFuelType(), fuelEngine.getFuelConsumption(),
                 fuelEngine.getNumberOfCylinders(), fuelEngine.getCO2Emissions(),
                 fuelEngine.getEngineLayout(), fuelEngine.isHasTurbine(), fuelEngine.isHasSuperCharger(),
-                fuelEngine.getStrokeType(), fuelEngine.getDisplacement())
-        ;
+                fuelEngine.getStrokeType(), fuelEngine.getDisplacement());
     }
 
     public static void printFuelTypes() {
@@ -144,5 +140,17 @@ public class OutputManager {
         for (String error : validationErrors) {
             System.out.printf("    %s\n",error);
         }
+    }
+
+    public static void printPostTableHead() {
+        System.out.printf("%-3s |%-15s |%-15s |%-15s |%-15s |%-15s\n",
+                "Id", "Title", "Description", "Price",
+                "Available", "Car Id");
+    }
+
+    public static void printPost(Post post) {
+        System.out.printf("%-3s |%-15s |%-15s |%-15s |%-15s |%-15s\n",
+                post.getId(), post.getTitle(), post.getDescription(),
+                post.getPrice(), post.getAvailable(), post.getCar().getId());
     }
 }

@@ -187,4 +187,8 @@ public class CrudCar {
                 "' WHERE id = " + id + ";";
         executeVoidQuery(query);
     }
+
+    public static Car getCarById(int postCarId) {
+        return null;
+    }
 }

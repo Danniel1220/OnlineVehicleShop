@@ -83,7 +83,7 @@ public class CrudPost {
                 resultSet.getInt("id"),
                 resultSet.getString("title"),
                 resultSet.getString("description"),
-                resultSet.getDouble("price"),
+                resultSet.getFloat("price"),
                 resultSet.getInt("available"),
                 resultSet.getObject("carId", Car.class)
         );
