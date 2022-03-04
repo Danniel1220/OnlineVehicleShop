@@ -9,6 +9,7 @@ import com.crystal.ovs.inputOutputManager.InputManager;
 import com.crystal.ovs.inputOutputManager.OutputManager;
 
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 public class PostController {
@@ -155,6 +156,24 @@ public class PostController {
     }
 
     private static List<String> validatePost(String postTitle, String postDescription, float postPrice, int postAvailable, int postCarId) {
-        return null;
+        List<String> validationErrors = new ArrayList<>();
+
+        if (postTitle.equals("")) {
+            validationErrors.add("Title is empty");
+        }
+        if (postDescription.equals("")) {
+            validationErrors.add("Description is empty");
+        }
+        if (postPrice <= 0) {
+            validationErrors.add("Price is less than or equal to 0");
+        }
+        if (postAvailable <= 0) {
+            validationErrors.add("Availability is less than or equal to 0");
+        }
+        if (postCarId <= 0) {
+            validationErrors.add("Car Id is invalid");
+        }
+
+        return validationErrors;
     }
 }
