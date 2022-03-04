@@ -5,6 +5,7 @@ import com.crystal.ovs.dao.Post;
 import com.crystal.ovs.dao.Transmission;
 import com.crystal.ovs.dao.TransmissionType;
 import com.crystal.ovs.database.DatabaseConnector;
+import com.crystal.ovs.exceptions.ValidationException;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -42,7 +43,7 @@ public class CrudTransmission {
         }
     }
 
-    public static List<Transmission> selectAllFromTransmissionTable(){
+    public static List<Transmission> selectAllTransmission(){
         List<Transmission> transmissionList = new ArrayList<>();
         String sql = "select * from " + TRANSMISSION_TABLE_NAME + ";";
         try {
@@ -59,7 +60,7 @@ public class CrudTransmission {
         return null;
     }
 
-    public static Transmission selectAllByTransmissionId(int id) throws SQLException {
+    public static Transmission selectTransmissionById(int id) throws SQLException {
         String query = String.format("select * from " + TRANSMISSION_TABLE_NAME + " where " + TRANSMISSION_COLUMN_NAME_ID + " = " +  id);
         databaseConnector = DatabaseConnector.getInstance();
         ResultSet resultSet = databaseConnector.select(query);
@@ -75,14 +76,18 @@ public class CrudTransmission {
             );
     }
 
-    public static void insertTransmissionTable(Transmission transmission){
+    public static void insertTransmission(Transmission transmission) throws ValidationException {
+        List<String> validationErrors = validateTransmission(transmission);
+        if (validationErrors.size() > 0) {
+            throw new ValidationException(validationErrors);
+        }
         String sqlQuery = "insert into " + TRANSMISSION_TABLE_NAME + " (" + TRANSMISSION_COLUMN_NAME_TYPE
                 + ", " + TRANSMISSION_COLUMN_NAME_GEARS
                 + ") values ('" + transmission.getType() + "', " + transmission.getNumberOfGears() + ");";
         executeVoidQuery(sqlQuery);
     }
 
-    public static void deleteTransmissionTable(int id){
+    public static void deleteTransmission(int id){
         String sqlQuery = "delete from " + TRANSMISSION_TABLE_NAME + " where id=" + id +";";
         executeVoidQuery(sqlQuery);
     }
@@ -92,7 +97,7 @@ public class CrudTransmission {
         executeVoidQuery(sqlQuery);
     }*/
 
-    public static void updateTransmissionTableNrOfGears(Transmission transmission){
+    public static void updateTransmissionNrOfGears(Transmission transmission){
         String sqlQuery = "update " + TRANSMISSION_TABLE_NAME + " SET " + TRANSMISSION_COLUMN_NAME_GEARS + " = "
                 + transmission.getNumberOfGears() + " where id="
                 + transmission.getId();
@@ -100,13 +105,13 @@ public class CrudTransmission {
 
     }
 
-    public static void updateTransmissionTableTransmissionType(Transmission transmission){
+    public static void updateTransmissionTransmissionType(Transmission transmission){
         String sqlQuery = "update " + TRANSMISSION_TABLE_NAME + " SET " + TRANSMISSION_COLUMN_NAME_TYPE
                 + " = '" + transmission.getType() + "' where id=" + transmission.getId();
         executeVoidQuery(sqlQuery);
     }
 
-    public static void updateAllById(Transmission transmission){
+    public static void updateTransmission(Transmission transmission){
         String sqlQuery = "update " + TRANSMISSION_TABLE_NAME + " SET " + TRANSMISSION_COLUMN_NAME_TYPE + " = '"
                 + transmission.getType() + "', " + TRANSMISSION_COLUMN_NAME_GEARS + " = "
                 + transmission.getNumberOfGears() + " where id="

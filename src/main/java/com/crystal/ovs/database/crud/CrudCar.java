@@ -4,6 +4,8 @@ import com.crystal.ovs.dao.Car;
 import com.crystal.ovs.dao.CarType;
 import com.crystal.ovs.dao.TractionType;
 import com.crystal.ovs.database.DatabaseConnector;
+import com.crystal.ovs.exceptions.ValidationException;
+
 import java.awt.*;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -105,7 +107,11 @@ public class CrudCar {
         return null;
     }
 
-    public static void insertCar(Car car) {
+    public static void insertCar(Car car) throws ValidationException {
+        List<String> validationErrors = validateCar(car);
+        if (validationErrors.size() > 0) {
+            throw new ValidationException(validationErrors);
+        }
         String querySet = "SET FOREIGN_KEY_CHECKS=0;\n";
         String query = "INSERT INTO " + CAR_TABLE_NAME + "(" +
                 CAR_BRAND_COLUMN + ", " + CAR_MODEL_COLUMN + ", " +

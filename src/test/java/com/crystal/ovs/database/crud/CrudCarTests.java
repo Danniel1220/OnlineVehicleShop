@@ -3,6 +3,7 @@ package com.crystal.ovs.database.crud;
 import com.crystal.ovs.dao.Car;
 import com.crystal.ovs.dao.CarType;
 import com.crystal.ovs.dao.TractionType;
+import com.crystal.ovs.exceptions.ValidationException;
 import org.junit.Assert;
 import org.junit.Test;
 import java.awt.*;
@@ -27,7 +28,7 @@ public class CrudCarTests {
     }
 
     @Test
-    public void insertIntoCarTest() { // works
+    public void insertIntoCarTest() throws ValidationException { // works
         int initialRowNumber = CrudCar.getNumberOfRows();
         Car car = new Car(1,"Ford", "Mustang", "5sd5a6f58ds9f7s8", 2022, CarType.SPORTS,12,
                 2, TractionType.RWD, 2, Color.CYAN);
