@@ -1,8 +1,7 @@
 package com.crystal.ovs.appRunner.controllers;
 
-import com.crystal.ovs.dao.*;
+import com.crystal.ovs.dao.Post;
 import com.crystal.ovs.database.crud.CrudCar;
-import com.crystal.ovs.database.crud.CrudFuelEngine;
 import com.crystal.ovs.database.crud.CrudPost;
 import com.crystal.ovs.exceptions.ValidationException;
 import com.crystal.ovs.inputOutputManager.InputManager;

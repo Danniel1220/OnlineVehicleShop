@@ -1,7 +1,11 @@
 package com.crystal.ovs.appRunner.controllers;
 
+import com.crystal.ovs.dao.ElectricEngine;
+import com.crystal.ovs.database.crud.CrudElectricEngine;
 import com.crystal.ovs.inputOutputManager.InputManager;
 import com.crystal.ovs.inputOutputManager.OutputManager;
+
+import java.util.List;
 
 public class ElectricEngineController {
     private static boolean isInElectricEngineController = true;

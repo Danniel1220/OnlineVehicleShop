@@ -1,15 +1,13 @@
 package com.crystal.ovs.dao;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-
+import lombok.*;
 import java.awt.*;
 
+@ToString
 @AllArgsConstructor
 @EqualsAndHashCode
 @Getter
+@Setter
 @Builder
 public class Car {
     private final Integer id;
@@ -18,9 +16,9 @@ public class Car {
     private final String VIN;
     private final Integer manufacturingYear;
     private final CarType carType;
-    private final int engineId;
-    private final int transmissionId;
-    private final TractionType tractionType;
+    private int engineId;
+    private int transmissionId;
+    private TractionType tractionType;
     private final Integer numberOfDoors;
-    private final Color color;
+    private Color color;
 }

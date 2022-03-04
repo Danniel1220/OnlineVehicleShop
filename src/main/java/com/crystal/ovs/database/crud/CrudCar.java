@@ -5,7 +5,6 @@ import com.crystal.ovs.dao.CarType;
 import com.crystal.ovs.dao.TractionType;
 import com.crystal.ovs.database.DatabaseConnector;
 import com.crystal.ovs.exceptions.ValidationException;
-
 import java.awt.*;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -80,7 +79,10 @@ public class CrudCar {
     public static Car selectCarById(int id) {
         String query = "SELECT * FROM " + CAR_TABLE_NAME + " WHERE " + CAR_ID_COLUMN + " = " + id + ";";
         try {
-            return getCarFromResultSet(Objects.requireNonNull(executeResultSetQuery(query)));
+            ResultSet resultSet = Objects.requireNonNull(executeResultSetQuery(query));
+            if(resultSet.next()) {
+                return getCarFromResultSet(resultSet);
+            }
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -243,7 +245,7 @@ public class CrudCar {
         return carsList;
     }
 
-    public static java.util.List<String> validateCar (Car car) {
+    public static List<String> validateCar (Car car) {
         List<String> validationErrors = new ArrayList<>();
 
         if (car.getId() <= 0) {

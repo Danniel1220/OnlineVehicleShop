@@ -1,8 +1,16 @@
 package com.crystal.ovs.database.crud;
 
+import com.crystal.ovs.dao.Car;
+import com.crystal.ovs.dao.CarType;
 import com.crystal.ovs.dao.ElectricEngine;
+import com.crystal.ovs.dao.TractionType;
 import com.crystal.ovs.database.DatabaseConnector;
+
+import java.awt.*;
 import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
 
 /**
  * Contains CRUD operations methods for Electric Engine table
@@ -40,12 +48,35 @@ public class CrudElectricEngine {
         }
     }
 
-    public static ResultSet selectAll() {
-        String query = "SELECT * FROM " + ELECTRIC_ENGINE_TABLE_NAME + ";";
+    private static ResultSet executeResultSetQuery(String query) {
         try {
             databaseConnector = DatabaseConnector.getInstance();
             return databaseConnector.select(query);
         } catch (Exception e) {
+            System.out.println("ERROR: database CRUD operation failed!");
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public static List<ElectricEngine> selectAllElectricEngines() {
+        String query = "SELECT * FROM " + ELECTRIC_ENGINE_TABLE_NAME + ";";
+        try {
+            return getAllElectricEngines(Objects.requireNonNull(executeResultSetQuery(query)));
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public static ElectricEngine selectElectricEngineById(int id) {
+        String query = "SELECT * FROM " + ELECTRIC_ENGINE_TABLE_NAME + " WHERE " + ELECTRIC_ENGINE_ID_COLUMN + " = " + id + ";";
+        try {
+            ResultSet resultSet = Objects.requireNonNull(executeResultSetQuery(query));
+            if(resultSet.next()) {
+                return getElectricEngineFromResultSet(resultSet);
+            }
+        } catch (SQLException e) {
             e.printStackTrace();
         }
         return null;
@@ -93,5 +124,22 @@ public class CrudElectricEngine {
                 ELECTRIC_ENGINE_RANGE_COLUMN + " = " + range +
                 " WHERE id = " + id + ";";
         executeVoidQuery(query);
+    }
+
+    public static ElectricEngine getElectricEngineFromResultSet(ResultSet resultSet) throws SQLException {
+        return new ElectricEngine(
+                resultSet.getInt(ELECTRIC_ENGINE_ID_COLUMN),
+                resultSet.getString(ELECTRIC_ENGINE_TYPE_COLUMN),
+                resultSet.getInt(ELECTRIC_ENGINE_BATTERY_CAPACITY_COLUMN),
+                resultSet.getInt(ELECTRIC_ENGINE_RANGE_COLUMN)
+        );
+    }
+
+    private static List<ElectricEngine> getAllElectricEngines(ResultSet resultSet) throws SQLException {
+        List<ElectricEngine> electricEngines = new ArrayList<>();
+        while (resultSet.next()) {
+            electricEngines.add(getElectricEngineFromResultSet(resultSet));
+        }
+        return electricEngines;
     }
 }
