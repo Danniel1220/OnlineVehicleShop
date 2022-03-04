@@ -3,12 +3,14 @@ package com.crystal.ovs.dao;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
+import lombok.Setter;
 
 @AllArgsConstructor
 @EqualsAndHashCode
 @Getter
+@Setter
 public class Transmission {
-    private final Integer id;
-    private final TransmissionType type;
-    private final Integer numberOfGears;
+    private Integer id;
+    private TransmissionType type;
+    private Integer numberOfGears;
 }
