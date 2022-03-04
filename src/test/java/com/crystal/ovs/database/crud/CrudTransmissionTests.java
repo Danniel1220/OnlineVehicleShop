@@ -1,9 +1,9 @@
 package com.crystal.ovs.database.crud;
 
-import com.crystal.ovs.dao.Post;
 import com.crystal.ovs.dao.Transmission;
 import com.crystal.ovs.dao.TransmissionType;
 import com.crystal.ovs.database.DatabaseConnector;
+import com.crystal.ovs.exceptions.ValidationException;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -43,7 +43,7 @@ public class CrudTransmissionTests {
     @Test
     public void selectAllFromTransmissionTest() throws Exception {
         List<Transmission> transmissionList;
-        transmissionList = CrudTransmission.selectAllFromTransmissionTable();
+        transmissionList = CrudTransmission.selectAllTransmission();
         int nrOfRows = CrudTransmission.getNumberOfRows();
         Assert.assertEquals(nrOfRows, transmissionList.size());
     }
@@ -58,7 +58,7 @@ public class CrudTransmissionTests {
             Assert.assertTrue(resultSet.next());
 
             Transmission expectedTransmission = CrudTransmission.getTransmissionFromResultSet(resultSet);
-            Transmission transmission = CrudTransmission.selectAllByTransmissionId(5);
+            Transmission transmission = CrudTransmission.selectTransmissionById(5);
 
             Assert.assertEquals(expectedTransmission, transmission);
         } catch (SQLException e) {
@@ -67,17 +67,17 @@ public class CrudTransmissionTests {
     }
 
     @Test
-    public void insertTransmissionTableTest() throws SQLException {
+    public void insertTransmissionTableTest() throws SQLException, ValidationException {
         int initialRowNumber = CrudTransmission.getNumberOfRows();
         Transmission transmission = new Transmission(1, TransmissionType.AUTOMATIC,5);
-        CrudTransmission.insertTransmissionTable(transmission);
+        CrudTransmission.insertTransmission(transmission);
         Assert.assertEquals(initialRowNumber + 1, CrudTransmission.getNumberOfRows());
     }
 
     @Test
     public void deleteTransmissionTableTest() throws SQLException {
         int initialRowNumber = CrudTransmission.getNumberOfRows();
-        CrudTransmission.deleteTransmissionTable(4);
+        CrudTransmission.deleteTransmission(4);
         Assert.assertEquals(initialRowNumber - 1,CrudTransmission.getNumberOfRows());
     }
 
@@ -91,9 +91,9 @@ public class CrudTransmissionTests {
     public void updateNrOfGearsColumnByIdTest() throws SQLException {
         int id = 1;
         Transmission transmission = new Transmission(5, TransmissionType.DUALCLUTCH,10);
-        CrudTransmission.updateTransmissionTableNrOfGears(transmission);
+        CrudTransmission.updateTransmissionNrOfGears(transmission);
         Transmission actualTransmission;
-        actualTransmission = CrudTransmission.selectAllByTransmissionId(5);
+        actualTransmission = CrudTransmission.selectTransmissionById(5);
 
         Assert.assertEquals(transmission, actualTransmission);
     }
@@ -102,9 +102,9 @@ public class CrudTransmissionTests {
     public void updateTransmissionTypeColumnByIdTest() throws SQLException {
         int id = 1;
         Transmission transmission = new Transmission(5, TransmissionType.MANUAL,10);
-        CrudTransmission.updateTransmissionTableTransmissionType(transmission);
+        CrudTransmission.updateTransmissionTransmissionType(transmission);
         Transmission actualTransmission;
-        actualTransmission = CrudTransmission.selectAllByTransmissionId(5);
+        actualTransmission = CrudTransmission.selectTransmissionById(5);
 
         Assert.assertEquals(transmission, actualTransmission);
     }
@@ -113,10 +113,10 @@ public class CrudTransmissionTests {
     public void updateAllByIdTest() throws SQLException {
         int id = 1;
         Transmission transmission = new Transmission(5, TransmissionType.DUALCLUTCH,15);
-        CrudTransmission.updateAllById(transmission);
-        CrudTransmission.updateTransmissionTableTransmissionType(transmission);
+        CrudTransmission.updateTransmission(transmission);
+        CrudTransmission.updateTransmissionTransmissionType(transmission);
         Transmission actualTransmission;
-        actualTransmission = CrudTransmission.selectAllByTransmissionId(5);
+        actualTransmission = CrudTransmission.selectTransmissionById(5);
 
         Assert.assertEquals(transmission, actualTransmission);
     }
