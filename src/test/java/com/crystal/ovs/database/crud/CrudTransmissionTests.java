@@ -2,7 +2,6 @@ package com.crystal.ovs.database.crud;
 
 import com.crystal.ovs.dao.Transmission;
 import com.crystal.ovs.dao.TransmissionType;
-import com.crystal.ovs.database.crud.CrudTransmission;
 import org.junit.Assert;
 import org.junit.Test;
 
