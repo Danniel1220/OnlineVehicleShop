@@ -104,7 +104,7 @@ public class PostController {
         }
         else {
             return new Post(-1, postTitle, postDescription, postPrice,
-                    postAvailable, CrudCar.getCarById(postCarId));
+                    postAvailable, CrudCar.selectCarById(postCarId));
         }
     }
 
