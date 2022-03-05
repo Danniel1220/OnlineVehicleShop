@@ -8,7 +8,6 @@ import com.crystal.ovs.database.crud.CrudFuelEngine;
 import com.crystal.ovs.exceptions.ValidationException;
 import com.crystal.ovs.inputOutputManager.InputManager;
 import com.crystal.ovs.inputOutputManager.OutputManager;
-
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;

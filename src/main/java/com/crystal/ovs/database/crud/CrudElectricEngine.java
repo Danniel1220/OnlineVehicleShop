@@ -1,13 +1,9 @@
 package com.crystal.ovs.database.crud;
 
-import com.crystal.ovs.dao.Car;
-import com.crystal.ovs.dao.CarType;
 import com.crystal.ovs.dao.ElectricEngine;
-import com.crystal.ovs.dao.TractionType;
 import com.crystal.ovs.database.DatabaseConnector;
-
-import java.awt.*;
-import java.sql.*;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
