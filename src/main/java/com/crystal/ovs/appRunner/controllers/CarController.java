@@ -3,7 +3,6 @@ package com.crystal.ovs.appRunner.controllers;
 import com.crystal.ovs.dao.Car;
 import com.crystal.ovs.dao.CarType;
 import com.crystal.ovs.dao.TractionType;
-import com.crystal.ovs.dao.TransmissionType;
 import com.crystal.ovs.database.crud.CrudCar;
 import com.crystal.ovs.database.crud.CrudEngine;
 import com.crystal.ovs.database.crud.CrudTransmission;
@@ -69,7 +68,7 @@ public class CarController {
 
     private static void createCar() {
         // we will use CrudOperations for retrieving the transmission and engine form the db
-        //TODO CrudEngine was not refactored to return a list of cars and a car object on selectAll and selectCarById
+        //TODO CrudEngine was not refactored to return a list of engines and a engine object on selectAll and selectEngineById
         //TODO it would be great if you would do it by next week thx :)) x10 -Marius
         OutputManager.printMessage("Insert a new car");
         try {
@@ -78,7 +77,6 @@ public class CarController {
         } catch (Exception e){
             e.printStackTrace();
         }
-
     }
 
     public static Car readCar() throws ValidationException {
@@ -98,7 +96,7 @@ public class CarController {
         int transmissionId = InputManager.readIntegerField();
         OutputManager.printMessage("Write a CarType (SEDAN, COUPE, SPORTS, WAGON, HATCHBACK, CONVERTIBLE, SUV, MINIVAN, VAN, PICKUPTRUCK)");
         CarType carType = CarType.valueOf(InputManager.readStringField().toUpperCase(Locale.ROOT));
-        OutputManager.printMessage("Write a TractionType ()");
+        OutputManager.printMessage("Write a TractionType (AWD, FWD, RWD)");
         TractionType tractionType = TractionType.valueOf(InputManager.readStringField().toUpperCase(Locale.ROOT));
         OutputManager.printMessage("Write number of doors min = 2 max = 7");
         int numberOfDoors = InputManager.readIntegerField();
