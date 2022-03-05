@@ -135,7 +135,7 @@ public class TransmissionController {
         }
     }
 
-    private static TransmissionType getEnumForTransmission(){
+    private static TransmissionType getEnumForTransmission() {
         OutputManager.printMessage(" 1. Automatic");
         OutputManager.printMessage(" 2. Manual");
         OutputManager.printMessage(" 3. Dualclutch");

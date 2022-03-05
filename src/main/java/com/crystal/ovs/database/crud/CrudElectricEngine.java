@@ -78,7 +78,7 @@ public class CrudElectricEngine {
         return null;
     }
 
-    public static void insertEngine(ElectricEngine electricEngine) {
+    public static void insertElectricEngine(ElectricEngine electricEngine) {
         String query = "INSERT INTO " + ELECTRIC_ENGINE_TABLE_NAME +
                 "(" + ELECTRIC_ENGINE_TYPE_COLUMN + ", "
                 + ELECTRIC_ENGINE_BATTERY_CAPACITY_COLUMN + ", "

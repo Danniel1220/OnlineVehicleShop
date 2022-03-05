@@ -71,7 +71,7 @@ public class OutputManager {
     }
 
     public static void printElectricEngineControllerMenu() {
-        System.out.print("Car menu\n");
+        System.out.print("Electric engine menu\n");
         System.out.print("1. Get all electric engines\n");
         System.out.print("2. Get electric engine by id\n");
         System.out.print("3. Create electric engine\n");
@@ -82,7 +82,7 @@ public class OutputManager {
     }
 
     public static void printTransmissionControllerMenu() {
-        System.out.print("Car menu\n");
+        System.out.print("Transmission menu\n");
         System.out.print("1. Get all transmission\n");
         System.out.print("2. Get transmission by id\n");
         System.out.print("3. Create transmission\n");
@@ -93,7 +93,7 @@ public class OutputManager {
     }
 
     public static void printPostControllerMenu() {
-        System.out.print("Car menu\n");
+        System.out.print("Post menu\n");
         System.out.print("1. Get all posts\n");
         System.out.print("2. Get post by id\n");
         System.out.print("3. Create post\n");
