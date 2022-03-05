@@ -3,8 +3,11 @@ package com.crystal.ovs.appRunner.controllers;
 import com.crystal.ovs.dao.Transmission;
 import com.crystal.ovs.dao.TransmissionType;
 import com.crystal.ovs.database.crud.CrudTransmission;
+import com.crystal.ovs.exceptions.ValidationException;
 import com.crystal.ovs.inputOutputManager.InputManager;
 import com.crystal.ovs.inputOutputManager.OutputManager;
+
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -60,6 +63,31 @@ public class TransmissionController {
     }
 
     private static void createTransmission() {
+        OutputManager.printMessage("Create transmission:");
+        try {
+            Transmission transmission = readTransmission();
+            CrudTransmission.insertTransmission(transmission);
+        } catch (Exception e){
+            e.printStackTrace();
+        }
+    }
+
+    private static Transmission readTransmission() throws ValidationException {
+        OutputManager.printMessage("TransmissionType:");
+        TransmissionType transmissionType = getEnumForTransmission();
+        OutputManager.printMessage("Number of gears: ");
+        int numberOfGears = InputManager.readIntegerField();
+
+        Transmission transmission = new Transmission(1, transmissionType, numberOfGears);
+
+
+        List<String> validationErrors = validateTransmission(transmission);
+        if (validationErrors.size() > 0) {
+            throw new ValidationException(validationErrors);
+        }
+        else {
+            return transmission;
+        }
     }
 
     private static void updateTransmission() {
@@ -84,11 +112,7 @@ public class TransmissionController {
                     case 2: {
                         OutputManager.printMessage(" Gears of transmission should be between 3 and 15");
                         int userInput = InputManager.readIntegerField();
-                        if(userInput < 3 || userInput > 15) {
-                            OutputManager.printMessage(" Number of gears is incorect");
-                        } else {
-                            transmission.setNumberOfGears(userInput);
-                        }
+                        transmission.setNumberOfGears(userInput);
                         break;
                     }
                     case 0: {
@@ -96,9 +120,18 @@ public class TransmissionController {
                     }
                 }
             }
-            CrudTransmission.updateTransmission(transmission);
+            List<String> validationErrors = validateTransmission(transmission);
+            if(validationErrors.size() > 0){
+                try{
+                    throw new ValidationException(validationErrors);
+                } catch (ValidationException e){
+                    e.printStackTrace();
+                }
+            } else {
+                CrudTransmission.updateTransmission(transmission);
+            }
         } else {
-            OutputManager.printMessage("Car not found!");
+            OutputManager.printMessage("Transmission not found!");
         }
     }
 
@@ -124,5 +157,17 @@ public class TransmissionController {
     private static void deleteTransmission() {
         OutputManager.printMessage("Insert Transmission's id that you want to delete:");
         CrudTransmission.deleteTransmission(InputManager.readIntegerField());
+    }
+
+    public static List<String> validateTransmission(Transmission transmission){
+        List<String> validationErrors = new ArrayList<>();
+
+        if(transmission.getId() <= 0) {
+            validationErrors.add("Id cannot be less than or equal to 0");
+        }
+        if(transmission.getNumberOfGears() < 3 || transmission.getNumberOfGears() > 15){
+            validationErrors.add("A transmission can't have more than 15 gears and less than 3");
+        }
+        return validationErrors;
     }
 }
