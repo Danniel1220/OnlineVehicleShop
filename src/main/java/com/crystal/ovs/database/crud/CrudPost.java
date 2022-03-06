@@ -11,6 +11,16 @@ import java.util.List;
 import java.util.Objects;
 
 public class CrudPost {
+    private static final String POST_TABLE_NAME = "post";
+
+    private static final String POST_ID_COLUMN = "id";
+    private static final String POST_TITLE_COLUMN = "title";
+    private static final String POST_DESCRIPTION_COLUMN = "description";
+    private static final String POST_PRICE_COLUMN = "price";
+    private static final String POST_AVAILABLE_COLUMN = "available";
+    private static final String POST_CAR_ID_COLUMN = "carId";
+
+
     private final static DatabaseConnector connector;
 
     static {
@@ -20,7 +30,7 @@ public class CrudPost {
     public static List<Post> selectAllPosts() throws SQLException {
         List<Post> postList = new ArrayList<>();
 
-        String query = "select * from post;";
+        String query = "select * from " + POST_TABLE_NAME+ ";";
         ResultSet resultSet = connector.select(query);
         while(resultSet.next()){
             postList.add(getPostFromResultSet(resultSet));
@@ -30,7 +40,7 @@ public class CrudPost {
     }
 
     public static Post selectPostById(int id) throws SQLException {
-        String query = String.format("select * from post where id=%d", id);
+        String query = String.format("select * from " + POST_TABLE_NAME + " where " + POST_ID_COLUMN + "=%d", id);
         ResultSet resultSet = connector.select(query);
         resultSet.next();
         return getPostFromResultSet(resultSet);
@@ -43,7 +53,8 @@ public class CrudPost {
         }
 
         String query = String.format(
-                "insert into post (title, description, price, available, carId) values('%s', '%s', %f, %d, %d);",
+                "insert into post (" + POST_TITLE_COLUMN + ", " + POST_DESCRIPTION_COLUMN + ", " +
+                        POST_PRICE_COLUMN + ", " + POST_AVAILABLE_COLUMN + ", " + POST_CAR_ID_COLUMN + ") values('%s', '%s', %f, %d, %d);",
                 post.getTitle(), post.getDescription(), post.getPrice(), post.getAvailable(), post.getCar().getId());
 
         connector.execute("SET FOREIGN_KEY_CHECKS = 0;");
@@ -57,13 +68,13 @@ public class CrudPost {
             throw new ValidationException(validationErrors);
         }
 
-        String query = String.format("update `post` set " +
-                        "title = '%s', " +
-                        "description = '%s', " +
-                        "price = %f, " +
-                        "available = %d, " +
-                        "carId = '%d' " +
-                        "where id = %d;",
+        String query = String.format("update `" + POST_TABLE_NAME + "` set " +
+                        POST_TITLE_COLUMN + " = '%s', " +
+                        POST_DESCRIPTION_COLUMN + " = '%s', " +
+                        POST_PRICE_COLUMN + " = %f, " +
+                        POST_AVAILABLE_COLUMN + " = %d, " +
+                        POST_CAR_ID_COLUMN + " = '%d' " +
+                        "where " + POST_ID_COLUMN +" = %d;",
                 post.getTitle(), post.getDescription(),
                 post.getPrice(), post.getAvailable(),
                 post.getCar().getId(), post.getId());
@@ -74,18 +85,18 @@ public class CrudPost {
     }
 
     public static int deletePost(int id){
-        String query = String.format("delete from post where id = %d;", id);
+        String query = String.format("delete from " + POST_TABLE_NAME +" where " + POST_ID_COLUMN + " = %d;", id);
         return connector.execute(query);
     }
 
     public static Post getPostFromResultSet(ResultSet resultSet) throws SQLException {
         return new Post(
-                resultSet.getInt("id"),
-                resultSet.getString("title"),
-                resultSet.getString("description"),
-                resultSet.getDouble("price"),
-                resultSet.getInt("available"),
-                resultSet.getObject("carId", Car.class)
+                resultSet.getInt(POST_ID_COLUMN),
+                resultSet.getString(POST_TITLE_COLUMN),
+                resultSet.getString(POST_DESCRIPTION_COLUMN),
+                resultSet.getDouble(POST_PRICE_COLUMN),
+                resultSet.getInt(POST_AVAILABLE_COLUMN),
+                resultSet.getObject(POST_AVAILABLE_COLUMN, Car.class)
         );
     }
 

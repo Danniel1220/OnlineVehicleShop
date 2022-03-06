@@ -1,6 +1,7 @@
-package com.crystal.ovs.database;
+package com.crystal.ovs.database.crud;
 
-import com.crystal.ovs.controllers.FuelEngineController;
+import com.crystal.ovs.database.DatabaseConnector;
+import com.crystal.ovs.database.crud.CrudFuelEngine;
 import com.crystal.ovs.dao.EngineLayout;
 import com.crystal.ovs.dao.FuelEngine;
 import com.crystal.ovs.dao.FuelType;
@@ -14,8 +15,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
 
-public class FuelEngineControllerTest {
-    static DatabaseConnector  connector;
+public class CrudFuelEngineTest {
+    static DatabaseConnector connector;
 
     final static int EXISTING_ID = -1;
     final static int NONEXISTENT_ID = -2;
@@ -37,7 +38,7 @@ public class FuelEngineControllerTest {
     @Test
     public void shouldReturnAllFuelEngines(){
         try {
-            List<FuelEngine> fuelEngineList = FuelEngineController.selectAllFuelEngines();
+            List<FuelEngine> fuelEngineList = CrudFuelEngine.selectAllFuelEngines();
 
             ResultSet rs = connector.select("select count(id) as count from fuelengine;");
             rs.next();
@@ -55,8 +56,8 @@ public class FuelEngineControllerTest {
         try {
             Assert.assertTrue(resultSet.next());
 
-            FuelEngine expectedFuelEngine = FuelEngineController.getFuelEngineFromResultSet(resultSet);
-            FuelEngine actualFuelEngine = FuelEngineController.selectFuelEngineById(EXISTING_ID);
+            FuelEngine expectedFuelEngine = CrudFuelEngine.getFuelEngineFromResultSet(resultSet);
+            FuelEngine actualFuelEngine = CrudFuelEngine.selectFuelEngineById(EXISTING_ID);
             Assert.assertEquals(expectedFuelEngine, actualFuelEngine);
         } catch (SQLException e) {
             e.printStackTrace();
@@ -66,7 +67,7 @@ public class FuelEngineControllerTest {
     @Test
     public void shouldReturnNullFuelEngine(){
        try {
-            FuelEngine actualFuelEngine = FuelEngineController.selectFuelEngineById(NONEXISTENT_ID);
+            FuelEngine actualFuelEngine = CrudFuelEngine.selectFuelEngineById(NONEXISTENT_ID);
             Assert.assertEquals(null, actualFuelEngine);
         } catch (SQLException e) {
             e.printStackTrace();
@@ -77,7 +78,7 @@ public class FuelEngineControllerTest {
     public void shouldInsertFuelEngineOnce(){
         int actualFuelEngineCount = 0;
         try {
-            actualFuelEngineCount = FuelEngineController.insertFuelEngine(new FuelEngine(EXISTING_ID, FuelType.DIESEL,
+            actualFuelEngineCount = CrudFuelEngine.insertFuelEngine(new FuelEngine(EXISTING_ID, FuelType.DIESEL,
                     12.1f, 10, 200.1f, EngineLayout.BOXER, true,
                     false, StrokeType.TWO_STROKE, 1.4f));
         } catch (ValidationException e) {
@@ -93,7 +94,7 @@ public class FuelEngineControllerTest {
                 StrokeType.FOUR_STROKE, 10f);
 
         Assert.assertThrows(ValidationException.class, () -> {
-            FuelEngineController.insertFuelEngine(newFuelEngine);
+            CrudFuelEngine.insertFuelEngine(newFuelEngine);
         });
     }
 
@@ -105,7 +106,7 @@ public class FuelEngineControllerTest {
 
         int actualAffectedRowsCount = 0;
         try {
-            actualAffectedRowsCount = FuelEngineController.updateFuelEngine(newFuelEngine);
+            actualAffectedRowsCount = CrudFuelEngine.updateFuelEngine(newFuelEngine);
         } catch (ValidationException e) {
             e.printStackTrace();
         }
@@ -114,7 +115,7 @@ public class FuelEngineControllerTest {
         Assert.assertEquals(expectedAffectedRowsCount, actualAffectedRowsCount);
 
         try {
-            FuelEngine actualFuelEngine = FuelEngineController.selectFuelEngineById(EXISTING_ID);
+            FuelEngine actualFuelEngine = CrudFuelEngine.selectFuelEngineById(EXISTING_ID);
             Assert.assertEquals(newFuelEngine, actualFuelEngine);
         } catch (SQLException e) {
             e.printStackTrace();
@@ -129,7 +130,7 @@ public class FuelEngineControllerTest {
 
         int actualAffectedRowsCount = 0;
         try {
-            actualAffectedRowsCount = FuelEngineController.updateFuelEngine(newFuelEngine);
+            actualAffectedRowsCount = CrudFuelEngine.updateFuelEngine(newFuelEngine);
         } catch (ValidationException e) {
             e.printStackTrace();
         }
@@ -145,19 +146,19 @@ public class FuelEngineControllerTest {
                 StrokeType.FOUR_STROKE, 10f);
 
         Assert.assertThrows(ValidationException.class, () -> {
-            FuelEngineController.updateFuelEngine(newFuelEngine);
+            CrudFuelEngine.updateFuelEngine(newFuelEngine);
         });
     }
 
     @Test
     public void shouldDeleteOnlyOneFuelEngine(){
-        int actualDeletedRows = FuelEngineController.deleteFuelEngine(EXISTING_ID);
+        int actualDeletedRows = CrudFuelEngine.deleteFuelEngine(EXISTING_ID);
         int expectedDeletedRows = 1;
 
         Assert.assertEquals(expectedDeletedRows, actualDeletedRows);
 
         try {
-            FuelEngine actualFuelEngine = FuelEngineController.selectFuelEngineById(EXISTING_ID);
+            FuelEngine actualFuelEngine = CrudFuelEngine.selectFuelEngineById(EXISTING_ID);
             FuelEngine expectedFuelEngine = null;
 
             Assert.assertEquals(expectedFuelEngine, actualFuelEngine);
@@ -168,7 +169,7 @@ public class FuelEngineControllerTest {
 
     @Test
     public void shouldDeleteNoFuelEngine(){
-        int actualDeletedRows = FuelEngineController.deleteFuelEngine(NONEXISTENT_ID);
+        int actualDeletedRows = CrudFuelEngine.deleteFuelEngine(NONEXISTENT_ID);
         int expectedDeletedRows = 0;
 
         Assert.assertEquals(expectedDeletedRows, actualDeletedRows);
