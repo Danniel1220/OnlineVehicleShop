@@ -4,14 +4,15 @@ package com.crystal.ovs.database.crud;
 import com.crystal.ovs.dao.Engine;
 
 import com.crystal.ovs.database.DatabaseConnector;
+import com.crystal.ovs.exceptions.ValidationException;
 
 import java.sql.ResultSet;
 import java.awt.*;
-import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.sql.*;
 import java.util.List;
 import java.util.Objects;
+
 
 public class CrudEngine {
 
@@ -45,7 +46,37 @@ public class CrudEngine {
             e.printStackTrace();
         }
     }
-    public static ResultSet selectListOfColumnsFromCar(ArrayList<String> columnList){
+    public static ResultSet executeResultSetQuery(String query){
+        try {
+            databaseConnector = DatabaseConnector.getInstance();
+            return databaseConnector.select(query);
+        } catch (Exception e) {
+            System.out.println("ERROR: database CRUD operation failed!");
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+
+    public static List<Engine> selectAllEngine() {
+        String query = "SELECT * FROM " + ENGINE_TABLE_NAME + ";";
+        try {
+            return getAllEngine(Objects.requireNonNull(executeResultSetQuery(query)));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+    public static Engine selectEngineById(int id) {
+        String query = "SELECT * FROM " + ENGINE_TABLE_NAME + " WHERE " + ENGINE_ID_COLUMN + " = " + id + ";";
+        try {
+            return getEngineFromResultSet(Objects.requireNonNull(executeResultSetQuery(query)));
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+    public static ResultSet selectListOfColumnsFromCar(ArrayList<String> columnList) {
         StringBuilder stringBuilder = new StringBuilder();
         for (String eachString : columnList) {
             stringBuilder.append(eachString).append(",");
@@ -64,17 +95,11 @@ public class CrudEngine {
         }
         return null;
     }
-    public static ResultSet selectAllEngine() {
-        String query = "SELECT * FROM " + ENGINE_TABLE_NAME + ";";
-        try {
-            databaseConnector = DatabaseConnector.getInstance();
-            return databaseConnector.select(query);
-        } catch (Exception e) {
-            e.printStackTrace();
+    public static void insertEngine(Engine engine) throws ValidationException {
+        List<String> validationErrors = validateEngine(engine);
+        if(validationErrors.size()>0){
+            throw new ValidationException(validationErrors);
         }
-        return null;
-    }
-    public static void insertEngine(Engine engine) {
         String querySet = "SET FOREIGN_KEY_CHECKS=0;\n";
         String query = "INSERT INTO " + ENGINE_TABLE_NAME +
                 "(" + ENGINE_FUEL_ENGINE_ID_COLUMN + ", "
@@ -92,7 +117,7 @@ public class CrudEngine {
     }
 
 
-    public static void updateAlEngineById(Engine engine) {
+    public static void updateEngine(Engine engine) {
         String query = "UPDATE " + ENGINE_TABLE_NAME + " SET " +
                 ENGINE_ELECTRIC_ENGINE_ID_COLUMN+ " = '" + engine.getElectricEngineId() + "', " +
                 ENGINE_FUEL_ENGINE_ID_COLUMN + " = " + engine.getFuelEngineId() + ", " +
@@ -127,7 +152,7 @@ public class CrudEngine {
         executeVoidQuery(query);
     }
 
-    public static void deleteById(int id) {
+    public static void deleteEngine(int id) {
         String query = "DELETE FROM " + ENGINE_TABLE_NAME + " WHERE " + ENGINE_ID_COLUMN + " = " + id + ";";
         executeVoidQuery(query);
     }
@@ -147,7 +172,44 @@ public class CrudEngine {
         String query = "DELETE FROM " + ENGINE_TABLE_NAME + " WHERE " + ENGINE_ELECTRIC_ENGINE_ID_COLUMN+ " = " + electricEngineId + ";";
         executeVoidQuery(query);
     }
+    public static Engine getEngineFromResultSet(ResultSet resultSet) throws SQLException {
+        return new Engine(
+                resultSet.getInt(ENGINE_ID_COLUMN),
+                resultSet.getInt(ENGINE_TORQUE_COLUMN),
+                resultSet.getInt(ENGINE_HORSE_POWER_COLUMN),
+                resultSet.getInt(ENGINE_ELECTRIC_ENGINE_ID_COLUMN),
+                resultSet.getInt(ENGINE_FUEL_ENGINE_ID_COLUMN)
+        );
+    }
+    private static List<Engine> getAllEngine(ResultSet resultSet) throws SQLException {
+        List<Engine> engineList = new ArrayList<>();
+        while (resultSet.next()) {
+            engineList.add(getEngineFromResultSet(resultSet));
+        }
+        return engineList;
+    }
+    public static java.util.List<String> validateEngine (Engine engine) {
+        List<String> validationErrors = new ArrayList<>();
 
+        if (engine.getId() <= 0) {
+            validationErrors.add("Id cannot be less than or equal to 0");
+        }
+        if (engine.getTorque() <= 0) {
+            validationErrors.add("Torque must be less than 0");
+        }
+        if (engine.getFuelEngineId() <= 0) {
+            validationErrors.add("Fuel Engine Id must be less than 0");
+        }
+        if (engine.getElectricEngineId() <= 0) {
+            validationErrors.add("Electric Engine Id must be less than 0");
+        }
+        if (engine.getHorsePower() < 60) {
+            validationErrors.add(" Horse power(HP) must be less than 60 ");
+        }
+
+
+        return validationErrors;
+    }
 
 
 
