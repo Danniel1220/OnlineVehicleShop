@@ -153,4 +153,14 @@ public class OutputManager {
                 post.getId(), post.getTitle(), post.getDescription(),
                 post.getPrice(), post.getAvailable(), post.getCar().getId());
     }
+
+    public static void printFuelEngineUpdateOptions(){
+        System.out.print("1. Update fuel type.\n");
+        System.out.print("2. Update fuel consumption.\n");
+        System.out.print("3. Update CO2 emissions.\n");
+        System.out.print("4. Update engine layout.\n");
+        System.out.print("5. Update stroke type.\n");
+        System.out.print("6. Exit.\n");
+        System.out.print("Choose a field to update: ");
+    }
 }
