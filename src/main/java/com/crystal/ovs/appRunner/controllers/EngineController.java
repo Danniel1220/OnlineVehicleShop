@@ -111,7 +111,6 @@ public class EngineController {
                 userOption = InputManager.readIntegerField();
                 switch(userOption) {
                     case 1: {
-
                         OutputManager.printMessage("Give engine's horse power: ");
                         Engine.setHorsePower(InputManager.readIntegerField());
                         break;
