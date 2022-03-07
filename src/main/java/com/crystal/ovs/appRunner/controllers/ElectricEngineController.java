@@ -159,4 +159,14 @@ public class ElectricEngineController {
 
         return validationErrors;
     }
+
+    private static boolean hasErrors(List<String> validationErrors) {
+        if (validationErrors.size() > 0) {
+            for (String error : validationErrors) {
+                OutputManager.printMessage(error);
+            }
+            return true;
+        }
+        return false;
+    }
 }

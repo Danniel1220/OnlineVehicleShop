@@ -77,7 +77,7 @@ public class CarController {
         }
     }
 
-    public static Car readCar() throws ValidationException {
+    public static Car readCar() {
         OutputManager.printMessage("Car Brand:");
         String carBrand = InputManager.readStringField();
         OutputManager.printMessage("Car Model:");
@@ -115,7 +115,7 @@ public class CarController {
         return null;
     }
 
-    private static void updateCar() { // to be tested
+    private static void updateCar() {
         getAllCars();
         OutputManager.printMessage("Choose a car");
         OutputManager.printLabel("Enter car id");
