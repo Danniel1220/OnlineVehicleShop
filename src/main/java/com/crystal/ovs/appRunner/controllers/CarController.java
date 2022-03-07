@@ -9,7 +9,6 @@ import com.crystal.ovs.database.crud.CrudTransmission;
 import com.crystal.ovs.exceptions.ValidationException;
 import com.crystal.ovs.inputOutputManager.InputManager;
 import com.crystal.ovs.inputOutputManager.OutputManager;
-import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
@@ -67,13 +66,12 @@ public class CarController {
     }
 
     private static void createCar() {
-        // we will use CrudOperations for retrieving the transmission and engine form the db
-        //TODO CrudEngine was not refactored to return a list of engines and a engine object on selectAll and selectEngineById
-        //TODO it would be great if you would do it by next week thx :)) x10 -Marius
         OutputManager.printMessage("Insert a new car");
         try {
             Car car = readCar();
-            CrudCar.insertCar(car);
+            if(car != null) {
+                CrudCar.insertCar(car);
+            }
         } catch (Exception e){
             e.printStackTrace();
         }
@@ -101,43 +99,18 @@ public class CarController {
         OutputManager.printMessage("Write number of doors min = 2 max = 7");
         int numberOfDoors = InputManager.readIntegerField();
         OutputManager.printMessage("Write a color for the car:");
-        Color color = Color.getColor(InputManager.readStringField());
+        String color = InputManager.readStringField().toUpperCase();
 
         Car car = Car.builder().id(1)
                 .brand(carBrand).model(carModel).VIN(carVIN)
                 .manufacturingYear(manufacturingYear).carType(carType)
                 .engineId(engineId).transmissionId(transmissionId)
-                .tractionType(tractionType).numberOfDoors(numberOfDoors).build();
-        List<String> validationErrors = validateCar(car);
-        if (validationErrors.size() > 0) {
-            throw new ValidationException(validationErrors);
-        } else {
-            return car;
-        }
-    }
+                .tractionType(tractionType).numberOfDoors(numberOfDoors)
+                .color(color)
+                .build();
 
-    private static CarType getCarType(){
-        OutputManager.printMessage(" 1. SEDAN,\n" +
-                "    2. COUPE,\n" +
-                "    3. SPORTS,\n" +
-                "    4. WAGON,\n" +
-                "    5. HATCHBACK,\n" +
-                "    6. CONVERTIBLE,\n" +
-                "    7. SUV,\n" +
-                "    8. MINIVAN,\n" +
-                "    9. VAN,\n" +
-                "    10. PICKUPTRUCK");
-        int userOption = InputManager.readIntegerField();
-        switch(userOption){
-            case 1: {
-                return CarType.SEDAN;
-            }
-            case 2: {
-                return CarType.COUPE;
-            }
-            case 3: {
-                return CarType.SPORTS;
-            }
+        if (!hasErrors(validateCar(car))) {
+           return car;
         }
         return null;
     }
@@ -158,19 +131,31 @@ public class CarController {
                 userOption = InputManager.readIntegerField();
                 switch(userOption) {
                     case 1: {
+                        OutputManager.printMessage("Choose engine id:");
+                        OutputManager.printMessage(Objects.requireNonNull(CrudEngine.selectAllEngine()).toString());
+                        int engineId = car.getEngineId();
                         car.setEngineId(InputManager.readIntegerField());
+                        if(hasErrors(validateCar(car))) {
+                            car.setEngineId(engineId);
+                        }
                         break;
                     }
                     case 2: {
+                        OutputManager.printMessage("Choose transmission id:");
+                        OutputManager.printMessage(Objects.requireNonNull(CrudTransmission.selectAllTransmission()).toString());
+                        int transmissionId = car.getTransmissionId();
                         car.setTransmissionId(InputManager.readIntegerField());
+                        if(hasErrors(validateCar(car))) {
+                            car.setTransmissionId(transmissionId);
+                        }
                         break;
                     }
                     case 3: {
-                        Color color = Color.getColor(InputManager.readStringField());
-                        if(color != null) {
+                        OutputManager.printMessage("Insert color:");
+                        String color = car.getColor();
+                        car.setColor(InputManager.readStringField().toUpperCase());
+                        if(hasErrors(validateCar(car))) {
                             car.setColor(color);
-                        } else {
-                            OutputManager.printMessage("Invalid color!");
                         }
                         break;
                     }
@@ -217,9 +202,19 @@ public class CarController {
         if (car.getNumberOfDoors() < 1 || car.getNumberOfDoors() > 6) {
             validationErrors.add("A car can have a min number of doors of 1 and a maximum of 6");
         }
-        /*if(!colorCodeValidation(car.getColor().toString())){
-            validationErrors.add("The color introduced is not valid");
-        }*/
+        if(car.getColor().isBlank()) {
+            validationErrors.add("You have to enter a color!");
+        }
         return validationErrors;
+    }
+
+    private static boolean hasErrors(List<String> validationErrors) {
+        if (validationErrors.size() > 0) {
+            for (String error : validationErrors) {
+                OutputManager.printMessage(error);
+            }
+            return true;
+        }
+        return false;
     }
 }

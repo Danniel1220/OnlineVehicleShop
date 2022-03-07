@@ -233,7 +233,7 @@ public class CrudCar {
                 resultSet.getInt(CAR_TRANSMISSION_ID_COLUMN),
                 TractionType.valueOf(resultSet.getString(CAR_TRACTION_TYPE_COLUMN)),
                 resultSet.getInt(CAR_NUMBER_OF_DOORS_COLUMN),
-                Color.getColor(CAR_COLOR_COLUMN)
+                resultSet.getString(CAR_COLOR_COLUMN)
         );
     }
 

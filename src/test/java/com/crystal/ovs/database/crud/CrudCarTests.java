@@ -31,7 +31,7 @@ public class CrudCarTests {
     public void insertIntoCarTest() throws ValidationException { // works
         int initialRowNumber = CrudCar.getNumberOfRows();
         Car car = new Car(1,"Ford", "Mustang", "5sd5a6f58ds9f7s8", 2022, CarType.SPORTS,12,
-                2, TractionType.RWD, 2, Color.CYAN);
+                2, TractionType.RWD, 2, "CYAN");
         CrudCar.insertCar(car);
         Assert.assertEquals(initialRowNumber + 1, CrudCar.getNumberOfRows());
     }
@@ -46,7 +46,7 @@ public class CrudCarTests {
 
     @Test
     public void updateAllByIdTest() { // works
-        Car car = new Car(5, "BMW", "X5", "123TDF", 2019, CarType.SPORTS, 1, 2, TractionType.AWD, 4, Color.BLUE);
+        Car car = new Car(5, "BMW", "X5", "123TDF", 2019, CarType.SPORTS, 1, 2, TractionType.AWD, 4, "BLUE");
         CrudCar.updateCar(car);
         List<Car> existingCars = CrudCar.selectAllCars();
         Assert.assertNotEquals(car, Objects.requireNonNull(existingCars).get(0));
@@ -55,7 +55,7 @@ public class CrudCarTests {
     @Test
     public void updateCarBrandByIdTest() { // works
         CrudCar.updateCarBrandById(5, "Renault");
-        Car car = new Car(5, "BMW", "X5", "123TDF", 2019, CarType.SPORTS, 1, 2, TractionType.AWD, 4, Color.BLUE);
+        Car car = new Car(5, "BMW", "X5", "123TDF", 2019, CarType.SPORTS, 1, 2, TractionType.AWD, 4, "BLUE");
         List<Car> existingCars = CrudCar.selectAllCars();
         Assert.assertNotEquals(car, Objects.requireNonNull(existingCars).get(0));
     }
@@ -63,7 +63,7 @@ public class CrudCarTests {
     @Test
     public void updateCarModelByIdTest() { // works
         CrudCar.updateCarModelById(5, "Symbol");
-        Car car = new Car(5, "BMW", "X5", "123TDF", 2019, CarType.SPORTS, 1, 2, TractionType.AWD, 4, Color.BLUE);
+        Car car = new Car(5, "BMW", "X5", "123TDF", 2019, CarType.SPORTS, 1, 2, TractionType.AWD, 4, "BLUE");
         List<Car> existingCars = CrudCar.selectAllCars();
         Assert.assertNotEquals(car, Objects.requireNonNull(existingCars).get(0));
     }
@@ -71,7 +71,7 @@ public class CrudCarTests {
     @Test
     public void updateCarVINByIdTest() { // works
         CrudCar.updateCarVINById(5, "VIN123");
-        Car car = new Car(5, "BMW", "X5", "123TDF", 2019, CarType.SPORTS, 1, 2, TractionType.AWD, 4, Color.BLUE);
+        Car car = new Car(5, "BMW", "X5", "123TDF", 2019, CarType.SPORTS, 1, 2, TractionType.AWD, 4, "BLUE");
         List<Car> existingCars = CrudCar.selectAllCars();
         Assert.assertNotEquals(car, Objects.requireNonNull(existingCars).get(0));
     }
@@ -79,7 +79,7 @@ public class CrudCarTests {
     @Test
     public void updateCarManufacturingYearByIdTest() { // works
         CrudCar.updateCarManufacturingYearById(5, 2021);
-        Car car = new Car(5, "BMW", "X5", "123TDF", 2019, CarType.SPORTS, 1, 2, TractionType.AWD, 4, Color.BLUE);
+        Car car = new Car(5, "BMW", "X5", "123TDF", 2019, CarType.SPORTS, 1, 2, TractionType.AWD, 4, "BLUE");
         List<Car> existingCars = CrudCar.selectAllCars();
         Assert.assertNotEquals(car, Objects.requireNonNull(existingCars).get(0));
     }
@@ -87,7 +87,7 @@ public class CrudCarTests {
     @Test
     public void updateCarTypeByIdTest() { // works
         CrudCar.updateCarTypeById(5, CarType.SUV);
-        Car car = new Car(5, "BMW", "X5", "123TDF", 2019, CarType.SPORTS, 1, 2, TractionType.AWD, 4, Color.BLUE);
+        Car car = new Car(5, "BMW", "X5", "123TDF", 2019, CarType.SPORTS, 1, 2, TractionType.AWD, 4, "BLUE");
         List<Car> existingCars = CrudCar.selectAllCars();
         Assert.assertNotEquals(car, Objects.requireNonNull(existingCars).get(0));
     }
@@ -95,7 +95,7 @@ public class CrudCarTests {
     @Test
     public void updateCarEngineIdByIdTest() { // works
         CrudCar.updateCarEngineIdById(5, 12);
-        Car car = new Car(5, "BMW", "X5", "123TDF", 2019, CarType.SPORTS, 1, 2, TractionType.AWD, 4, Color.BLUE);
+        Car car = new Car(5, "BMW", "X5", "123TDF", 2019, CarType.SPORTS, 1, 2, TractionType.AWD, 4, "BLUE");
         List<Car> existingCars = CrudCar.selectAllCars();
         Assert.assertNotEquals(car, Objects.requireNonNull(existingCars).get(0));
     }
@@ -103,7 +103,7 @@ public class CrudCarTests {
     @Test
     public void updateCarTransmissionIdByIdTest() { // works
         CrudCar.updateCarTransmissionIdById(5, 1);
-        Car car = new Car(5, "BMW", "X5", "123TDF", 2019, CarType.SPORTS, 1, 2, TractionType.AWD, 4, Color.BLUE);
+        Car car = new Car(5, "BMW", "X5", "123TDF", 2019, CarType.SPORTS, 1, 2, TractionType.AWD, 4, "BLUE");
         List<Car> existingCars = CrudCar.selectAllCars();
         Assert.assertNotEquals(car, Objects.requireNonNull(existingCars).get(0));
     }
@@ -111,7 +111,7 @@ public class CrudCarTests {
     @Test
     public void updateCarTractionTypeByIdTest() { // works
         CrudCar.updateCarTractionTypeById(5, TractionType.RWD);
-        Car car = new Car(5, "BMW", "X5", "123TDF", 2019, CarType.SPORTS, 1, 2, TractionType.AWD, 4, Color.BLUE);
+        Car car = new Car(5, "BMW", "X5", "123TDF", 2019, CarType.SPORTS, 1, 2, TractionType.AWD, 4,"BLUE");
         List<Car> existingCars = CrudCar.selectAllCars();
         Assert.assertNotEquals(car, Objects.requireNonNull(existingCars).get(0));
     }
@@ -119,7 +119,7 @@ public class CrudCarTests {
     @Test
     public void updateCarNumberOfDoorsByIdTest() { // works
         CrudCar.updateCarNumberOfDoorsById(5, 2);
-        Car car = new Car(5, "BMW", "X5", "123TDF", 2019, CarType.SPORTS, 1, 2, TractionType.AWD, 4, Color.BLUE);
+        Car car = new Car(5, "BMW", "X5", "123TDF", 2019, CarType.SPORTS, 1, 2, TractionType.AWD, 4, "BLUE");
         List<Car> existingCars = CrudCar.selectAllCars();
         Assert.assertNotEquals(car, Objects.requireNonNull(existingCars).get(0));
     }
@@ -127,7 +127,7 @@ public class CrudCarTests {
     @Test
     public void updateCarColorByIdTest() { // works
         CrudCar.updateCarColorById(5, Color.CYAN);
-        Car car = new Car(5, "BMW", "X5", "123TDF", 2019, CarType.SPORTS, 1, 2, TractionType.AWD, 4, Color.BLUE);
+        Car car = new Car(5, "BMW", "X5", "123TDF", 2019, CarType.SPORTS, 1, 2, TractionType.AWD, 4, "BLUE");
         List<Car> existingCars = CrudCar.selectAllCars();
         Assert.assertNotEquals(car, Objects.requireNonNull(existingCars).get(0));
     }
@@ -140,7 +140,7 @@ public class CrudCarTests {
 
     @Test
     public void validateCarTest(){
-        Car car = new Car(5, "BMW", "X5", "123TDF", 2019, CarType.SPORTS, 1, 2, TractionType.AWD, 4, Color.BLUE);
+        Car car = new Car(5, "BMW", "X5", "123TDF", 2019, CarType.SPORTS, 1, 2, TractionType.AWD, 4, "BLUE");
         java.util.List<String> validateCar = CrudCar.validateCar(car);
 
         Assert.assertTrue(validateCar.isEmpty());

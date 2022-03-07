@@ -1,7 +1,6 @@
 package com.crystal.ovs.dao;
 
 import lombok.*;
-import java.awt.*;
 
 @ToString
 @AllArgsConstructor
@@ -20,5 +19,5 @@ public class Car {
     private int transmissionId;
     private TractionType tractionType;
     private final Integer numberOfDoors;
-    private Color color;
+    private String color;
 }
