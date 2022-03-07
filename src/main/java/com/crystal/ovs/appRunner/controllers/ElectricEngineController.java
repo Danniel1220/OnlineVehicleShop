@@ -64,7 +64,9 @@ public class ElectricEngineController {
         OutputManager.printMessage("Let's create a new electric engine:");
         try {
             ElectricEngine newElectricEngine = readElectricEngine();
-            CrudElectricEngine.insertElectricEngine(newElectricEngine);
+            if(newElectricEngine != null) {
+                CrudElectricEngine.insertElectricEngine(newElectricEngine);
+            }
         } catch (ValidationException e) {
             e.printStackTrace();
         }
@@ -87,17 +89,29 @@ public class ElectricEngineController {
                 switch(userOption) {
                     case 1: {
                         OutputManager.printMessage("Give electric engine's type: ");
+                        String engineType = electricEngine.getType();
                         electricEngine.setType(InputManager.readStringField());
+                        if(hasErrors(validateElectricEngine(electricEngine))) {
+                            electricEngine.setType(engineType);
+                        }
                         break;
                     }
                     case 2: {
                         OutputManager.printMessage("Give electric engine's battery capacity: ");
+                        int electricEngineBatteryCapacity = electricEngine.getBatteryCapacity();
                         electricEngine.setBatteryCapacity(InputManager.readIntegerField());
+                        if(hasErrors(validateElectricEngine(electricEngine))) {
+                            electricEngine.setBatteryCapacity(electricEngineBatteryCapacity);
+                        }
                         break;
                     }
                     case 3: {
                         OutputManager.printMessage("Give electric engine's range: ");
+                        int electricEngineRange = electricEngine.getRange();
                         electricEngine.setRange(InputManager.readIntegerField());
+                        if(hasErrors(validateElectricEngine(electricEngine))) {
+                            electricEngine.setRange(electricEngineRange);
+                        }
                         break;
                     }
                     case 0: {
@@ -105,16 +119,7 @@ public class ElectricEngineController {
                     }
                 }
             }
-            List<String> validationErrors = validateElectricEngine(electricEngine);
-            if(validateElectricEngine(electricEngine).size() > 0) {
-                try {
-                    throw new ValidationException(validationErrors);
-                } catch (ValidationException e) {
-                    e.printStackTrace();
-                }
-            } else {
-                CrudElectricEngine.updateAllById(electricEngine);
-            }
+            CrudElectricEngine.updateAllById(electricEngine);
         } else {
             OutputManager.printMessage("Electric engine not found!");
         }
@@ -135,13 +140,10 @@ public class ElectricEngineController {
 
         ElectricEngine newElectricEngine = new ElectricEngine(-1, electricEngineType, electricEngineBatteryCapacity, electricEngineRange);
 
-        List<String> validationErrors = validateElectricEngine(newElectricEngine);
-        if (validationErrors.size() > 0) {
-            throw new ValidationException(validationErrors);
-        }
-        else {
+        if (!hasErrors(validateElectricEngine(newElectricEngine))) {
             return newElectricEngine;
         }
+        return null;
     }
 
     private static List<String> validateElectricEngine(ElectricEngine electricEngine) {
