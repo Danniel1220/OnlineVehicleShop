@@ -106,13 +106,20 @@ public class TransmissionController {
                 switch(userOption) {
                     case 1: {
                         OutputManager.printMessage(" Give a Transmission type: ");
+                        TransmissionType type = transmission.getType();
                         transmission.setType(getEnumForTransmission());
+                        if(hasErrors(validateTransmission(transmission))){
+                            transmission.setType(type);
+                        }
                         break;
                     }
                     case 2: {
                         OutputManager.printMessage(" Gears of transmission should be between 3 and 15");
-                        int userInput = InputManager.readIntegerField();
-                        transmission.setNumberOfGears(userInput);
+                        int numberOfGears = transmission.getNumberOfGears();
+                        transmission.setNumberOfGears(InputManager.readIntegerField());
+                        if(hasErrors(validateTransmission(transmission))){
+                            transmission.setNumberOfGears(numberOfGears);
+                        }
                         break;
                     }
                     case 0: {
@@ -120,16 +127,7 @@ public class TransmissionController {
                     }
                 }
             }
-            List<String> validationErrors = validateTransmission(transmission);
-            if(validationErrors.size() > 0){
-                try{
-                    throw new ValidationException(validationErrors);
-                } catch (ValidationException e){
-                    e.printStackTrace();
-                }
-            } else {
-                CrudTransmission.updateTransmission(transmission);
-            }
+            CrudTransmission.updateTransmission(transmission);
         } else {
             OutputManager.printMessage("Transmission not found!");
         }
@@ -169,5 +167,15 @@ public class TransmissionController {
             validationErrors.add("A transmission can't have more than 15 gears and less than 3");
         }
         return validationErrors;
+    }
+
+    private static boolean hasErrors(List<String> validationErrors) {
+        if (validationErrors.size() > 0) {
+            for (String error : validationErrors) {
+                OutputManager.printMessage(error);
+            }
+            return true;
+        }
+        return false;
     }
 }
