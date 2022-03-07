@@ -76,7 +76,7 @@ public class CrudEngine {
         }
         return null;
     }
-    public static ResultSet selectListOfColumnsFromCar(ArrayList<String> columnList) {
+    public static ResultSet selectListOfColumnsFromEngine(ArrayList<String> columnList) {
         StringBuilder stringBuilder = new StringBuilder();
         for (String eachString : columnList) {
             stringBuilder.append(eachString).append(",");
@@ -117,7 +117,7 @@ public class CrudEngine {
     }
 
 
-    public static void updateEngine(Engine engine) {
+    public static void updateAllEngineById(Engine engine) {
         String query = "UPDATE " + ENGINE_TABLE_NAME + " SET " +
                 ENGINE_ELECTRIC_ENGINE_ID_COLUMN+ " = '" + engine.getElectricEngineId() + "', " +
                 ENGINE_FUEL_ENGINE_ID_COLUMN + " = " + engine.getFuelEngineId() + ", " +

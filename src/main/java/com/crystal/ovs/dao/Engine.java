@@ -1,16 +1,17 @@
 package com.crystal.ovs.dao;
 
-import lombok.AllArgsConstructor;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
+import lombok.*;
 
 @AllArgsConstructor
 @EqualsAndHashCode
 @Getter
+@Setter
+@ToString
 public class Engine {
-    private final Integer id;
-    private final Integer fuelEngineId;
-    private final Integer electricEngineId;
-    private final Integer horsePower;
-    private final Integer torque;
+    private  final Integer id;
+    private  Integer fuelEngineId;
+    private  Integer electricEngineId;
+    private  Integer horsePower;
+    private  Integer torque;
+
 }
