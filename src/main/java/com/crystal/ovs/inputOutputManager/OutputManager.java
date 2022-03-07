@@ -142,18 +142,6 @@ public class OutputManager {
         }
     }
 
-    public static void printPostTableHead() {
-        System.out.printf("%-3s |%-15s |%-15s |%-15s |%-15s |%-15s\n",
-                "Id", "Title", "Description", "Price",
-                "Available", "Car Id");
-    }
-
-    public static void printPost(Post post) {
-        System.out.printf("%-3s |%-15s |%-15s |%-15s |%-15s |%-15s\n",
-                post.getId(), post.getTitle(), post.getDescription(),
-                post.getPrice(), post.getAvailable(), post.getCar().getId());
-    }
-
     public static void printFuelEngineUpdateOptions(){
         System.out.print("1. Update fuel type.\n");
         System.out.print("2. Update fuel consumption.\n");
