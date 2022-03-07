@@ -5,6 +5,7 @@ import com.crystal.ovs.dao.TransmissionType;
 import com.crystal.ovs.database.crud.CrudTransmission;
 import com.crystal.ovs.exceptions.ValidationException;
 import com.crystal.ovs.inputOutputManager.InputManager;
+import com.crystal.ovs.inputOutputManager.OutputTextType;
 import com.crystal.ovs.inputOutputManager.OutputManager;
 
 import java.util.ArrayList;
@@ -172,7 +173,7 @@ public class TransmissionController {
     private static boolean hasErrors(List<String> validationErrors) {
         if (validationErrors.size() > 0) {
             for (String error : validationErrors) {
-                OutputManager.printMessage(error);
+                OutputManager.printMessage(OutputTextType.ERROR,error);
             }
             return true;
         }
