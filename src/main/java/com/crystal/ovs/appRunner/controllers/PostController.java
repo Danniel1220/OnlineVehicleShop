@@ -48,9 +48,8 @@ public class PostController {
         OutputManager.printMessage("Posts");
         try {
             List<Post> postList = CrudPost.selectAllPosts();
-            OutputManager.printPostTableHead();
             for (Post post : postList) {
-                OutputManager.printPost(post);
+                System.out.println(post);
             }
         } catch (SQLException e) {
             OutputManager.printMessage("There was a problem connecting to the database");
@@ -65,7 +64,7 @@ public class PostController {
         try {
             Post post = CrudPost.selectPostById(id);
             if (post != null) {
-                OutputManager.printPost(post);
+                System.out.println(post);
             } else {
                 OutputManager.printMessage("There is no post with that Id");
             }
@@ -116,7 +115,7 @@ public class PostController {
         try {
             Post post = CrudPost.selectPostById(id);
             if (post != null) {
-                OutputManager.printPost(post);
+                System.out.println(post);
                 Post newPost = readPost();
                 newPost.setId((post.getId()));
                 CrudPost.updatePost(newPost);
@@ -138,7 +137,7 @@ public class PostController {
         try {
             Post post = CrudPost.selectPostById(id);
             if (post != null) {
-                OutputManager.printPost(post);
+                System.out.println(post);
                 OutputManager.printLabel("Are you sure you want to delete this post? (y/n)");
                 String response = InputManager.readStringField();
 
