@@ -186,10 +186,12 @@ public class CrudEngine {
     public static Engine getEngineFromResultSet(ResultSet resultSet) throws SQLException {
         return new Engine(
                 resultSet.getInt(ENGINE_ID_COLUMN),
-                resultSet.getInt(ENGINE_TORQUE_COLUMN),
-                resultSet.getInt(ENGINE_HORSE_POWER_COLUMN),
+                resultSet.getInt(ENGINE_FUEL_ENGINE_ID_COLUMN),
                 resultSet.getInt(ENGINE_ELECTRIC_ENGINE_ID_COLUMN),
-                resultSet.getInt(ENGINE_FUEL_ENGINE_ID_COLUMN)
+                resultSet.getInt(ENGINE_HORSE_POWER_COLUMN),
+                resultSet.getInt(ENGINE_TORQUE_COLUMN)
+
+
         );
     }
 
