@@ -73,7 +73,7 @@ public class TransmissionController {
         }
     }
 
-    private static Transmission readTransmission() throws ValidationException {
+    private static Transmission readTransmission() {
         OutputManager.printMessage("TransmissionType:");
         TransmissionType transmissionType = getEnumForTransmission();
         OutputManager.printMessage("Number of gears: ");
@@ -81,14 +81,10 @@ public class TransmissionController {
 
         Transmission transmission = new Transmission(1, transmissionType, numberOfGears);
 
-
-        List<String> validationErrors = validateTransmission(transmission);
-        if (validationErrors.size() > 0) {
-            throw new ValidationException(validationErrors);
-        }
-        else {
+        if (!hasErrors(validateTransmission(transmission))) {
             return transmission;
         }
+        return null;
     }
 
     private static void updateTransmission() {
