@@ -9,8 +9,8 @@ import lombok.*;
 @Setter
 public class Engine {
     private final Integer id;
-    private Integer fuelEngine;
-    private Integer electricEngine;
+    private Integer fuelEngineId;
+    private Integer electricEngineId;
     private Integer horsePower;
     private Integer torque;
 }
