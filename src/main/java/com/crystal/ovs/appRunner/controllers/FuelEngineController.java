@@ -8,8 +8,8 @@ import com.crystal.ovs.database.crud.CrudFuelEngine;
 import com.crystal.ovs.exceptions.ValidationException;
 import com.crystal.ovs.inputOutputManager.InputManager;
 import com.crystal.ovs.inputOutputManager.OutputManager;
+import com.crystal.ovs.inputOutputManager.OutputTextType;
 
-import java.awt.*;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
@@ -56,7 +56,7 @@ public class FuelEngineController {
                 OutputManager.printMessage(fuelEngine.toString());
             }
         } catch (SQLException e) {
-            OutputManager.printMessage("There was a problem connecting to the database");
+            OutputManager.printMessage(OutputTextType.ERROR, "There was a problem connecting to the database");
         }
     }
 
@@ -70,10 +70,10 @@ public class FuelEngineController {
             if (fuelEngine != null) {
                 OutputManager.printMessage(fuelEngine.toString());
             } else {
-                OutputManager.printMessage("There is no fuel engine with that Id");
+                OutputManager.printMessage(OutputTextType.WARNING, "There is no fuel engine with that Id");
             }
         } catch (SQLException e) {
-            OutputManager.printMessage("There was a problem connecting to the database");
+            OutputManager.printMessage(OutputTextType.ERROR,"There was a problem connecting to the database");
         }
     }
 
@@ -82,7 +82,9 @@ public class FuelEngineController {
             FuelEngine fuelEngine = readFuelEngine();
             CrudFuelEngine.insertFuelEngine(fuelEngine);
         } catch (ValidationException e) {
-            OutputManager.printValidationErrors(e.getValidationErrors());
+            for (String error : e.getValidationErrors()) {
+                OutputManager.printMessage(OutputTextType.ERROR, error);
+            }
         }
     }
 
@@ -98,12 +100,14 @@ public class FuelEngineController {
                 readUpdatedFields(fuelEngine);
                 CrudFuelEngine.updateFuelEngine(fuelEngine);
             } else {
-                OutputManager.printMessage("There is no fuel engine with that Id");
+                OutputManager.printMessage(OutputTextType.WARNING, "There is no fuel engine with that Id");
             }
         } catch (SQLException e) {
-            OutputManager.printMessage("There was a problem connecting to the database");
+            OutputManager.printMessage(OutputTextType.ERROR,"There was a problem connecting to the database");
         } catch (ValidationException e) {
-            OutputManager.printValidationErrors(e.getValidationErrors());
+            for (String error : e.getValidationErrors()) {
+                OutputManager.printMessage(OutputTextType.ERROR, error);
+            }
         }
     }
 
@@ -116,17 +120,17 @@ public class FuelEngineController {
             FuelEngine fuelEngine = CrudFuelEngine.selectFuelEngineById(id);
             if (fuelEngine != null) {
                 OutputManager.printMessage(fuelEngine.toString());
-                OutputManager.printLabel("Are you sure you want to delete this fuel engine? (y/n)");
+                OutputManager.printMessage("Are you sure you want to delete this fuel engine? (y/n)");
                 String response = InputManager.readStringField();
 
                 if(response.equalsIgnoreCase("y")){
                     CrudFuelEngine.deleteFuelEngine(fuelEngine.getId());
                 }
             } else {
-                OutputManager.printMessage("There is no fuel engine with that Id");
+                OutputManager.printMessage(OutputTextType.WARNING, "There is no fuel engine with that Id");
             }
         } catch (SQLException e) {
-            OutputManager.printMessage("There was a problem connecting to the database");
+            OutputManager.printMessage(OutputTextType.ERROR, "There was a problem connecting to the database");
         }
     }
 
@@ -183,7 +187,7 @@ public class FuelEngineController {
 
     private static void readUpdatedFields(FuelEngine fuelEngine) {
         boolean isUpdating = true;
-        int option = 0;
+        int option;
         while(isUpdating){
             OutputManager.printFuelEngineUpdateOptions();
             option = InputManager.readIntegerField();
