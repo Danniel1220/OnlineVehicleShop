@@ -4,6 +4,8 @@ import com.crystal.ovs.dao.Transmission;
 import com.crystal.ovs.dao.TransmissionType;
 import com.crystal.ovs.database.DatabaseConnector;
 import com.crystal.ovs.exceptions.ValidationException;
+import com.crystal.ovs.inputOutputManager.OutputManager;
+import com.crystal.ovs.inputOutputManager.OutputTextType;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -35,7 +37,7 @@ public class CrudTransmission {
             databaseConnector = DatabaseConnector.getInstance();
             databaseConnector.execute(query);
         } catch (Exception e) {
-            System.out.println("ERROR: database CRUD operation failed!");
+            OutputManager.printMessage(OutputTextType.ERROR,"ERROR: database CRUD operation failed!");
             e.printStackTrace();
         }
     }
@@ -62,9 +64,10 @@ public class CrudTransmission {
         try {
             databaseConnector = DatabaseConnector.getInstance();
             ResultSet resultSet = databaseConnector.select(query);
-            resultSet.next();
-            return getTransmissionFromResultSet(resultSet);
-        } catch (Exception e) {
+            if(resultSet.next()) {
+                return getTransmissionFromResultSet(resultSet);
+            }
+        } catch (SQLException e) {
             e.printStackTrace();
         }
         return null;

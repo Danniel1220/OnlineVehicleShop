@@ -5,6 +5,8 @@ import com.crystal.ovs.database.crud.CrudElectricEngine;
 import com.crystal.ovs.exceptions.ValidationException;
 import com.crystal.ovs.inputOutputManager.InputManager;
 import com.crystal.ovs.inputOutputManager.OutputManager;
+import com.crystal.ovs.inputOutputManager.OutputTextType;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -56,7 +58,7 @@ public class ElectricEngineController {
         if(electricEngine != null) {
             OutputManager.printMessage(electricEngine.toString());
         } else {
-            OutputManager.printMessage("Electric engine not found!");
+            OutputManager.printMessage(OutputTextType.WARNING,"WARNING: Electric engine not found!");
         }
     }
 
@@ -121,7 +123,7 @@ public class ElectricEngineController {
             }
             CrudElectricEngine.updateAllById(electricEngine);
         } else {
-            OutputManager.printMessage("Electric engine not found!");
+            OutputManager.printMessage(OutputTextType.WARNING,"WARNING: Electric engine not found!");
         }
     }
 
@@ -150,13 +152,13 @@ public class ElectricEngineController {
         List<String> validationErrors = new ArrayList<>();
 
         if (electricEngine.getType().equals("")) {
-            validationErrors.add("Type is empty!");
+            validationErrors.add("ERROR: Type is empty!");
         }
         if (electricEngine.getBatteryCapacity() < 17) {
-            validationErrors.add("Battery capacity is too low for an electric vehicle!");
+            validationErrors.add("ERROR: Battery capacity is too low for an electric vehicle!");
         }
         if (electricEngine.getRange() < 135) {
-            validationErrors.add("Range is too small for a car's electric engine!");
+            validationErrors.add("ERROR: Range is too small for a car's electric engine!");
         }
 
         return validationErrors;
@@ -165,7 +167,7 @@ public class ElectricEngineController {
     private static boolean hasErrors(List<String> validationErrors) {
         if (validationErrors.size() > 0) {
             for (String error : validationErrors) {
-                OutputManager.printMessage(error);
+                OutputManager.printMessage(OutputTextType.ERROR,error);
             }
             return true;
         }

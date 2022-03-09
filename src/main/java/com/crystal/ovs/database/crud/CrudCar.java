@@ -5,6 +5,9 @@ import com.crystal.ovs.dao.CarType;
 import com.crystal.ovs.dao.TractionType;
 import com.crystal.ovs.database.DatabaseConnector;
 import com.crystal.ovs.exceptions.ValidationException;
+import com.crystal.ovs.inputOutputManager.OutputManager;
+import com.crystal.ovs.inputOutputManager.OutputTextType;
+
 import java.awt.*;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -50,7 +53,7 @@ public class CrudCar {
             databaseConnector = DatabaseConnector.getInstance();
             databaseConnector.execute(query);
         } catch (Exception e) {
-            System.out.println("ERROR: database CRUD operation failed!");
+            OutputManager.printMessage(OutputTextType.ERROR,"ERROR: database CRUD operation failed!");
             e.printStackTrace();
         }
     }
@@ -60,7 +63,7 @@ public class CrudCar {
             databaseConnector = DatabaseConnector.getInstance();
             return databaseConnector.select(query);
         } catch (Exception e) {
-            System.out.println("ERROR: database CRUD operation failed!");
+            OutputManager.printMessage(OutputTextType.ERROR,"ERROR: database CRUD operation failed!");
             e.printStackTrace();
         }
         return null;

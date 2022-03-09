@@ -9,6 +9,8 @@ import com.crystal.ovs.database.crud.CrudTransmission;
 import com.crystal.ovs.exceptions.ValidationException;
 import com.crystal.ovs.inputOutputManager.InputManager;
 import com.crystal.ovs.inputOutputManager.OutputManager;
+import com.crystal.ovs.inputOutputManager.OutputTextType;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
@@ -61,7 +63,7 @@ public class CarController {
         if(car != null) {
             OutputManager.printMessage(car.toString());
         } else {
-            OutputManager.printMessage("Car not found!");
+            OutputManager.printMessage(OutputTextType.WARNING,"WARNING: Car not found!");
         }
     }
 
@@ -163,7 +165,7 @@ public class CarController {
             }
             CrudCar.updateCar(car);
         } else {
-            OutputManager.printMessage("Car not found!");
+            OutputManager.printMessage(OutputTextType.WARNING,"WARNING: Car not found!");
         }
     }
 
@@ -176,34 +178,34 @@ public class CarController {
         List<String> validationErrors = new ArrayList<>();
 
         if (car.getId() <= 0) {
-            validationErrors.add("Id cannot be less than or equal to 0");
+            validationErrors.add("ERROR: Id cannot be less than or equal to 0");
         }
         if (car.getBrand().isEmpty()) {
-            validationErrors.add("Brand can't be empty");
+            validationErrors.add("ERROR: Brand can't be empty");
         }
         if (car.getModel().isEmpty()) {
-            validationErrors.add("Model can't be empty");
+            validationErrors.add("ERROR: Model can't be empty");
         }
         if (car.getVIN().isEmpty()) {
-            validationErrors.add("VIN number can't be empty");
+            validationErrors.add("ERROR: VIN number can't be empty");
         }
         if (car.getManufacturingYear() < 2019) {
-            validationErrors.add("This model of car is already out of manufacturing time");
+            validationErrors.add("ERROR: This model of car is already out of manufacturing time");
         }
         if (car.getManufacturingYear() > 2023) {
-            validationErrors.add("This model of car is not out yet");
+            validationErrors.add("ERROR: This model of car is not out yet");
         }
         if (car.getEngineId() <= 0) {
-            validationErrors.add("EngineId can't be less than or equal to 0");
+            validationErrors.add("ERROR: EngineId can't be less than or equal to 0");
         }
         if (car.getTransmissionId() <= 0) {
-            validationErrors.add("TransmissionId can't be less than or equal to 0");
+            validationErrors.add("ERROR: TransmissionId can't be less than or equal to 0");
         }
         if (car.getNumberOfDoors() < 1 || car.getNumberOfDoors() > 6) {
-            validationErrors.add("A car can have a min number of doors of 1 and a maximum of 6");
+            validationErrors.add("ERROR: A car can have a min number of doors of 1 and a maximum of 6");
         }
         if(car.getColor().isBlank()) {
-            validationErrors.add("You have to enter a color!");
+            validationErrors.add("ERROR: You have to enter a color!");
         }
         return validationErrors;
     }
@@ -211,7 +213,7 @@ public class CarController {
     private static boolean hasErrors(List<String> validationErrors) {
         if (validationErrors.size() > 0) {
             for (String error : validationErrors) {
-                OutputManager.printMessage(error);
+                OutputManager.printMessage(OutputTextType.ERROR,error);
             }
             return true;
         }

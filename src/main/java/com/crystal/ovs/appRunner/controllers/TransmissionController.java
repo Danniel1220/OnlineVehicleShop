@@ -59,7 +59,7 @@ public class TransmissionController {
         if(transmission != null) {
             OutputManager.printMessage(transmission.toString());
         } else {
-            OutputManager.printMessage("Transmission not found!");
+            OutputManager.printMessage(OutputTextType.WARNING,"WARNING: Transmission not found!");
         }
     }
 
@@ -126,7 +126,7 @@ public class TransmissionController {
             }
             CrudTransmission.updateTransmission(transmission);
         } else {
-            OutputManager.printMessage("Transmission not found!");
+            OutputManager.printMessage(OutputTextType.WARNING,"WARNING: Transmission not found!");
         }
     }
 
@@ -158,10 +158,10 @@ public class TransmissionController {
         List<String> validationErrors = new ArrayList<>();
 
         if(transmission.getId() <= 0) {
-            validationErrors.add("Id cannot be less than or equal to 0");
+            validationErrors.add("ERROR: Id cannot be less than or equal to 0");
         }
         if(transmission.getNumberOfGears() < 3 || transmission.getNumberOfGears() > 15){
-            validationErrors.add("A transmission can't have more than 15 gears and less than 3");
+            validationErrors.add("ERROR: A transmission can't have more than 15 gears and less than 3");
         }
         return validationErrors;
     }
