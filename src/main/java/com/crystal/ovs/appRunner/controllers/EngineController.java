@@ -5,6 +5,7 @@ import com.crystal.ovs.database.crud.CrudEngine;
 import com.crystal.ovs.exceptions.ValidationException;
 import com.crystal.ovs.inputOutputManager.InputManager;
 import com.crystal.ovs.inputOutputManager.OutputManager;
+import com.crystal.ovs.inputOutputManager.OutputTextType;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -47,21 +48,24 @@ public class EngineController {
     private static void getAllEngines() {
         OutputManager.printMessage("All engines");
 
-        List<Engine> engineList = CrudEngine.selectAllEngine();
-        for(Engine engine : Objects.requireNonNull(engineList)) {
-            OutputManager.printMessage(engine.toString());
-        }
+            List<Engine> engineList = CrudEngine.selectAllEngine();
+            for (Engine engine : Objects.requireNonNull(engineList)) {
+                OutputManager.printMessage(engine.toString());
+            }
 
     }
 
     private static void getEngineById() {
-        OutputManager.printMessage("Insert engine's id:");
-        Engine engine= CrudEngine.selectEngineById(InputManager.readIntegerField());
-        if(engine != null) {
-            OutputManager.printMessage(engine.toString());
-        } else {
-            OutputManager.printMessage("Engine not found!");
-        }
+        OutputManager.printMessage("Choose engine's id");
+        OutputManager.printLabel("Enter engine id");
+
+            Engine engine = CrudEngine.selectEngineById(InputManager.readIntegerField());
+            if (engine != null) {
+                OutputManager.printMessage(engine.toString());
+            } else {
+                OutputManager.printMessage(OutputTextType.WARNING,"WARNING: Transmission not found!");
+            }
+
     }
 
     private static void createEngine() {
@@ -131,7 +135,7 @@ public class EngineController {
                 CrudEngine.updateAllEngineById(engine);
             }
         } else {
-            OutputManager.printMessage("Engine not found!");
+            OutputManager.printMessage(OutputTextType.WARNING,"WARNING: Transmission not found!");
         }
     }
 
