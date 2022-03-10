@@ -3,6 +3,7 @@
 -- Host: localhost    Database: onlinevehicleshop
 -- ------------------------------------------------------
 -- Server version	8.0.27
+
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
 /*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
@@ -13,13 +14,6 @@
 /*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
 /*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
-
---
--- Create database
---
-DROP DATABASE IF EXISTS onlinevehicleshop;
-CREATE DATABASE onlinevehicleshop;
-USE onlinevehicleshop;
 
 --
 -- Table structure for table `car`
@@ -127,7 +121,7 @@ CREATE TABLE `fuelengine` (
   `strokeType` varchar(45) DEFAULT NULL,
   `displacement` float DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -136,6 +130,7 @@ CREATE TABLE `fuelengine` (
 
 LOCK TABLES `fuelengine` WRITE;
 /*!40000 ALTER TABLE `fuelengine` DISABLE KEYS */;
+INSERT INTO `fuelengine` VALUES (1,'GASOLINE',10.1,8,521.2,'INLINE',1,1,'TWO_STROKE',1.4),(2,'DIESEL',10.1,10,521.2,'V',1,0,'FOUR_STROKE',1.5),(3,'LPG',10.1,12,521.2,'VR',1,1,'TWO_STROKE',1.6),(4,'METHANOL',10.1,14,521.2,'ROTARY',1,1,'TWO_STROKE',1.7),(5,'ETHANOL',10.1,16,521.2,'BOXER',1,1,'TWO_STROKE',1.8);
 /*!40000 ALTER TABLE `fuelengine` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -203,6 +198,7 @@ CREATE TABLE `user` (
   `name` varchar(45) DEFAULT NULL,
   `password` varchar(45) DEFAULT NULL,
   `role` varchar(45) DEFAULT NULL,
+  `email` varchar(45) DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -213,7 +209,7 @@ CREATE TABLE `user` (
 
 LOCK TABLES `user` WRITE;
 /*!40000 ALTER TABLE `user` DISABLE KEYS */;
-INSERT INTO `user` VALUES (1,'John Doe','123456','client');
+INSERT INTO `user` VALUES (1,'John Doe','123456','client','johndoe@test.com');
 /*!40000 ALTER TABLE `user` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -226,10 +222,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
-insert into `fuelengine` values(1, 'GASOLINE', 10.1, 8, 521.2, 'INLINE', true, true, 'TWO_STROKE', 1.4);
-insert into `fuelengine` values(2, 'DIESEL', 10.1, 10, 521.2, 'V', true, false, 'FOUR_STROKE', 1.5);
-insert into `fuelengine` values(3, 'LPG', 10.1, 12, 521.2, 'VR', true, true, 'TWO_STROKE', 1.6);
-insert into `fuelengine` values(4, 'METHANOL', 10.1, 14, 521.2, 'ROTARY', true, true, 'TWO_STROKE', 1.7);
-insert into `fuelengine` values(5, 'ETHANOL', 10.1, 16, 521.2, 'BOXER', true, true, 'TWO_STROKE', 1.8);
--- Dump completed on 2022-02-17 20:00:19
-
+-- Dump completed on 2022-03-10 14:44:41
