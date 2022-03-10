@@ -6,6 +6,8 @@ import com.crystal.ovs.database.crud.CrudPost;
 import com.crystal.ovs.exceptions.ValidationException;
 import com.crystal.ovs.inputOutputManager.InputManager;
 import com.crystal.ovs.inputOutputManager.OutputManager;
+import com.crystal.ovs.inputOutputManager.OutputTextType;
+
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
@@ -69,7 +71,7 @@ public class PostController {
                 OutputManager.printMessage("There is no post with that Id");
             }
         } catch (SQLException e) {
-            OutputManager.printMessage("There was a problem connecting to the database");
+            OutputManager.printMessage(OutputTextType.WARNING, "There was a problem connecting to the database");
         }
     }
 
@@ -120,10 +122,10 @@ public class PostController {
                 newPost.setId((post.getId()));
                 CrudPost.updatePost(newPost);
             } else {
-                OutputManager.printMessage("There is no post engine with that Id");
+                OutputManager.printMessage(OutputTextType.WARNING, "There is no post engine with that Id");
             }
         } catch (SQLException e) {
-            OutputManager.printMessage("There was a problem connecting to the database");
+            OutputManager.printMessage(OutputTextType.ERROR, "There was a problem connecting to the database");
         } catch (ValidationException e) {
             OutputManager.printValidationErrors(e.getValidationErrors());
         }
@@ -145,10 +147,10 @@ public class PostController {
                     CrudPost.deletePost(post.getId());
                 }
             } else {
-                OutputManager.printMessage("There is no post with that Id");
+                OutputManager.printMessage(OutputTextType.WARNING, "There is no post with that Id");
             }
         } catch (SQLException e) {
-            OutputManager.printMessage("There was a problem connecting to the database");
+            OutputManager.printMessage(OutputTextType.ERROR, "There was a problem connecting to the database");
         }
     }
 
