@@ -4,6 +4,7 @@ package com.crystal.ovs.database.crud;
 import com.crystal.ovs.dao.Engine;
 import com.crystal.ovs.database.DatabaseConnector;
 import com.crystal.ovs.exceptions.ValidationException;
+import com.crystal.ovs.inputOutputManager.OutputTextType;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -40,7 +41,7 @@ public class CrudEngine {
             databaseConnector = DatabaseConnector.getInstance();
             databaseConnector.execute(query);
         } catch (Exception e) {
-            System.out.println("ERROR: database CRUD operation failed!");
+            System.out.println(OutputTextType.ERROR,"ERROR: database CRUD operation failed!");
             e.printStackTrace();
         }
     }
@@ -50,7 +51,7 @@ public class CrudEngine {
             databaseConnector = DatabaseConnector.getInstance();
             return databaseConnector.select(query);
         } catch (Exception e) {
-            System.out.println("ERROR: database CRUD operation failed!");
+            System.out.println(OutputTextType.ERROR,"ERROR: database CRUD operation failed!");
             e.printStackTrace();
         }
         return null;
