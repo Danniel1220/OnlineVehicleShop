@@ -36,7 +36,7 @@ public class FuelEngineController {
                     updateFuelEngine();
                     break;
                 case 5:
-                    deleteCar();
+                    deleteFuelEngine();
                     break;
                 case 6:
                     isInFuelEngineController = false;
@@ -111,7 +111,7 @@ public class FuelEngineController {
         }
     }
 
-    private static void deleteCar() {
+    private static void deleteFuelEngine() {
         OutputManager.printMessage("Chose a fuel engines");
         OutputManager.printLabel("Enter fuel engine id");
         int id = InputManager.readIntegerField();

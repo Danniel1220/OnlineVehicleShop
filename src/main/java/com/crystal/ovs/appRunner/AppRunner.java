@@ -2,6 +2,7 @@ package com.crystal.ovs.appRunner;
 
 import com.crystal.ovs.dao.User;
 import com.crystal.ovs.dao.UserRole;
+import com.crystal.ovs.database.crud.CrudUser;
 import com.crystal.ovs.inputOutputManager.InputManager;
 import com.crystal.ovs.inputOutputManager.OutputManager;
 
@@ -37,9 +38,8 @@ public class AppRunner {
         OutputManager.printLabel("Password");
         String password = InputManager.readStringField();
 
-        //Get the user based on email and password
-        //this is just a placeholder user
-        User user = new User(1, "asd", "asd", UserRole.ADMIN);
+        //will probably throw errors
+        User user = CrudUser.selectUserByCredentials(email, password);
 
         if(user.getRole() == UserRole.CLIENT){
             ClientAppRunner clientAppRunner = new ClientAppRunner(user);
@@ -52,12 +52,17 @@ public class AppRunner {
 
     private static void createAccount() {
         OutputManager.printMessage("Create account");
+        OutputManager.printLabel("Name");
+        String name = InputManager.readStringField();
         OutputManager.printLabel("Email");
         String email = InputManager.readStringField();
         OutputManager.printLabel("Password");
         String password = InputManager.readStringField();
 
-        //create user with on CRUDUser
+        User user = new User(0, name, password, UserRole.CLIENT, email);
+
+        //will probably throw errors
+        CrudUser.insertUser(user);
         OutputManager.printMessage("Account created");
 
     }
