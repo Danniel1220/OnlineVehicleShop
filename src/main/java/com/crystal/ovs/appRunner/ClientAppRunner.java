@@ -1,8 +1,17 @@
 package com.crystal.ovs.appRunner;
 
+import com.crystal.ovs.dao.Post;
+import com.crystal.ovs.dao.Transaction;
 import com.crystal.ovs.dao.User;
+import com.crystal.ovs.database.crud.CrudPost;
+import com.crystal.ovs.database.crud.CrudTransaction;
 import com.crystal.ovs.inputOutputManager.InputManager;
 import com.crystal.ovs.inputOutputManager.OutputManager;
+import com.crystal.ovs.inputOutputManager.OutputTextType;
+import java.sql.SQLException;
+import java.util.Date;
+import java.util.List;
+import java.util.Objects;
 
 public class ClientAppRunner {
     private User user;
@@ -13,9 +22,12 @@ public class ClientAppRunner {
         this.user = user;
     }
 
+    /**
+     * Client main menu
+     */
     public void runClientApp() {
         while (isInClientController) {
-            OutputManager.printFuelEngineControllerMenu();
+            OutputManager.printClientAppMenu();
             int command = InputManager.readIntegerField();
 
             switch (command) {
@@ -42,14 +54,62 @@ public class ClientAppRunner {
     }
 
     private void getPosts() {
+        try {
+            List<Post> posts = CrudPost.selectAllPosts();
+            if(posts.size() > 0) {
+                for(Post post : Objects.requireNonNull(posts)) {
+                    OutputManager.printMessage(post.toString());
+                }
+            } else {
+                OutputManager.printMessage(OutputTextType.WARNING, "There are no posts to show!");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
-    private void getPostById() {
+    private Post getPostById() {
+        OutputManager.printMessage("What is the id of the post you are looking for?");
+        try {
+            Post post = CrudPost.selectPostById(InputManager.readIntegerField());
+            OutputManager.printMessage(post.toString());
+            return post;
+        } catch (Exception e) {
+            OutputManager.printMessage(OutputTextType.WARNING, "Post not found!");
+        }
+        return null;
     }
 
     private void buyCar() {
+        Post post = getPostById();
+        if(post != null) {
+            OutputManager.printMessage(post.toString());
+            OutputManager.printMessage("Are you sure you want to buy this car? y | n");
+            if(InputManager.readStringField().equals("y")) {
+                Transaction transaction = new Transaction(0, post.getId(), this.user.getId(), new Date());
+                CrudTransaction.insertTransaction(transaction);
+                OutputManager.printMessage(transaction.toString());
+                OutputManager.printMessage("Thank you for the order!");
+            }
+        }
     }
 
+    /**
+     * show entire transaction's history for the current user.
+     */
     private void transactionHistory() {
+        try {
+            List<Transaction> myTransactions = CrudTransaction.selectAllUserTransactions(this.user.getId());
+            if(myTransactions.size() == 0) {
+                OutputManager.printMessage("You have no transactions!");
+            } else {
+                OutputManager.printMessage("Your transactions:");
+                for(Transaction transaction : myTransactions) {
+                    OutputManager.printMessage(transaction.toString());
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 }

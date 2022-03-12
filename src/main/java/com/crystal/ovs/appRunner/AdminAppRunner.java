@@ -1,14 +1,24 @@
 package com.crystal.ovs.appRunner;
 
 import com.crystal.ovs.appRunner.controllers.*;
+import com.crystal.ovs.dao.User;
 import com.crystal.ovs.inputOutputManager.InputManager;
 import com.crystal.ovs.inputOutputManager.OutputManager;
 
 public class AdminAppRunner {
-    private static boolean isRunning = true;
+    private User user;
 
-    public static void runAdminApp() {
-        while(isRunning){
+    private static boolean isInAdminController = true;
+
+    public AdminAppRunner(User user) {
+        this.user = user;
+    }
+
+    /**
+     * Admin main menu
+     */
+    public void runAdminApp() {
+        while(isInAdminController){
             OutputManager.printAdminAppMenu();
             int command = InputManager.readIntegerField();
             switch (command){
@@ -31,10 +41,12 @@ public class AdminAppRunner {
                     PostController.openPostController();
                     break;
                 case 7:
-                    isRunning = false;
+                    UserController.openUserController();
+                    break;
+                case 8:
+                    isInAdminController = false;
                     break;
             }
-
         }
     }
 }

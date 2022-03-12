@@ -37,7 +37,6 @@ public class OutputManager {
     }
 
     /**
-     *
      * @param option should have a value of ERROR red text, WARNING yellow text, CONNECTION green text
      * @param message the message you would like to print
      */
@@ -69,7 +68,18 @@ public class OutputManager {
         System.out.print("4. Electric engine\n");
         System.out.print("5. Transmission\n");
         System.out.print("6. Post\n");
-        System.out.print("7. Exit\n");
+        System.out.print("7. Users\n");
+        System.out.print("8. Exit\n");
+        System.out.print("\nChose a command (enter the command number): ");
+    }
+
+    public static void printClientAppMenu() {
+        System.out.print("Menu\n");
+        System.out.print("1. See all posts\n");
+        System.out.print("2. Search post\n");
+        System.out.print("3. Buy a car\n");
+        System.out.print("4. See your transaction's history\n");
+        System.out.print("5. Log out\n");
         System.out.print("\nChose a command (enter the command number): ");
     }
 
