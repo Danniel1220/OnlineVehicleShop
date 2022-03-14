@@ -3,7 +3,6 @@ package com.crystal.ovs.appRunner;
 import com.crystal.ovs.dao.User;
 import com.crystal.ovs.dao.UserRole;
 import com.crystal.ovs.database.crud.CrudUser;
-import com.crystal.ovs.exceptions.WrongEmailOrPasswordException;
 import com.crystal.ovs.inputOutputManager.InputManager;
 import com.crystal.ovs.inputOutputManager.OutputManager;
 import com.crystal.ovs.inputOutputManager.OutputTextType;
