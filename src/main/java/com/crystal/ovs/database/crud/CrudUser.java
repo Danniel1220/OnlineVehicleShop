@@ -31,6 +31,20 @@ public class CrudUser {
         }
     }
 
+    public static int getNumberOfRows() {
+        String query = "SELECT COUNT(*) AS TABLE_ROWS FROM " + USER_TABLE_NAME + ";";
+        try {
+            databaseConnector = DatabaseConnector.getInstance();
+            ResultSet result = databaseConnector.select(query);
+            while (result.next()) {
+                return result.getInt(1);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return -1;
+    }
+
     public static List<User> selectAllUsers() {
         List<User> userList = new ArrayList<>();
         String sql = "select * from " + USER_TABLE_NAME + ";";

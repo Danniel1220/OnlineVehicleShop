@@ -6,7 +6,24 @@ import com.crystal.ovs.exceptions.WrongEmailOrPasswordException;
 import org.junit.Assert;
 import org.junit.Test;
 
+import java.util.List;
+
 public class CrudUserTests {
+
+    @Test
+    public void getNumberOfRowsTest() {
+        int numberOfRows = CrudUser.getNumberOfRows();
+        Assert.assertEquals(5, numberOfRows);
+    }
+
+    @Test
+    public void selectAllFromUsersTest(){
+        List<User> userList;
+        userList = CrudUser.selectAllUsers();
+        int nrOfRows = CrudUser.getNumberOfRows();
+        Assert.assertEquals(nrOfRows, userList.size());
+    }
+
     @Test
     public void insertUserTest() { // works, after you make the select method you can properly add assertions in this test
         User user = new User(0, "client", "client", UserRole.CLIENT, "client@gmail.com");
