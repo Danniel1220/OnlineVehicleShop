@@ -10,7 +10,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-import com.crystal.ovs.exceptions.WrongPasswordException;
+import com.crystal.ovs.exceptions.WrongEmailOrPasswordException;
 
 public class CrudUser {
     public static final String USER_TABLE_NAME = "user";
@@ -101,7 +101,7 @@ public class CrudUser {
     // If no user with the given email is found return null.
     // If a user is found check if the password is the same as the given one.
     // If true return the User else throws WrongPasswordException
-    public static User selectUserByCredentials(String email, String password) throws WrongPasswordException{
+    public static User selectUserByCredentials(String email, String password) throws WrongEmailOrPasswordException {
         String query = String.format("select * from " + USER_TABLE_NAME + " where " + USER_EMAIL_COLUMN + " ='" +  email + "' AND " + USER_PASSWORD_COLUMN + " ='" + password + "';");
         try {
             databaseConnector = DatabaseConnector.getInstance();
@@ -109,7 +109,7 @@ public class CrudUser {
             if(resultSet.next()) {
                 return getUserFromResultSet(resultSet);
             } else {
-                throw new WrongPasswordException();
+                throw new WrongEmailOrPasswordException();
             }
         } catch (SQLException e) {
             e.printStackTrace();

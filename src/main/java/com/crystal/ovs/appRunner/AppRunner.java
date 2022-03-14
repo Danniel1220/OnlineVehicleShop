@@ -3,6 +3,7 @@ package com.crystal.ovs.appRunner;
 import com.crystal.ovs.dao.User;
 import com.crystal.ovs.dao.UserRole;
 import com.crystal.ovs.database.crud.CrudUser;
+import com.crystal.ovs.exceptions.WrongEmailOrPasswordException;
 import com.crystal.ovs.inputOutputManager.InputManager;
 import com.crystal.ovs.inputOutputManager.OutputManager;
 import com.crystal.ovs.inputOutputManager.OutputTextType;
@@ -23,12 +24,7 @@ public class AppRunner {
 
             switch (command){
                 case 1:
-                    // login(); will be active after CrudUser is entirely implemented and tested.
-
-                    User user = new User(0, "admin", "admin", UserRole.ADMIN, "admin@gmail.com");
-                    AdminAppRunner adminAppRunner = new AdminAppRunner(user);
-                    adminAppRunner.runAdminApp();
-
+                    login();
                     break;
                 case 2:
                     createAccount();
@@ -56,16 +52,22 @@ public class AppRunner {
         OutputManager.printLabel("Password");
         String password = InputManager.readStringField();
 
-        User user = CrudUser.selectUserByCredentials(email, password);
-        List<String> validationErrors = validateAccountInformationForLogin(user);
-        if(!hasErrors(validationErrors)) {
-            if(Objects.requireNonNull(user).getRole() == UserRole.ADMIN) {
-                AdminAppRunner adminAppRunner = new AdminAppRunner(user);
-                adminAppRunner.runAdminApp();
+        try {
+            User user = CrudUser.selectUserByCredentials(email, password);
+            List<String> validationErrors = validateAccountInformationForLogin(user);
+            if(!hasErrors(validationErrors)) {
+                if(user.getRole() == UserRole.ADMIN) {
+                    AdminAppRunner adminAppRunner = new AdminAppRunner(user);
+                    adminAppRunner.runAdminApp();
+                } else {
+                        ClientAppRunner clientAppRunner = new ClientAppRunner(user);
+                        clientAppRunner.runClientApp();
+                }
             } else {
-                ClientAppRunner clientAppRunner = new ClientAppRunner(user);
-                clientAppRunner.runClientApp();
+                OutputManager.printMessage(OutputTextType.WARNING, "The information introduced is not correct!");
             }
+        } catch (WrongEmailOrPasswordException e) {
+            e.printStackTrace();
         }
     }
 
