@@ -23,7 +23,7 @@ public class CrudUserTests {
             Assert.assertEquals("admin@gmail.com", user.getEmail());
             Assert.assertEquals("admin", user.getPassword());
             Assert.assertEquals(UserRole.ADMIN, user.getRole());
-        } catch (WrongEmailOrPasswordException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
@@ -34,8 +34,13 @@ public class CrudUserTests {
         try {
             user = CrudUser.selectUserByCredentials("adminMissing@gmail.com", "admin");
             Assert.assertNull(user);
-        } catch (WrongEmailOrPasswordException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    @Test
+    public void createAlreadyExistingAccount() {
+        User user = new User(0, "client", "client", UserRole.CLIENT, "client@gmail.com");
     }
 }

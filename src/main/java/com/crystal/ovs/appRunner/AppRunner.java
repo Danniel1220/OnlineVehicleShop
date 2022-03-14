@@ -54,19 +54,23 @@ public class AppRunner {
 
         try {
             User user = CrudUser.selectUserByCredentials(email, password);
-            List<String> validationErrors = validateAccountInformationForLogin(user);
-            if(!hasErrors(validationErrors)) {
-                if(user.getRole() == UserRole.ADMIN) {
-                    AdminAppRunner adminAppRunner = new AdminAppRunner(user);
-                    adminAppRunner.runAdminApp();
-                } else {
+            if(user != null) {
+                List<String> validationErrors = validateAccountInformationForLogin(user);
+                if(!hasErrors(validationErrors)) {
+                    if(user.getRole() == UserRole.ADMIN) {
+                        AdminAppRunner adminAppRunner = new AdminAppRunner(user);
+                        adminAppRunner.runAdminApp();
+                    } else {
                         ClientAppRunner clientAppRunner = new ClientAppRunner(user);
                         clientAppRunner.runClientApp();
+                    }
+                } else {
+                    OutputManager.printMessage(OutputTextType.WARNING, "The information introduced is not correct!");
                 }
             } else {
-                OutputManager.printMessage(OutputTextType.WARNING, "The information introduced is not correct!");
+                OutputManager.printMessage(OutputTextType.ERROR, "The email or password entered is wrong!");
             }
-        } catch (WrongEmailOrPasswordException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
@@ -124,9 +128,11 @@ public class AppRunner {
         for(User existingUser : Objects.requireNonNull(existingUsers)) {
             if(existingUser.getEmail().equals(user.getEmail())) {
                 validationErrors.add("ERROR: Email already taken!");
+                break;
             }
             if(existingUser.getName().equals(user.getName())) {
                 validationErrors.add("ERROR: Username already taken!");
+                break;
             }
         }
         return validationErrors;

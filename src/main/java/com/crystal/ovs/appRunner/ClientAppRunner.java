@@ -101,7 +101,7 @@ public class ClientAppRunner {
         try {
             List<Transaction> myTransactions = CrudTransaction.selectAllUserTransactions(this.user.getId());
             if(myTransactions.size() == 0) {
-                OutputManager.printMessage("You have no transactions!");
+                OutputManager.printMessage(OutputTextType.WARNING, "You have no previous transactions!");
             } else {
                 OutputManager.printMessage("Your transactions:");
                 for(Transaction transaction : myTransactions) {
