@@ -65,7 +65,7 @@ public class CrudUser {
     public static List<User> selectAllAdminUsers() {
 
         List<User> userAdminList = new ArrayList<>();
-        String sql = "select * from " + USER_TABLE_NAME + "where "+ USER_ROLE_COLUMN + "= " + UserRole.ADMIN +" ;";
+        String sql = "select * from " + USER_TABLE_NAME + " where " + USER_ROLE_COLUMN + " = '" + UserRole.ADMIN +"' ;";
         try {
             databaseConnector = DatabaseConnector.getInstance();
             ResultSet resultSet = databaseConnector.select(sql);
@@ -82,7 +82,7 @@ public class CrudUser {
 
     public static List<User> selectAllClientUsers(){
         List<User> userClientList = new ArrayList<>();
-        String sql = "select * from " + USER_TABLE_NAME + "where "+ USER_ROLE_COLUMN + "= " + UserRole.CLIENT +" ;";
+        String sql = "select * from " + USER_TABLE_NAME + " where " + USER_ROLE_COLUMN + " = '" + UserRole.CLIENT + "' ;";
         try {
             databaseConnector = DatabaseConnector.getInstance();
             ResultSet resultSet = databaseConnector.select(sql);
@@ -148,11 +148,11 @@ public class CrudUser {
     }
 
     public static int updateUser(User newUser){
-        String sqlQuery = "update " + USER_TABLE_NAME + " SET " + USER_NAME_COLUMN + " = '"
+        String sqlQuery = "update " + USER_TABLE_NAME + " set " + USER_NAME_COLUMN + " = '"
                 + newUser.getName() + "', " + USER_PASSWORD_COLUMN + " = '"
                 + newUser.getPassword() +  "', " + USER_ROLE_COLUMN + " = '"
                 + newUser.getRole() +  "', " + USER_EMAIL_COLUMN + " = '"
-                + newUser.getEmail() +  "', " + " where id="
+                + newUser.getEmail() +  "' " + " where " + USER_ID_COLUMN + " = "
                 + newUser.getId() +";";
         try{
             executeVoidQuery(sqlQuery);
