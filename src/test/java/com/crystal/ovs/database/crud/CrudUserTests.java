@@ -27,11 +27,22 @@ public class CrudUserTests {
     @Test
     public void insertUserTest() { // works, after you make the select method you can properly add assertions in this test
         User user = new User(0, "client", "client", UserRole.CLIENT, "client@gmail.com");
-        CrudUser.insertUser(user);
+        Assert.assertEquals(1, CrudUser.insertUser(user));
     }
 
     @Test
-    public void selectAdminUserTest() {
+    public void updateUserTest() {
+        User user = new User(0, "client21", "client", UserRole.CLIENT, "client@gmail.com");
+        Assert.assertEquals(1, CrudUser.updateUser(user));
+    }
+
+    @Test
+    public void deleteUserTest() {
+        Assert.assertEquals(1, CrudUser.deleteUser(1));
+    }
+
+    @Test
+    public void selectUserByCredentialsTest() {
         User user;
         try {
             user = CrudUser.selectUserByCredentials("admin@gmail.com", "admin");
@@ -46,6 +57,34 @@ public class CrudUserTests {
     }
 
     @Test
+    public void selectAllAdminUsersTest() {
+        List<User> userList;
+        userList = CrudUser.selectAllAdminUsers();
+        int nrOfRows = CrudUser.getNumberOfRows();
+        Assert.assertEquals(nrOfRows, userList.size());
+        for (User user : userList) {
+            Assert.assertEquals(UserRole.ADMIN,user.getRole());
+        }
+    }
+
+    @Test
+    public void selectAllClientUsers() {
+        List<User> userList;
+        userList = CrudUser.selectAllClientUsers();
+        int nrOfRows = CrudUser.getNumberOfRows();
+        Assert.assertEquals(nrOfRows, userList.size());
+        for (User user : userList) {
+            Assert.assertEquals(UserRole.CLIENT,user.getRole());
+        }
+    }
+
+    @Test
+    public void selectUserByIdTest() {
+        User user = CrudUser.selectUserById(1);
+        Assert.assertNotNull(user);
+    }
+
+    @Test
     public void selectMissingAdminUserTest() {
         User user;
         try {
@@ -56,8 +95,5 @@ public class CrudUserTests {
         }
     }
 
-    @Test
-    public void createAlreadyExistingAccount() {
-        User user = new User(0, "client", "client", UserRole.CLIENT, "client@gmail.com");
-    }
+    
 }
