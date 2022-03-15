@@ -79,13 +79,22 @@ public class CrudPost {
     }
 
     public static Post getPostFromResultSet(ResultSet resultSet) throws SQLException {
+        int postId = resultSet.getInt("id");
+        String postTitle = resultSet.getString("title");
+        String postDescription = resultSet.getString("description");
+        float postPrice = resultSet.getFloat("price");
+        int postAvailable = resultSet.getInt("available");
+        int postCarId = resultSet.getInt("carId");
+
+        Car postCarObject = CrudCar.selectCarById(postCarId);
+
         return new Post(
-                resultSet.getInt("id"),
-                resultSet.getString("title"),
-                resultSet.getString("description"),
-                resultSet.getFloat("price"),
-                resultSet.getInt("available"),
-                resultSet.getObject("carId", Car.class)
+                postId,
+                postTitle,
+                postDescription,
+                postPrice,
+                postAvailable,
+                postCarObject
         );
     }
 
