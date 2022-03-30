@@ -15,5 +15,5 @@ public class Post {
     private final String description;
     private final Float price;
     private final Integer available;
-    private final Car car;
+    private final int carId;
 }

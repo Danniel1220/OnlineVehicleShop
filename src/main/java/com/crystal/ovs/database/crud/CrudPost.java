@@ -44,7 +44,7 @@ public class CrudPost {
 
         String query = String.format(
                 "insert into post (title, description, price, available, carId) values('%s', '%s', %f, %d, %d);",
-                post.getTitle(), post.getDescription(), post.getPrice(), post.getAvailable(), post.getCar().getId());
+                post.getTitle(), post.getDescription(), post.getPrice(), post.getAvailable(), post.getCarId());
 
         connector.execute("SET FOREIGN_KEY_CHECKS = 0;");
 
@@ -66,7 +66,7 @@ public class CrudPost {
                         "where id = %d;",
                 post.getTitle(), post.getDescription(),
                 post.getPrice(), post.getAvailable(),
-                post.getCar().getId(), post.getId());
+                post.getCarId(), post.getId());
 
         System.out.println(query);
 
@@ -86,15 +86,13 @@ public class CrudPost {
         int postAvailable = resultSet.getInt("available");
         int postCarId = resultSet.getInt("carId");
 
-        Car postCarObject = CrudCar.selectCarById(postCarId);
-
         return new Post(
                 postId,
                 postTitle,
                 postDescription,
                 postPrice,
                 postAvailable,
-                postCarObject
+                postCarId
         );
     }
 
@@ -116,8 +114,8 @@ public class CrudPost {
         if(post.getAvailable() <= 0) {
             validationErrors.add("Available amount cannot be less than or equal to 0");
         }
-        if(Objects.isNull(post.getCar())) {
-            validationErrors.add("Car object cannot be null");
+        if(Objects.isNull(post.getCarId())) {
+            validationErrors.add("Car id cannot be null");
         }
 
         return validationErrors;

@@ -13,7 +13,7 @@ import java.util.List;
 public class CrudPostTest {
     static DatabaseConnector connector = DatabaseConnector.getInstance();
 
-    final int EXISTING_ID = 1;
+    final int EXISTING_ID = 2;
 
     @Test
     public void shouldSelectAllPosts(){
@@ -47,7 +47,6 @@ public class CrudPostTest {
     @Test
     public void shouldInsertPost(){
         int actualPostCount = 0;
-        Car car = Car.builder().id(120).build();
         try {
             actualPostCount = CrudPost.insertPost(new Post(
                     1,
@@ -55,7 +54,7 @@ public class CrudPostTest {
                     "Post Description",
                     120f,
                     12,
-                    car
+                    120
             ));
         } catch (ValidationException e) {
             e.printStackTrace();
@@ -66,14 +65,13 @@ public class CrudPostTest {
     @Test
     public void shouldUpdatePost() throws ValidationException {
         int actualPostCount;
-        Car car = Car.builder().id(120).build();
         Post post = new Post(
                 EXISTING_ID,
                 "Updated Post Title",
                 "Updated Post Desc",
                 120f,
                 12,
-                car
+                120
         );
 
         actualPostCount = CrudPost.updatePost(post);

@@ -103,7 +103,7 @@ public class PostController {
         }
         else {
             return new Post(-1, postTitle, postDescription, postPrice,
-                    postAvailable, CrudCar.selectCarById(postCarId));
+                    postAvailable, postCarId);
         }
     }
 
