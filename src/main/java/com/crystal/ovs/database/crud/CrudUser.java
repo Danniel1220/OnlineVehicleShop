@@ -185,7 +185,7 @@ public class CrudUser {
                 resultSet.getInt(USER_ID_COLUMN),
                 resultSet.getString(USER_NAME_COLUMN),
                 resultSet.getString(USER_PASSWORD_COLUMN),
-                UserRole.valueOf(resultSet.getString(USER_ROLE_COLUMN)),
+                UserRole.valueOf(resultSet.getString(USER_ROLE_COLUMN).toUpperCase()),
                 resultSet.getString(USER_EMAIL_COLUMN)
         );
     }
