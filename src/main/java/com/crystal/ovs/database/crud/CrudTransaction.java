@@ -41,7 +41,7 @@ public class CrudTransaction {
                 TRANSACTION_DATE_COLUMN + ") VALUES (" +
                 transaction.getUserId() + ", " +
                 transaction.getPostId() + ", " +
-                "date('" + extractDate(transaction.getDate()) + "'));";
+                "date('" + transaction.getDate() + "'));";
 
         return connector.execute(query);
     }
@@ -51,7 +51,7 @@ public class CrudTransaction {
         String query = "UPDATE `" + TRANSACTION_TABLE_NAME + "` SET " +
                 TRANSACTION_ID_USER_COLUMN + " = " + newTransaction.getUserId() + ", " +
                 TRANSACTION_ID_POST_COLUMN + " = " + newTransaction.getPostId() + ", " +
-                TRANSACTION_DATE_COLUMN + " = date('" + extractDate(newTransaction.getDate()) +
+                TRANSACTION_DATE_COLUMN + " = date('" + newTransaction.getDate() +
                 "') WHERE " + TRANSACTION_ID_COLUMN + " = " + newTransaction.getId() + ";";
 
         return connector.execute(query);
@@ -68,7 +68,7 @@ public class CrudTransaction {
                 resultSet.getInt(TRANSACTION_ID_COLUMN),
                 resultSet.getInt(TRANSACTION_ID_POST_COLUMN),
                 resultSet.getInt(TRANSACTION_ID_USER_COLUMN),
-                resultSet.getDate(TRANSACTION_DATE_COLUMN));
+                resultSet.getDate(TRANSACTION_DATE_COLUMN).toLocalDate());
     }
 
     private static String extractDate(Date date){

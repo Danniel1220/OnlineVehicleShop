@@ -20,7 +20,8 @@ public class OutputManager {
         System.out.print("Menu\n");
         System.out.print("1. Login\n");
         System.out.print("2. Create account\n");
-        System.out.print("3. Exit\n");
+        System.out.print("3. Guest mode\n");
+        System.out.print("4. Exit\n");
         System.out.print("\nChose a command (enter the command number): ");
     }
 
@@ -81,6 +82,13 @@ public class OutputManager {
         System.out.print("4. See your transaction's history\n");
         System.out.print("5. Log out\n");
         System.out.print("\nChose a command (enter the command number): ");
+    }
+
+    public static void printGuestAppMenu() {
+        System.out.print("Menu\n");
+        System.out.print("1. See all posts\n");
+        System.out.print("2. Search post\n");
+        System.out.print("3. Log out\n");
     }
 
     public static void printCarControllerMenu() {

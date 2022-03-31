@@ -29,6 +29,9 @@ public class AppRunner {
                     createAccount();
                     break;
                 case 3:
+                    guestMode();
+                    break;
+                case 4:
                     isRunning = false;
                     break;
                 default:
@@ -101,6 +104,15 @@ public class AppRunner {
             OutputManager.printMessage(OutputTextType.ERROR, "There was a problem creating your account!");
             e.printStackTrace();
         }
+    }
+
+    /**
+     * Guest mode on
+     * a guest can only see posts and search for specific ones
+     */
+    private static void guestMode() {
+        GuestAppRunner guestAppRunner = new GuestAppRunner();
+        guestAppRunner.runGuestApp();
     }
 
     /**

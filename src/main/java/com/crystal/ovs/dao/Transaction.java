@@ -2,6 +2,7 @@ package com.crystal.ovs.dao;
 
 import lombok.*;
 
+import java.time.LocalDate;
 import java.util.Date;
 
 @AllArgsConstructor
@@ -13,5 +14,5 @@ public class Transaction {
     private Integer id;
     private Integer postId;
     private Integer userId;
-    private Date date;
+    private LocalDate date;
 }

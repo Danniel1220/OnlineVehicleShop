@@ -9,7 +9,7 @@ import com.crystal.ovs.inputOutputManager.InputManager;
 import com.crystal.ovs.inputOutputManager.OutputManager;
 import com.crystal.ovs.inputOutputManager.OutputTextType;
 import java.sql.SQLException;
-import java.util.Date;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Objects;
 
@@ -33,7 +33,12 @@ public class ClientAppRunner {
                     getPosts();
                     break;
                 case 2:
-                    getPostById();
+                    Post searchedPost = getPostById();
+                    if(searchedPost != null) {
+                        OutputManager.printMessage(searchedPost.toString());
+                    } else {
+                        OutputManager.printMessage(OutputTextType.WARNING, "Post not found!");
+                    }
                     break;
                 case 3:
                     buyCar();
@@ -69,12 +74,8 @@ public class ClientAppRunner {
     private Post getPostById() {
         OutputManager.printMessage("What is the id of the post you are looking for?");
         try {
-            Post post = CrudPost.selectPostById(InputManager.readIntegerField());
-            OutputManager.printMessage(post.toString());
-            return post;
-        } catch (Exception e) {
-            OutputManager.printMessage(OutputTextType.WARNING, "Post not found!");
-        }
+            return CrudPost.selectPostById(InputManager.readIntegerField());
+        } catch (Exception ignored) {}
         return null;
     }
 
@@ -84,7 +85,7 @@ public class ClientAppRunner {
             OutputManager.printMessage(post.toString());
             OutputManager.printMessage("Are you sure you want to buy this car? y | n");
             if(InputManager.readStringField().equals("y")) {
-                Transaction transaction = new Transaction(0, post.getId(), this.user.getId(), new Date());
+                Transaction transaction = new Transaction(0, post.getId(), this.user.getId(), LocalDate.now());
                 CrudTransaction.insertTransaction(transaction);
                 OutputManager.printMessage(transaction.toString());
                 OutputManager.printMessage("Thank you for the order!");
