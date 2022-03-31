@@ -1,14 +1,12 @@
 package com.crystal.ovs.dao;
 
-import lombok.AllArgsConstructor;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 @Getter
 @AllArgsConstructor
 @EqualsAndHashCode
 @Setter
+@ToString
 public class User {
     private final Integer id;
     private String name;

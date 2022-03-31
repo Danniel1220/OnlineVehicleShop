@@ -8,8 +8,6 @@ import com.crystal.ovs.inputOutputManager.OutputManager;
 public class AdminAppRunner {
     private User user;
 
-    private static boolean isInAdminController = true;
-
     public AdminAppRunner(User user) {
         this.user = user;
     }
@@ -18,6 +16,7 @@ public class AdminAppRunner {
      * Admin main menu
      */
     public void runAdminApp() {
+        boolean isInAdminController = true;
         while(isInAdminController){
             OutputManager.printAdminAppMenu();
             int command = InputManager.readIntegerField();

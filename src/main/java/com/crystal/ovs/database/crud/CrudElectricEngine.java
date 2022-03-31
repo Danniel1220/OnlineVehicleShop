@@ -4,7 +4,6 @@ import com.crystal.ovs.dao.ElectricEngine;
 import com.crystal.ovs.database.DatabaseConnector;
 import com.crystal.ovs.inputOutputManager.OutputManager;
 import com.crystal.ovs.inputOutputManager.OutputTextType;
-
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;

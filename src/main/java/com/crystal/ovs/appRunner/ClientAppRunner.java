@@ -15,9 +15,6 @@ import java.util.Objects;
 
 public class ClientAppRunner {
     private User user;
-
-    private static boolean isInClientController = true;
-
     public ClientAppRunner(User user) {
         this.user = user;
     }
@@ -26,6 +23,7 @@ public class ClientAppRunner {
      * Client main menu
      */
     public void runClientApp() {
+        boolean isInClientController = true;
         while (isInClientController) {
             OutputManager.printClientAppMenu();
             int command = InputManager.readIntegerField();

@@ -69,7 +69,7 @@ public class OutputManager {
         System.out.print("5. Transmission\n");
         System.out.print("6. Post\n");
         System.out.print("7. Users\n");
-        System.out.print("8. Exit\n");
+        System.out.print("8. Log out\n");
         System.out.print("\nChose a command (enter the command number): ");
     }
 
