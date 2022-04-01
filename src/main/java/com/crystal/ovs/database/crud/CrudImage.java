@@ -8,7 +8,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 public class CrudImage {
     private static DatabaseConnector connector;
@@ -22,7 +21,7 @@ public class CrudImage {
     private static final String IMAGE_IMAGE_URL_COLUMN = "imageUrl";
     private static final String IMAGE_POST_ID_COLUMN = "postId";
 
-    public static List<Image> selectAllImages() throws SQLException{
+    public static List<Image> selectAllImages() throws SQLException {
         List<Image> fuelEngineList = new ArrayList<>();
 
         String query = String.format("SELECT * FROM %s;",IMAGE_TABLE_NAME);
@@ -34,7 +33,7 @@ public class CrudImage {
         return fuelEngineList;
     }
 
-    public static Image getImageById(int id) throws SQLException {
+    public static Image selectImageById(int id) throws SQLException {
         Image image = null;
         String query = String.format("SELECT * FROM %s WHERE %s=%d",
                 IMAGE_TABLE_NAME, IMAGE_ID_COLUMN, id);
