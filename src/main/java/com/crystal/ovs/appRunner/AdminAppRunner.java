@@ -2,8 +2,11 @@ package com.crystal.ovs.appRunner;
 
 import com.crystal.ovs.appRunner.controllers.*;
 import com.crystal.ovs.dao.User;
+import com.crystal.ovs.exceptions.ValidationException;
 import com.crystal.ovs.inputOutputManager.InputManager;
 import com.crystal.ovs.inputOutputManager.OutputManager;
+
+import java.sql.SQLException;
 
 public class AdminAppRunner {
     private User user;
@@ -15,7 +18,7 @@ public class AdminAppRunner {
     /**
      * Admin main menu
      */
-    public void runAdminApp() {
+    public void runAdminApp() throws ValidationException, SQLException {
         boolean isInAdminController = true;
         while(isInAdminController){
             OutputManager.printAdminAppMenu();
@@ -43,6 +46,9 @@ public class AdminAppRunner {
                     UserController.openUserController();
                     break;
                 case 8:
+                    ImageController.openImageController();
+                    break;
+                case 9:
                     isInAdminController = false;
                     break;
             }
