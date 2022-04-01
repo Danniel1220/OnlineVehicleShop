@@ -22,15 +22,15 @@ public class CrudImage {
     private static final String IMAGE_POST_ID_COLUMN = "postId";
 
     public static List<Image> selectAllImages() throws SQLException {
-        List<Image> fuelEngineList = new ArrayList<>();
+        List<Image> imageList = new ArrayList<>();
 
         String query = String.format("SELECT * FROM %s;",IMAGE_TABLE_NAME);
         ResultSet resultSet = connector.select(query);
         while(resultSet.next()){
-            fuelEngineList.add(getImageFromResultSet(resultSet));
+            imageList.add(getImageFromResultSet(resultSet));
         }
 
-        return fuelEngineList;
+        return imageList;
     }
 
     public static Image selectImageById(int id) throws SQLException {
