@@ -37,7 +37,7 @@ CREATE TABLE `car` (
   PRIMARY KEY (`id`),
   CONSTRAINT `engineId` FOREIGN KEY (`id`) REFERENCES `engine` (`id`),
   CONSTRAINT `transmissionId` FOREIGN KEY (`id`) REFERENCES `transimission` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=121 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -46,6 +46,7 @@ CREATE TABLE `car` (
 
 LOCK TABLES `car` WRITE;
 /*!40000 ALTER TABLE `car` DISABLE KEYS */;
+INSERT INTO `car` VALUES (120,'test','test','test',2000,'SEDAN',121,120,'AWD',5,'Black');
 /*!40000 ALTER TABLE `car` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -62,7 +63,7 @@ CREATE TABLE `electricengine` (
   `batteryCapacity` int DEFAULT NULL,
   `range` int DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=121 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -71,6 +72,7 @@ CREATE TABLE `electricengine` (
 
 LOCK TABLES `electricengine` WRITE;
 /*!40000 ALTER TABLE `electricengine` DISABLE KEYS */;
+INSERT INTO `electricengine` VALUES (120,'test',120,120);
 /*!40000 ALTER TABLE `electricengine` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -90,7 +92,7 @@ CREATE TABLE `engine` (
   PRIMARY KEY (`id`),
   CONSTRAINT `electricEngineId` FOREIGN KEY (`id`) REFERENCES `electricengine` (`id`),
   CONSTRAINT `fuelEngineId` FOREIGN KEY (`id`) REFERENCES `fuelengine` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=122 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -99,6 +101,7 @@ CREATE TABLE `engine` (
 
 LOCK TABLES `engine` WRITE;
 /*!40000 ALTER TABLE `engine` DISABLE KEYS */;
+INSERT INTO `engine` VALUES (120,2,0,120,120),(121,2,NULL,120,120);
 /*!40000 ALTER TABLE `engine` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -135,6 +138,32 @@ INSERT INTO `fuelengine` VALUES (1,'GASOLINE',10.1,8,521.2,'INLINE',1,1,'TWO_STR
 UNLOCK TABLES;
 
 --
+-- Table structure for table `images`
+--
+
+DROP TABLE IF EXISTS `images`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `images` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `link` varchar(200) DEFAULT NULL,
+  `postId` int DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `postId_idx` (`postId`),
+  CONSTRAINT `postId` FOREIGN KEY (`postId`) REFERENCES `post` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `images`
+--
+
+LOCK TABLES `images` WRITE;
+/*!40000 ALTER TABLE `images` DISABLE KEYS */;
+/*!40000 ALTER TABLE `images` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `post`
 --
 
@@ -150,7 +179,7 @@ CREATE TABLE `post` (
   `carId` int DEFAULT NULL,
   PRIMARY KEY (`id`),
   CONSTRAINT `carId` FOREIGN KEY (`id`) REFERENCES `car` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -159,6 +188,7 @@ CREATE TABLE `post` (
 
 LOCK TABLES `post` WRITE;
 /*!40000 ALTER TABLE `post` DISABLE KEYS */;
+INSERT INTO `post` VALUES (3,'Post Title','Post Description',120,12,120);
 /*!40000 ALTER TABLE `post` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -203,7 +233,7 @@ CREATE TABLE `transimission` (
   `type` varchar(45) DEFAULT NULL,
   `numberOfGears` int DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=121 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -212,6 +242,7 @@ CREATE TABLE `transimission` (
 
 LOCK TABLES `transimission` WRITE;
 /*!40000 ALTER TABLE `transimission` DISABLE KEYS */;
+INSERT INTO `transimission` VALUES (120,'MANUAL',5);
 /*!40000 ALTER TABLE `transimission` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -229,7 +260,7 @@ CREATE TABLE `user` (
   `role` varchar(45) DEFAULT NULL,
   `email` varchar(45) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -238,7 +269,7 @@ CREATE TABLE `user` (
 
 LOCK TABLES `user` WRITE;
 /*!40000 ALTER TABLE `user` DISABLE KEYS */;
-INSERT INTO `user` VALUES (1,'John Doe','123456','client','johndoe@test.com');
+INSERT INTO `user` VALUES (1,'John Doe','123456','client','johndoe@test.com'),(2,'2','2','CLIENT','2');
 /*!40000 ALTER TABLE `user` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -251,4 +282,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2022-03-10 14:50:50
+-- Dump completed on 2022-04-04 12:25:09
