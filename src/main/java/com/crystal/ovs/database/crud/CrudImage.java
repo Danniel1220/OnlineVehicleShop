@@ -15,10 +15,10 @@ public class CrudImage {
     static {
         connector = DatabaseConnector.getInstance();
     }
-    private static final String IMAGE_TABLE_NAME = "image";
+    private static final String IMAGE_TABLE_NAME = "images";
 
     private static final String IMAGE_ID_COLUMN = "id";
-    private static final String IMAGE_IMAGE_URL_COLUMN = "imageUrl";
+    private static final String IMAGE_IMAGE_URL_COLUMN = "link";
     private static final String IMAGE_POST_ID_COLUMN = "postId";
 
     public static List<Image> selectAllImages() throws SQLException {
@@ -65,9 +65,9 @@ public class CrudImage {
         }
         String query = String.format("UPDATE `%s` SET " +
                         "%s = '%s', %s = %d" +
-                        "WHERE %s = %d;",
+                        " WHERE %s = %d;",
                 IMAGE_TABLE_NAME, IMAGE_IMAGE_URL_COLUMN, newImage.getImageUrl(),
-                IMAGE_POST_ID_COLUMN, newImage.getPostId(), IMAGE_ID_COLUMN ,newImage.getPostId());
+                IMAGE_POST_ID_COLUMN, newImage.getPostId(), IMAGE_ID_COLUMN ,newImage.getId());
 
         return connector.execute(query);
     }
@@ -84,7 +84,7 @@ public class CrudImage {
         if(image.getImageUrl().isBlank()){
             validationErrors.add("Missing image URL");
         }
-        if(CrudPost.selectPostById(image.getId()) == null){
+        if(CrudPost.selectPostById(image.getPostId()) == null){
             validationErrors.add("Thee is no post with this id");
         }
 
@@ -92,7 +92,7 @@ public class CrudImage {
 
     }
 
-    private static Image getImageFromResultSet(ResultSet resultSet) throws SQLException {
+    public static Image getImageFromResultSet(ResultSet resultSet) throws SQLException {
         return new Image(resultSet.getInt(IMAGE_ID_COLUMN),
                 resultSet.getString(IMAGE_IMAGE_URL_COLUMN),
                 resultSet.getInt(IMAGE_POST_ID_COLUMN));
