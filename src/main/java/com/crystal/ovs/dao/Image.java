@@ -2,17 +2,13 @@ package com.crystal.ovs.dao;
 
 import lombok.*;
 
-import java.time.LocalDate;
-import java.util.Date;
-
 @AllArgsConstructor
 @EqualsAndHashCode
-@ToString
 @Getter
+@ToString
 @Setter
-public class Transaction {
+public class Image {
     private Integer id;
+    private String imageUrl;
     private Integer postId;
-    private Integer userId;
-    private LocalDate date;
 }
