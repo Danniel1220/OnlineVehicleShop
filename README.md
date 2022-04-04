@@ -1,9 +1,6 @@
 # Online Vehicle Shop
 ## CLI version of a online vehicle shop
 
-Dillinger is a cloud-enabled, mobile-ready, offline-storage compatible,
-AngularJS-powered HTML5 Markdown editor.
-
 Online vehicle shop is a dealership website template in which a dealership can put their cars for sale online.
 
 
