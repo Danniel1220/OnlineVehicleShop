@@ -70,7 +70,8 @@ public class OutputManager {
         System.out.print("5. Transmission\n");
         System.out.print("6. Post\n");
         System.out.print("7. Users\n");
-        System.out.print("8. Log out\n");
+        System.out.print("8. Image\n");
+        System.out.print("9. Log out\n");
         System.out.print("\nChose a command (enter the command number): ");
     }
 
@@ -98,6 +99,16 @@ public class OutputManager {
         System.out.print("3. Create car\n");
         System.out.print("4. Update car\n");
         System.out.print("5. Delete car\n");
+        System.out.print("6. Back");
+        System.out.print("\nChose a command (enter the command number): ");
+    }
+    public static void printImageControllerMenu() {
+        System.out.print("Image menu\n");
+        System.out.print("1. Get all image \n");
+        System.out.print("2. Get image by id\n");
+        System.out.print("3. Create image\n");
+        System.out.print("4. Update image\n");
+        System.out.print("5. Delete image\n");
         System.out.print("6. Back");
         System.out.print("\nChose a command (enter the command number): ");
     }

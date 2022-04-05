@@ -17,7 +17,7 @@ public class ImageController {
 
     public static void openImageController() throws SQLException, ValidationException {
         while (isInImageController) {
-            OutputManager.printFuelEngineControllerMenu();
+            OutputManager.printImageControllerMenu();
             int command = InputManager.readIntegerField();
 
             switch (command) {
@@ -83,7 +83,7 @@ public class ImageController {
             while(userOption != 0) {
                 OutputManager.printMessage("1. Update image url");
                 OutputManager.printMessage("2. Update post id");
-                OutputManager.printMessage("3. Exit.");
+                OutputManager.printMessage("0. Exit.");
                 OutputManager.printMessage("Choose a field to update: ");
                 userOption = InputManager.readIntegerField();
                 switch(userOption) {
