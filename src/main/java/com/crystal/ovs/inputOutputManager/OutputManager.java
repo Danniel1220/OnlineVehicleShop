@@ -102,6 +102,20 @@ public class OutputManager {
         System.out.print("6. Back");
         System.out.print("\nChose a command (enter the command number): ");
     }
+
+    public static void printUserControllerMenu() {
+        System.out.print("User menu\n");
+        System.out.print("1. Get all users\n");
+        System.out.print("2. Get all admin users\n");
+        System.out.print("3. Get all client users\n");
+        System.out.print("4. Get user by id\n");
+        System.out.print("5. Create user\n");
+        System.out.print("6. Update user\n");
+        System.out.print("7. Delete user\n");
+        System.out.print("8. Back");
+        System.out.print("\nChose a command (enter the command number): ");
+    }
+
     public static void printImageControllerMenu() {
         System.out.print("Image menu\n");
         System.out.print("1. Get all image \n");

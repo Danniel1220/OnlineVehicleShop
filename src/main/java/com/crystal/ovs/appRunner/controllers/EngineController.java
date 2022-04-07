@@ -117,9 +117,8 @@ public class EngineController {
                         engine.setTorque(InputManager.readIntegerField());
                         break;
                     }
-
-
                     case 5: {
+                        userOption = 0;
                         break;
                     }
                 }

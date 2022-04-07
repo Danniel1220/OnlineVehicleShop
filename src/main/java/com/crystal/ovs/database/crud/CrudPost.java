@@ -99,9 +99,9 @@ public class CrudPost {
     public static List<String> validatePost(Post post){
         List<String> validationErrors = new ArrayList<>();
 
-        if(post.getId() <= 0) {
-            validationErrors.add("Id cannot be less than or equal to 0");
-        }
+//        if(post.getId() <= 0) {
+//            validationErrors.add("Id cannot be less than or equal to 0");
+//        }
         if(post.getTitle().isEmpty()) {
             validationErrors.add("Title cannot be empty");
         }

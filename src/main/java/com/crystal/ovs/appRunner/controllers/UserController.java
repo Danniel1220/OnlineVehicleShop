@@ -16,7 +16,7 @@ public class UserController {
 
     public static void openUserController() {
         while (isInUserController) {
-            OutputManager.printFuelEngineControllerMenu();
+            OutputManager.printUserControllerMenu();
             int command = InputManager.readIntegerField();
 
             switch (command) {
@@ -29,19 +29,19 @@ public class UserController {
                 case 3:
                     getAllClientUsers();
                     break;
-                case 5:
+                case 4:
                     getUserId();
                     break;
-                case 6:
+                case 5:
                     createUser();
                     break;
-                case 7:
+                case 6:
                     updateUser();
                     break;
-                case 8:
+                case 7:
                     deleteUser();
                     break;
-                case 9:
+                case 8:
                     isInUserController = false;
                     break;
                 default:
@@ -54,21 +54,21 @@ public class UserController {
     private static void getAllUsers() {
         List<User> users = CrudUser.selectAllUsers();
         for(User user : Objects.requireNonNull(users)) {
-            OutputManager.printMessage(users.toString());
+            OutputManager.printMessage(user.toString());
         }
     }
 
     private static void getAllAdminUsers() {
         List<User> users = CrudUser.selectAllAdminUsers();
         for(User user : Objects.requireNonNull(users)) {
-            OutputManager.printMessage(users.toString());
+            OutputManager.printMessage(user.toString());
         }
     }
 
     private static void getAllClientUsers() {
         List<User> users = CrudUser.selectAllClientUsers();
         for(User user : Objects.requireNonNull(users)) {
-            OutputManager.printMessage(users.toString());
+            OutputManager.printMessage(user.toString());
         }
     }
 
@@ -106,7 +106,7 @@ public class UserController {
 
     private static void updateUser() {
         getAllUsers();
-        OutputManager.printMessage("Choose an user engine:");
+        OutputManager.printMessage("Choose an user:");
         OutputManager.printLabel("Enter user's id: ");
         User user = CrudUser.selectUserById(InputManager.readIntegerField());
         if(user != null) {

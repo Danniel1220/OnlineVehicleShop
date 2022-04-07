@@ -90,7 +90,9 @@ public class CrudElectricEngine {
     }
 
     public static void deleteById(int id) {
+        String fKeyQuery = "SET FOREIGN_KEY_CHECKS=0;";
         String query = "DELETE FROM " + ELECTRIC_ENGINE_TABLE_NAME + " WHERE " + ELECTRIC_ENGINE_ID_COLUMN + " = " + id + ";";
+        executeVoidQuery(fKeyQuery);
         executeVoidQuery(query);
     }
 
